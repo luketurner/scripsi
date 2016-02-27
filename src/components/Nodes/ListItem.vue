@@ -5,7 +5,7 @@
       <span class="content" contenteditable="true" v-medium="node.content"></span>
     </div>
     <div class="child" v-for="child in node.children">
-      <node-view :node="child"></node-view>
+      <node-view :node="child" @change="handleChange"></node-view>
     </div>
   </div>
 </template>
@@ -17,6 +17,15 @@
     components: { NodeView },
     props: {
       node: { require: true }
+    },
+    methods: {
+      handleChange: function () {
+        this.$emit('change', this.node)
+      }
+    },
+    watch: {
+      // Note: The node.content is updated by a two-way binding in v-medium directive
+      'node.content': 'handleChange'
     }
   }
 </script>

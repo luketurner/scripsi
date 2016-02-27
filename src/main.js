@@ -7,9 +7,30 @@ import 'babel-polyfill'
 
 import Vue from 'vue'
 import App from './App'
+import {loadFrom, saveTo} from './Storage'
+
+let state = {
+  rootNode: {},
+  unsavedChanges: false
+}
+
+loadFrom('local').then(function (data) {
+  state.rootNode = data
+})
 
 /* eslint-disable no-new */
 new Vue({
   el: 'body',
-  components: { App }
+  components: { App },
+  data: {
+    state: state
+  },
+  methods: {
+    handleChange: function () {
+      this.state.unsavedChanges = true
+      saveTo('local', this.state.rootNode).then(_ => {
+        this.state.unsavedChanges = false
+      })
+    }
+  }
 })

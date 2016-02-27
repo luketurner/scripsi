@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <navbar></navbar>
-    <node-view :node="node"></node-view>
+    <navbar :state="state"></navbar>
+    <node-view :node="state.rootNode" @change="rootNodeChanged"></node-view>
   </div>
 </template>
 
@@ -11,28 +11,17 @@
   import NodeView from './components/NodeView'
 
   export default {
+    methods: {
+      rootNodeChanged: function () {
+        this.$emit('change', this.state)
+      }
+    },
     components: {
       Navbar,
       NodeView
     },
-    data: function () {
-      return {
-        node: {
-          id: '12345',
-          content: 'Anode',
-          type: 'ListItem',
-          children: [
-            {id: '12355',
-             content: 'Inode',
-             type: 'ListItem',
-             children: []},
-            {id: '12355',
-             content: 'Inode',
-             type: 'ListItem',
-             children: []}
-          ]
-        }
-      }
+    props: {
+      state: { required: true }
     }
   }
 </script>

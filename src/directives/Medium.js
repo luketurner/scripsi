@@ -18,7 +18,6 @@ Vue.directive('medium', {
     this.el.addEventListener('blur', this.mediumHandler)
   },
   update: function (value) {
-    console.log(value)
     this.medium.value(value)
   },
   unbind: function () {

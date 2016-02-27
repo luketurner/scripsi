@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div :is="nodeComponent" :node="node">
+    <div :is="nodeComponent" :node="node" @change="handleChange">
     </div>
   </div>
 </template>
@@ -17,6 +17,11 @@
     computed: {
       nodeComponent: function () {
         return this.node.type
+      }
+    },
+    methods: {
+      handleChange: function () {
+        this.$emit('change', this.node)
       }
     }
   }
