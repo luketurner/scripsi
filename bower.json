@@ -1,0 +1,22 @@
+{
+  "name": "scripsi",
+  "description": "A thing that might be useful for writing stuff.",
+  "main": "",
+  "authors": [
+    "Luke Turner <github@luketurner.org>"
+  ],
+  "license": "MIT",
+  "moduleType": [],
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jso": "~2.0.3"
+  }
+}
