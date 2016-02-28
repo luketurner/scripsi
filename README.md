@@ -29,6 +29,33 @@ Example node:
 The most important type of node is a `ListItem`. If all you used were
 `ListItems`, then scripsi is similar to WorkFlowy.
 
+## Ideas
+
+- Organization
+  - [ ] Tags (@tags and #tags)
+  - [ ] Bookmarks/Favorites
+  - [ ] High-level node index
+  - [ ] Search
+    - [ ] Special operators
+- Formatting
+  - [ ] KeTeX math typesetting
+  - [ ] Rich text with Markdown
+- Node Types
+  - [ ] Ordered lists
+  - [ ] Images
+  - [ ] Tables
+  - [ ] Music/Video
+  - [ ] Code
+    - [ ] Literate programming
+  - [ ] Quotatinos
+  - [ ] Cards?
+  - [ ] Todo lists
+  - [ ] File uploads
+- Integrations
+  - [ ] Dropbox
+  - [ ] Publish to HTML
+    - [ ] Auto-post to blog
+
 ## Build Setup
 
 ``` bash
