@@ -3,6 +3,8 @@
 This application is about writing. I'm trying to build a more feature-complete
 Workflowy clone.
 
+## Architecture
+
 The basic data model is something called a Node. This is a little more generic
 than the usual writing system. There are different types of nodes. Nodes can
 have content, or they can have sub-nodes, or both.
@@ -31,6 +33,7 @@ The most important type of node is a `ListItem`. If all you used were
 
 ## Ideas
 
+- [ ] Keyboard shortcuts
 - Organization
   - [ ] Tags (@tags and #tags)
   - [ ] Bookmarks/Favorites
@@ -40,6 +43,7 @@ The most important type of node is a `ListItem`. If all you used were
 - Formatting
   - [ ] KeTeX math typesetting
   - [ ] Rich text with Markdown
+  - [ ] Configurable themes/fonts
 - Node Types
   - [ ] Ordered lists
   - [ ] Images
