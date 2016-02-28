@@ -47,7 +47,7 @@ The most important type of node is a `ListItem`. If all you used were
   - [ ] Music/Video
   - [ ] Code
     - [ ] Literate programming
-  - [ ] Quotatinos
+  - [ ] Quotations
   - [ ] Cards?
   - [ ] Todo lists
   - [ ] File uploads
