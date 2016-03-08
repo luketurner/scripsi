@@ -6,8 +6,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "node build/dev-server.js",
-    "build": "rimraf dist && cross-env NODE_ENV=production webpack --progress --hide-modules --config build/webpack.prod.conf.js",
-    "test": "karma start build/karma.conf.js --single-run"
+    "build": "rimraf dist && cross-env NODE_ENV=production webpack --progress --hide-modules --config build/webpack.prod.conf.js"
   },
   "dependencies": {
     "babel-polyfill": "^6.5.0",
