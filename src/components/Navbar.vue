@@ -3,14 +3,16 @@
     <input id="search" name="search" class="search">
     <button class="favorites">*</button>
     <a class="title">Scripsi</a>
-    <span>{{ state.unsavedChanges ? '+' : '-' }}</span>
+    <span>{{ lastSavedChanges }}</span>
 </div>
 </template>
 
 <script>
   export default {
-    props: {
-      state: { required: true }
+    vuex: {
+      getters: {
+        lastSavedChanges: (state) => state.lastSavedChanges
+      }
     }
   }
 </script>

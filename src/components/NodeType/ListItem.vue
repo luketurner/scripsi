@@ -1,28 +1,26 @@
 <template>
   <div class="item">
-    <div class="text">
-      <a class="anchor">o</a>
-      <span class="content" contenteditable="true" v-medium="node.content"></span>
-    </div>
+    <ul>
+      <li>
+        <text-field :content="node.content" @change="contentChanged"></text-field>
+      </li>
+    </ul>
     <div class="child" v-for="childId in node.children">
-      <node-view :node-id="childId" @change="handleChange"></node-view>
+      <node-view :node-id="childId"></node-view>
     </div>
   </div>
 </template>
 
 <script>
+  import _ from 'lodash'
   export default {
     props: {
-      node: { require: true }
+      node: { required: true }
     },
     methods: {
-      handleChange: function () {
-        this.$emit('change', this.node)
+      contentChanged: function (newContent) {
+        this.$emit('change', _.set(this.node, 'content', newContent))
       }
-    },
-    watch: {
-      // Note: The node.content is updated by a two-way binding in v-medium directive
-      'node.content': 'handleChange'
     }
   }
 </script>
@@ -30,12 +28,13 @@
 <style lang="sass" scoped>
   .item {
     display: flex;
-    border-left: 1px solid #777;
-    padding-left: 0.5rem;
-    margin: 0.5rem;
     flex-flow: column nowrap;
   }
   .child {
     display: flex;
+  }
+  ul {
+    margin: 0 0 0 1.25rem;
+    padding: 0;
   }
 </style>

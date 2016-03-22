@@ -6,9 +6,9 @@ import 'babel-polyfill'
 // .then((t) => console.log('Got token', t))
 
 import Vue from 'vue'
-import App from './App'
-import {loadAppFrom, saveAppTo} from './Storage'
-import {createNode} from './Node'
+import App from './Components/App'
+import Store from './Store'
+import {createNode, setRootNode} from './Actions'
 
 const defaultNodes = {
   content: 'Anode',
@@ -27,31 +27,12 @@ const defaultNodes = {
   ]
 }
 
-let state = {
-  rootNode: null,
-  unsavedChanges: false
-}
-
-loadAppFrom('local').then(function (data) {
-  state = data
-}, function (error) {
-  console.log('Error loading initial data: ' + error)
-  state.rootNode = createNode(defaultNodes).id
-})
+let rootNode = createNode(Store, defaultNodes)
+setRootNode(Store, rootNode.id)
 
 /* eslint-disable no-new */
 new Vue({
   el: 'body',
   components: { App },
-  data: {
-    state: state
-  },
-  methods: {
-    handleChange: function () {
-      this.state.unsavedChanges = true
-      saveAppTo('local', this.state).then(_ => {
-        this.state.unsavedChanges = false
-      })
-    }
-  }
+  store: Store
 })
