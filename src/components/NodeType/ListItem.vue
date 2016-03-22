@@ -4,17 +4,14 @@
       <a class="anchor">o</a>
       <span class="content" contenteditable="true" v-medium="node.content"></span>
     </div>
-    <div class="child" v-for="child in node.children">
-      <node-view :node="child" @change="handleChange"></node-view>
+    <div class="child" v-for="childId in node.children">
+      <node-view :node-id="childId" @change="handleChange"></node-view>
     </div>
   </div>
 </template>
 
 <script>
-  import NodeView from '../NodeView'
   export default {
-    name: 'node-view',
-    components: { NodeView },
     props: {
       node: { require: true }
     },

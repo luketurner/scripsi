@@ -4,31 +4,21 @@ let stores = {
   local: Local
 }
 
-const defaultData = {
-  id: '12345',
-  content: 'Anode',
-  type: 'ListItem',
-  children: [
-    {
-      id: '12355',
-      content: 'Inode',
-      type: 'ListItem',
-      children: []
-    },
-    {
-      id: '12355',
-      content: 'Inode',
-      type: 'ListItem',
-      children: []
-    }
-  ]
+export function loadAppFrom (store) {
+  return stores[store].loadApp()
 }
 
-export function loadFrom (store) {
-  return stores[store].load()
-    .then((data) => data || defaultData)
+export function loadNodeFrom (store, id) {
+  return stores[store].loadNode(id)
 }
 
-export function saveTo (store, data) {
-  return stores[store].save(data)
+export function saveAppTo (store, data) {
+  return stores[store].saveApp(data)
+}
+
+export function saveNodeTo (store, data) {
+  if (!data.id) {
+    return new Promise((resolve, reject) => reject('node data does not have id property'))
+  }
+  return stores[store].saveNodeTo(data.id, data)
 }

@@ -7,15 +7,36 @@ import 'babel-polyfill'
 
 import Vue from 'vue'
 import App from './App'
-import {loadFrom, saveTo} from './Storage'
+import {loadAppFrom, saveAppTo} from './Storage'
+import {createNode} from './Node'
+
+const defaultNodes = {
+  content: 'Anode',
+  type: 'ListItem',
+  children: [
+    {
+      content: 'Inode',
+      type: 'ListItem',
+      children: []
+    },
+    {
+      content: 'Inode',
+      type: 'ListItem',
+      children: []
+    }
+  ]
+}
 
 let state = {
-  rootNode: {},
+  rootNode: null,
   unsavedChanges: false
 }
 
-loadFrom('local').then(function (data) {
-  state.rootNode = data
+loadAppFrom('local').then(function (data) {
+  state = data
+}, function (error) {
+  console.log('Error loading initial data: ' + error)
+  state.rootNode = createNode(defaultNodes).id
 })
 
 /* eslint-disable no-new */
@@ -28,7 +49,7 @@ new Vue({
   methods: {
     handleChange: function () {
       this.state.unsavedChanges = true
-      saveTo('local', this.state.rootNode).then(_ => {
+      saveAppTo('local', this.state).then(_ => {
         this.state.unsavedChanges = false
       })
     }

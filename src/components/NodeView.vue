@@ -6,22 +6,27 @@
 </template>
 
 <script>
-  import ListItem from './Nodes/ListItem'
+  import ListItem from './NodeType/ListItem'
+  import {getNode} from '../Node'
+  
   export default {
     props: {
-      node: { required: true }
+      nodeId: { required: true }
     },
     components: {
       'ListItem': ListItem
     },
     computed: {
+      node: function () {
+        return getNode(this.nodeId)
+      },
       nodeComponent: function () {
         return this.node.type
       }
     },
     methods: {
       handleChange: function () {
-        this.$emit('change', this.node)
+        this.$emit('change', this.nodeId)
       }
     }
   }
