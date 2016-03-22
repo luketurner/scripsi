@@ -1,25 +1,26 @@
 <template>
-  <index :filter="bookmarksOnly"></index>
+  <div>
+    <index :filter-action="bookmarksOnly" title="Bookmarks"></index>
+  </div>
 </template>
 
 <script>
   import _ from 'lodash'
+  import Index from './Index'
   import getConfigNode from '../Actions'
   
   export default {
-    actions: {
+    methods: {
       bookmarksOnly (store, node) {
         let bookmarks = getConfigNode(store).bookmarks
         return _.has(bookmarks, node.id)
       }
+    },
+    components: {
+      Index
     }
   }
 </script>
 
 <style lang="sass" scoped>
-.text {
-  &:hover, &:focus {
-    outline: none;
-  }
-}
 </style>

@@ -1,5 +1,6 @@
 <template>
   <div class="index">
+    <h3>{{ title }}</h3>
     <div v-for="node in filteredNodes" class="line" @click="setDisplayNode(node.id)">
       {{ node.content.toString().slice(0, 25) }}
     </div>
@@ -11,10 +12,16 @@
   import {setDisplayNode} from '../Actions.js'
   
   export default {
-    props: ['filter'],
+    props: {
+      filterAction: {
+        default: () => _.constant(true)
+      },
+      title: { default: 'Index' }
+    },
     computed: {
       filteredNodes () {
-        return _.filter(this.nodes, this.filter || _.constant(true))
+        let that = this
+        return _.filter(this.nodes, (node) => that.filterAction(that.$store, node))
       }
     },
     vuex: {
@@ -30,9 +37,16 @@
 
 <style lang="sass" scoped>
   @import '../Colors.scss';
+  
   .index {
     background-color: $color-bg-secondary;
   }
+  
+  h3 {
+    font-weight: normal;
+    margin: 0.25rem;
+  }
+  
   .line {
     cursor: pointer;
     padding: 0.25rem;
