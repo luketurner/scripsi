@@ -15,7 +15,7 @@
       nodeId: { required: true }
     },
     components: {
-      'ListItem': ListItem
+      ListItem
     },
     data () {
       return {

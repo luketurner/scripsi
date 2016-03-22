@@ -4,8 +4,10 @@ import createLogger from 'vuex/logger'
 
 const state = {
   lastSavedChanges: null,
-  persistenceType: 'local',
+  displayNodeId: null,
+  configNodeId: null,
   rootNodeId: null,
+  activeSidebarComponent: null,
   nodes: {}
 }
 
@@ -16,11 +18,20 @@ const mutations = {
   DELETE_NODE (state, id) {
     delete state.nodes[id]
   },
-  LAST_SAVED (state, timestamp) {
+  SET_LAST_SAVED (state, timestamp) {
     store.lastSavedChanges = timestamp
+  },
+  SET_DISPLAY_NODE (state, id) {
+    state.displayNodeId = id
+  },
+  SET_CONFIG_NODE (state, id) {
+    state.configNodeId = id
   },
   SET_ROOT_NODE (state, id) {
     state.rootNodeId = id
+  },
+  SET_ACTIVE_SIDEBAR (state, component) {
+    state.activeSidebarComponent = component
   }
 }
 

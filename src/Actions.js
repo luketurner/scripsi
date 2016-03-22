@@ -7,8 +7,28 @@ export function updateApp (store) {
   //  .then(() => store.dispatch('LAST_SAVED', Date.now()))
 }
 
-export function setRootNode (store, rootNodeId) {
-  store.dispatch('SET_ROOT_NODE', rootNodeId)
+export function setDisplayNode (store, id) {
+  store.dispatch('SET_DISPLAY_NODE', id)
+}
+
+export function setConfigNode (store, id) {
+  store.dispatch('SET_CONFIG_NODE', id)
+}
+
+export function setRootNode (store, id) {
+  store.dispatch('SET_ROOT_NODE', id)
+}
+
+export function openConfigNode (store) {
+  store.dispatch('SET_DISPLAY_NODE', store.state.configNodeId)
+}
+
+export function openRootNode (store) {
+  store.dispatch('SET_DISPLAY_NODE', store.state.rootNodeId)
+}
+
+export function toggleActiveSidebar (store, component) {
+  store.dispatch('SET_ACTIVE_SIDEBAR', store.state.activeSidebarComponent === component ? null : component)
 }
 
 export function createNode (store, params) {
