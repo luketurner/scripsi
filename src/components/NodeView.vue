@@ -8,6 +8,9 @@
 
 <script>
   import ListItem from './NodeType/ListItem'
+  import DefinitionListItem from './NodeType/DefinitionListItem'
+  import JsonObject from './NodeType/Json/Object'
+  import Text from './NodeType/Text'
   import {updateNode} from '../Actions'
   
   export default {
@@ -15,7 +18,10 @@
       nodeId: { required: true }
     },
     components: {
-      ListItem
+      ListItem,
+      DefinitionListItem,
+      JsonObject,
+      Text
     },
     data () {
       return {

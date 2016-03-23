@@ -11,24 +11,33 @@ import Store from './Store'
 import {createNode, setDisplayNode, setConfigNode, setRootNode} from './Actions'
 
 const defaultRootNode = {
-  content: 'Anode',
+  content: 'Welcome to Scripsi',
   type: 'ListItem',
   children: [
     {
-      content: 'Inode',
-      type: 'ListItem',
-      children: []
+      content: 'About',
+      type: 'DefinitionListItem',
+      children: [{
+        content: 'Scripsi is a document editor with a streamlined tree-based interface. ' +
+                 'It makes it possible to do a combination of Workflowy and Notion things.'
+      }]
     },
     {
-      content: 'Inode',
-      type: 'ListItem',
-      children: []
+      content: 'Features',
+      type: 'DefinitionListItem',
+      children: [{
+        type: 'ListItem',
+        content: 'Tables, images, code, etc. support'
+      }, {
+        type: 'ListItem',
+        content: 'Nest things inside each other'
+      }]
     }
   ]
 }
 
 const defaultConfigNode = {
-  type: 'JSON',
+  type: 'JsonObject',
   content: {
     favorites: [],
     persistenceType: 'local'

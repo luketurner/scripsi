@@ -37,15 +37,17 @@ export function createNode (store, params) {
   }
 
   let defaults = {
-    type: 'ListItem',
+    type: 'Text',
     content: '',
-    children: []
+    children: [],
+    params: {}
   }
 
   let node = {
     id: uuid.v4(),
     type: params.type || defaults.type,
     content: params.content || defaults.content,
+    params: params.params || defaults.params,
     children: _.map(params.children || defaults.children,
                    (child) => createNode(store, child).id)
   }

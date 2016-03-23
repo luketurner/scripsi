@@ -1,8 +1,11 @@
 <template>
   <div class="item">
-    <div v-for="(k, v) in node.content">
-      
+  {
+    <div class="property" v-for="(k, v) in node.content">
+      <div class="key">{{ k }} :</div>
+      <div class="value">{{ v }}</div>
     </div>
+  }
   </div>
 </template>
 
@@ -21,4 +24,14 @@
 </script>
 
 <style lang="sass" scoped>
+  .item {
+    font: 0.8em 'Consolas',monospace;
+  }
+  .property {
+    margin-left: 0.5rem;
+    display: flex;
+  }
+  .value {
+    margin-left: 0.25rem;
+  }
 </style>
