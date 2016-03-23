@@ -12,6 +12,7 @@
   import JsonObject from './NodeType/Json/Object'
   import Text from './NodeType/Text'
   import {updateNode} from '../Actions'
+  import {getNode} from '../Getters.js'
   
   export default {
     props: {
@@ -30,7 +31,7 @@
     },
     computed: {
       node: function () {
-        return this.$store.state.nodes[this.nodeId]
+        return getNode(this.$store.state, this.nodeId)
       },
       nodeComponent: function () {
         return this.node.type

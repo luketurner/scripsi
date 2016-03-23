@@ -32,6 +32,9 @@ const mutations = {
   },
   SET_ACTIVE_SIDEBAR (state, component) {
     state.activeSidebarComponent = component
+  },
+  ADD_BOOKMARK (state, id) {
+    state.nodes[state.configNodeId].content.bookmarks.push(id)
   }
 }
 

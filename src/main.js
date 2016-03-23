@@ -39,7 +39,7 @@ const defaultRootNode = {
 const defaultConfigNode = {
   type: 'JsonObject',
   content: {
-    favorites: [],
+    bookmarks: [],
     persistenceType: 'local'
   }
 }

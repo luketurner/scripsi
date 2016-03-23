@@ -1,29 +1,16 @@
 <template>
   <div class="index">
-    <h3>{{ title }}</h3>
-    <div v-for="node in filteredNodes" class="line" @click="setDisplayNode(node.id)">
+    <h3>Index</h3>
+    <div v-for="node in nodes" class="line" @click="setDisplayNode(node.id)">
       {{ node.content.toString().slice(0, 25) }}
     </div>
   </div>
 </template>
 
 <script>
-  import _ from 'lodash'
   import {setDisplayNode} from '../Actions.js'
   
   export default {
-    props: {
-      filterAction: {
-        default: () => _.constant(true)
-      },
-      title: { default: 'Index' }
-    },
-    computed: {
-      filteredNodes () {
-        let that = this
-        return _.filter(this.nodes, (node) => that.filterAction(that.$store, node))
-      }
-    },
     vuex: {
       getters: {
         nodes: (state) => state.nodes

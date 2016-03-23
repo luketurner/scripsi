@@ -1,5 +1,5 @@
 <template>
-  <text-field class="text" :content="node.content" @change="contentChanged"></text-field>
+  <span><text-field class="text" :content="node.content" @change="contentChanged"></text-field></span>
 </template>
 
 <script>

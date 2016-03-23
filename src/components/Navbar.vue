@@ -19,13 +19,14 @@
       actions: {
         openConfigNode,
         openRootNode,
-        toggleIndex (state) {
-          toggleActiveSidebar(state, 'Index')
+        toggleIndex (store) {
+          toggleActiveSidebar(store, 'Index')
         },
-        toggleBookmarks (state) {
-          toggleActiveSidebar(state, 'Bookmarks')
+        toggleBookmarks (store) {
+          toggleActiveSidebar(store, 'Bookmarks')
         },
-        addBookmark (state) {
+        addBookmark (store) {
+          store.dispatch('ADD_BOOKMARK', store.state.displayNodeId)
         }
       }
     }
