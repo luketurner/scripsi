@@ -8,7 +8,7 @@ import 'babel-polyfill'
 import Vue from 'vue'
 import App from './Components/App'
 import Store from './Store'
-import {createNode, setDisplayNode, setConfigNode, setRootNode} from './Actions'
+import {createNode, setDisplayNode, setRootNode} from './Actions'
 
 const defaultRootNode = {
   content: 'Welcome to Scripsi',
@@ -25,30 +25,43 @@ const defaultRootNode = {
     {
       content: 'Features',
       type: 'DefinitionListItem',
-      children: [{
-        type: 'ListItem',
-        content: 'Tables, images, code, etc. support'
-      }, {
-        type: 'ListItem',
-        content: 'Nest things inside each other'
-      }]
+      children: [
+        {
+          type: 'Text',
+          content: 'These are the features I plan to implement'
+        },
+        {
+          type: 'TodoListItem',
+          content: 'Index (complete list of nodes)',
+          params: { completed: true }
+        },
+        {
+          type: 'TodoListItem',
+          content: 'Bookmarks (like Workflowy stars)',
+          params: { completed: true }
+        }, {
+          type: 'TodoListItem',
+          content: 'Drag-and-drop interface'
+        }, {
+          type: 'TodoListItem',
+          content: 'Menu-driven interface'
+        },
+        {
+          type: 'TodoListItem',
+          content: 'Keyboard-driven interface'
+        },
+        {
+          type: 'TodoListItem',
+          content: 'Custom themes and fonts'
+        }
+      ]
     }
   ]
-}
-
-const defaultConfigNode = {
-  type: 'JsonObject',
-  content: {
-    bookmarks: [],
-    persistenceType: 'local'
-  }
 }
 
 let rootNodeId = createNode(Store, defaultRootNode).id
 setRootNode(Store, rootNodeId)
 setDisplayNode(Store, rootNodeId)
-
-setConfigNode(Store, createNode(Store, defaultConfigNode).id)
 
 /* eslint-disable no-new */
 new Vue({

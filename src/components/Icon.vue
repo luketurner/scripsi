@@ -6,6 +6,8 @@
 
 <script>
 const paths = {
+  plus: 'M31 12h-11v-11c0-0.552-0.448-1-1-1h-6c-0.552 0-1 0.448-1 1v11h-11c-0.552 0-1 0.448-1 1v6c0 0.552 0.448 1 1 1h11v11c0 0.552 0.448 1 1 1h6c0.552 0 1-0.448 1-1v-11h11c0.552 0 1-0.448 1-1v-6c0-0.552-0.448-1-1-1z',
+  minus: 'M0 13v6c0 0.552 0.448 1 1 1h30c0.552 0 1-0.448 1-1v-6c0-0.552-0.448-1-1-1h-30c-0.552 0-1 0.448-1 1z',
   home: 'M32 18.451l-16-12.42-16 12.42v-5.064l16-12.42 16 12.42zM28 18v12h-8v-8h-8v8h-8v-12l12-9z',
   bookmark: 'M6 0v32l10-10 10 10v-32z',
   bookmarks: 'M8 4v28l10-10 10 10v-28zM24 0h-20v28l2-2v-24h18z',
@@ -28,9 +30,8 @@ export default {
 <style lang="sass" scoped>
   @import '../Colors.scss';
   .icon {
-    display: inline-block;
     width: 1em;
     height: 1em;
-    fill: $color-fg-primary;
+    display: inline-block;
   }
 </style>

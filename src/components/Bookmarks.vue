@@ -8,17 +8,13 @@
 </template>
 
 <script>
-  import _ from 'lodash'
   import {setDisplayNode} from '../Actions'
-  import {getConfig} from '../Getters'
   
   export default {
     vuex: {
       getters: {
         bookmarks (state) {
-          let config = getConfig(state)
-          console.log(config)
-          return _.map(config.bookmarks, (node) => state.nodes[node])
+          return state.bookmarks
         }
       },
       actions: {

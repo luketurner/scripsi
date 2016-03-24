@@ -1,45 +1,100 @@
 <template>
-  <div :class="{ 'node-view': true, 'outlined': outlined }">
-    <div class="menu-button" @mouseenter="outlined = true" @mouseleave="outlined = false"></div>
-    <div :is="nodeComponent" :node="node" @change="updateNode">
+  <div :class="{ 'node-view': true, 'outlined': outlined }" draggable="true" @dragstart="dragstart" @dragend="dragend" @drop="drop" @dragenter="dragenter" @dragleave="dragleave">
+    <div class="menu-button" @mouseenter="mouseOver = true" @mouseleave="mouseOver = false" @click="toggleCollapse" @contextmenu="toggleMenu">
+      <icon class="icon" v-if="outlined" :type="node.collapsed ? 'plus' : 'minus'"></icon>
+    </div>
+    <menu :open.sync="menuOpen">
+      <menu-item @press="createChildNode(node, {})">Create child</menu-item>
+      <menu-item @press="deleteNode(node)">Delete node</menu-item>
+    </menu>
+    <div :is="nodeComponent" :node="node" @update="updateNode" :is-root-node="isRootNode">
     </div>
   </div>
 </template>
 
 <script>
+  import _ from 'lodash'
   import ListItem from './NodeType/ListItem'
+  import TodoListItem from './NodeType/TodoListItem'
   import DefinitionListItem from './NodeType/DefinitionListItem'
   import JsonObject from './NodeType/Json/Object'
   import Text from './NodeType/Text'
-  import {updateNode} from '../Actions'
-  import {getNode} from '../Getters.js'
-  
+  import {updateNode, deleteNode, createChildNode} from '../Actions'
+
   export default {
     props: {
-      nodeId: { required: true }
+      nodeId: { required: true },
+      isRootNode: { type: Boolean, default: false }
     },
     components: {
       ListItem,
+      TodoListItem,
       DefinitionListItem,
       JsonObject,
       Text
     },
     data () {
       return {
-        outlined: false
+        mouseOver: false,
+        menuOpen: false
       }
     },
     computed: {
-      node: function () {
-        return getNode(this.$store.state, this.nodeId)
+      outlined () {
+        return this.menuOpen || this.mouseOver
       },
-      nodeComponent: function () {
+      node () {
+        return this.$store.state.nodes[this.nodeId]
+      },
+      nodeComponent () {
         return this.node.type
+      }
+    },
+    methods: {
+      dragstart (ev) {
+        ev.preventDefault()
+        ev.stopPropagation()
+        ev.dataTransfer.effectAllowed = 'move'
+        ev.dataTransfer.setData('text/plain', this.node.id)
+        console.log('started')
+      },
+      dragenter (ev) {
+        ev.preventDefault()
+        ev.dataTransfer.dropEffect = 'move'
+        this.outlined = true
+        console.log('dragenter')
+      },
+      dragleave (ev) {
+        this.outlined = false
+        console.log('dragleave')
+      },
+      toggleMenu (ev) {
+        ev.preventDefault()
+        this.menuOpen = !this.menuOpen
       }
     },
     vuex: {
       actions: {
-        updateNode
+        updateNode,
+        deleteNode,
+        createChildNode,
+        toggleCollapse (store) {
+          updateNode(store, _.update(this.node, 'collapsed', (v) => !v))
+        },
+        dragend (store, ev) {
+          if (ev.dataTransfer.dropEffect === 'none') { return }
+          ev.preventDefault()
+          deleteNode(store, this.node)
+          console.log('deleted')
+        },
+        drop (store, ev) {
+          ev.preventDefault()
+          ev.stopPropagation()
+          let droppedNodeId = ev.dataTransfer.getData('text/plain')
+          // let droppedNode = getNode(store.state, droppedNodeId)
+          this.node.children.push(droppedNodeId)
+          console.log('dropped')
+        }
       }
     }
   }
@@ -47,11 +102,13 @@
 
 <style lang="sass" scoped>
   .node-view {
+    position: relative;
     display: flex;
     padding: 0.25rem;
     border-radius: 0.125rem;
+    border: 1px dashed rgba(0, 0, 0, 0);
     &.outlined {
-      border: 1px dashed rgba(0, 0, 0, 0.3);
+      border-color: rgba(0, 0, 0, 0.3);
       background-color: rgba(0, 0, 0, 0.1);
     }
   }
@@ -60,9 +117,22 @@
     height: 1rem;
     border-radius: 3px;
     display: flex;
+    margin-right: 0.25rem;
+    align-items: center;
+    justify-content: center;
     &:hover {
       background-color: rgba(0, 0, 0, 0.1);
       cursor: pointer;
+      & > .icon {
+        display: flex;
+      }
     }
+  }
+  
+  .icon {
+    display: none;
+    text-align: center;
+    fill: rgba(0, 0, 0, 0.3);
+    font-size: 0.5rem;
   }
 </style>

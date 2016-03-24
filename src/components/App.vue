@@ -4,7 +4,7 @@
     <div class="sidebar" :is="sidebarComponent">
     </div>
     <div class="node-container">
-      <node-view v-if="displayNodeId" :node-id="displayNodeId"></node-view>
+      <node-view v-if="displayNodeId" :node-id="displayNodeId" :is-root-node="true"></node-view>
     </div>
   </div>
 </template>
@@ -19,12 +19,16 @@
   import TextField from './TextField'
   import Icon from './Icon'
   import SimpleButton from './SimpleButton'
+  import Menu from './Menu/Menu'
+  import MenuItem from './Menu/MenuItem'
   
   // Globally register some common components for convenience
   Vue.component('node-view', NodeView)
   Vue.component('text-field', TextField)
   Vue.component('icon', Icon)
   Vue.component('simple-button', SimpleButton)
+  Vue.component('menu', Menu)
+  Vue.component('menu-item', MenuItem)
 
   export default {
     components: {

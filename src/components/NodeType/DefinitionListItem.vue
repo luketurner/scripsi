@@ -2,7 +2,7 @@
   <div class="definition">
     <text-field class="label" :content="node.content" @change="labelChanged"></text-field>
     <div class="children">
-      <div v-for="childId in node.children">
+      <div v-if="!node.collapsed" v-for="childId in node.children">
         <node-view :node-id="childId"></node-view>
       </div>
     </div>
@@ -14,14 +14,12 @@
   import _ from 'lodash'
   export default {
     props: {
-      node: { required: true }
+      node: { required: true },
+      isRootNode: { default: false }
     },
     methods: {
       labelChanged (newLabel) {
-        this.$emit('change', _.set(this.node, 'params.label', newLabel))
-      },
-      contentChanged (newContent) {
-        this.$emit('change', _.set(this.node, 'content', newContent))
+        this.$emit('update', _.set(this.node, 'params.label', newLabel))
       }
     }
   }

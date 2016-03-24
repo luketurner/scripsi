@@ -1,6 +1,6 @@
 <template>
   <div class="navbar">
-    <simple-button class="btn" icon="cog" title="Open config" @click="openConfigNode"></simple-button>
+    <simple-button class="btn" icon="cog" title="Open config"></simple-button>
     <simple-button class="btn sep" icon="stack" title="Toggle node index" @click="toggleIndex"></simple-button>
     <simple-button class="btn sep" icon="home" title="Open root node" @click="openRootNode"></simple-button>
     <simple-button class="btn" icon="bookmarks" title="Show bookmarks" @click="toggleBookmarks"></simple-button>
@@ -10,14 +10,10 @@
 </template>
 
 <script>
-  import {openConfigNode, openRootNode, toggleActiveSidebar} from '../Actions'
+  import {openRootNode, toggleActiveSidebar} from '../Actions'
   export default {
     vuex: {
-      getters: {
-        config: (state) => state.nodes[state.configNodeId].content
-      },
       actions: {
-        openConfigNode,
         openRootNode,
         toggleIndex (store) {
           toggleActiveSidebar(store, 'Index')
@@ -54,6 +50,7 @@
   .btn {
     font-size: 1.25rem;
     margin-right: 0.25rem;
+    fill: $color-fg-primary;
   }
   .sep {
     margin-right: 1.5rem;

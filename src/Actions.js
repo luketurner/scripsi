@@ -11,16 +11,8 @@ export function setDisplayNode (store, id) {
   store.dispatch('SET_DISPLAY_NODE', id)
 }
 
-export function setConfigNode (store, id) {
-  store.dispatch('SET_CONFIG_NODE', id)
-}
-
 export function setRootNode (store, id) {
   store.dispatch('SET_ROOT_NODE', id)
-}
-
-export function openConfigNode (store) {
-  store.dispatch('SET_DISPLAY_NODE', store.state.configNodeId)
 }
 
 export function openRootNode (store) {
@@ -40,7 +32,8 @@ export function createNode (store, params) {
     type: 'Text',
     content: '',
     children: [],
-    params: {}
+    params: {},
+    collapsed: false
   }
 
   let node = {
@@ -48,6 +41,7 @@ export function createNode (store, params) {
     type: params.type || defaults.type,
     content: params.content || defaults.content,
     params: params.params || defaults.params,
+    collapsed: params.collapsed || defaults.collapsed,
     children: _.map(params.children || defaults.children,
                    (child) => createNode(store, child).id)
   }
@@ -56,8 +50,22 @@ export function createNode (store, params) {
   return node
 }
 
+export function createChildNode (store, parentNode, childParams) {
+  let childNode = createNode(store, childParams)
+
+  // Vue.set(parentNode, 'children', parentNode.children.push(childNode.id))
+  parentNode.children.push(childNode.id)
+  store.dispatch('SET_NODE', parentNode)
+
+  return childNode
+}
+
 export function updateNode (store, node) {
   store.dispatch('SET_NODE', node)
   // PersistentStorage.saveNodeTo(store.persistenceType, node)
   //  .then(() => store.dispatch('LAST_SAVED', Date.now()))
+}
+
+export function deleteNode (store, node) {
+  store.dispatch('DELETE_NODE', node.id)
 }

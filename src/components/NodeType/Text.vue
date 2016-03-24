@@ -6,11 +6,12 @@
   import _ from 'lodash'
   export default {
     props: {
-      node: { required: true }
+      node: { required: true },
+      isRootNode: { default: false }
     },
     methods: {
       contentChanged: function (newContent) {
-        this.$emit('change', _.set(this.node, 'content', newContent))
+        this.$emit('update', _.set(this.node, 'content', newContent))
       }
     }
   }
