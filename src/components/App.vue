@@ -19,7 +19,7 @@
   import TextField from './TextField'
   import Icon from './Icon'
   import SimpleButton from './SimpleButton'
-  import Menu from './Menu/Menu'
+  import Menu from './Menu'
   
   // Globally register some common components for convenience
   Vue.component('node-view', NodeView)

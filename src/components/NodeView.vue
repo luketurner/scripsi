@@ -3,7 +3,7 @@
     <div class="menu-button" @mouseenter="mouseOver = true" @mouseleave="mouseOver = false" @click="toggleCollapse" @contextmenu="toggleMenu">
       <icon class="icon" v-if="outlined" :type="node.collapsed ? 'plus' : 'minus'"></icon>
     </div>
-    <menu :open.sync="menuOpen" :items="menuItems">
+    <menu :open="menuOpen" :items="menuItems" @close="menuOpen = false">
     </menu>
     <div :is="nodeComponent" :node="node" @update="updateNode" :is-root-node="isRootNode" :menu-items="menuItems">
     </div>
@@ -21,6 +21,7 @@
   
   const CREATE_CHILD_NODE = 'CREATE_CHILD_NODE'
   const DELETE_NODE = 'DELETE_NODE'
+  const CONVERT_NODE = 'CONVERT_NODE'
 
   export default {
     props: {
@@ -44,6 +45,12 @@
         }, {
           label: 'Create child node',
           type: CREATE_CHILD_NODE
+        }, {
+          label: 'Convert node to...',
+          submenu: [{ label: 'Plain text', type: CONVERT_NODE, convertTo: 'Text' },
+                    { label: 'List item', type: CONVERT_NODE, convertTo: 'ListItem' },
+                    { label: 'Todo list item', type: CONVERT_NODE, convertTo: 'TodoListItem' },
+                    { label: 'Definition list item', type: CONVERT_NODE, convertTo: 'DefinitionListItem' }]
         }]
       }
     },
@@ -66,6 +73,12 @@
             break
           case CREATE_CHILD_NODE:
             this.createChildNode(this.node, {})
+            break
+          case CONVERT_NODE:
+            if (!menuItem.convertTo) {
+              throw new Error('CONVERT_NODE menu item missing required convertTo field')
+            }
+            this.updateNode(_.set(this.node, 'type', menuItem.convertTo))
             break
           default:
             this.$broadcast('menuItemPress', menuItem)

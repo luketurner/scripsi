@@ -8,21 +8,9 @@ import defaultNode from './defaultNode'
 import {loadState} from './PersistentStorage'
 
 // TODO -- this is to be used for a "last saved X seconds ago" timer
-Moment.locale('en', {
+Moment.updateLocale('en', {
   relativeTime: {
-    future: 'in %s',
-    past: '%s ago',
-    s: (num, withoutSuffix) => (num === 1 ? 'one' : num) + ' second' + (withoutSuffix ? '' : 's'),
-    m: 'a minute',
-    mm: '%d minutes',
-    h: 'an hour',
-    hh: '%d hours',
-    d: 'a day',
-    dd: '%d days',
-    M: 'a month',
-    MM: '%d months',
-    y: 'a year',
-    yy: '%d years'
+    s: (num, withoutSuffix) => (num === 1 ? 'one' : num) + ' second' + (withoutSuffix ? '' : 's')
   }
 })
 

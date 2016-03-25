@@ -4,14 +4,14 @@ import _ from 'lodash'
 import * as m from './Mutations'
 export default {
   [m.SET_STATE] (state, newState) {
-    _.merge(state, newState)
+    _.mergeWith(state, newState, (oldVal, newVal, key, state) => Vue.set(state, key, newVal))
   },
   [m.SET_NODE] (state, node) {
     Vue.set(state.nodes, node.id, node)
   },
   [m.DELETE_NODE] (state, id) {
     _.each(state.nodes, (node) => {
-      node.children = _.filter(node.children, (childId) => childId !== id)
+      node.children.$remove(id)
     })
     Vue.delete(state.nodes, id)
   },

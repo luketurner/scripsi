@@ -3,13 +3,14 @@
     <div class="menu bottom" v-if="open">
       <div class="item" v-for="item in items" @click="pressItem(item)">
         {{ item.label }}
-        <menu v-if="item.submenu" :open="item.submenu.open ? true : false" :items="item.submenu"></menu>
+        <menu v-if="item.submenu" :open.sync="item.submenuOpen" :items="item.submenu" @close="close"></menu>
       </div>
     </div>
   </span>
 </template>
 
 <script>
+  import Vue from 'vue'
   export default {
     props: {
       open: { default: false },
@@ -17,25 +18,23 @@
     },
     methods: {
       pressItem (item) {
-        this.$dispatch('menuItemPress', item)
-        this.$broadcast('menuClose')
-        this.close()
+        if (item.submenu) {
+          Vue.set(item, 'submenuOpen', !item.submenuOpen)
+        } else {
+          this.$dispatch('menuItemPress', item)
+          this.close()
+        }
       },
       close () {
         this.open = false
-      }
-    },
-    events: {
-      menuClose () {
-        this.close()
-        return true
+        this.$emit('close')
       }
     }
   }
 </script>
 
 <style lang="sass" scoped>
-  @import '../../Colors.scss';
+  @import '../Colors.scss';
   $offset: 1.5rem;
   .menu {
     font-size: 0.8rem;
