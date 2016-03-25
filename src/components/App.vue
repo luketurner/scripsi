@@ -20,7 +20,6 @@
   import Icon from './Icon'
   import SimpleButton from './SimpleButton'
   import Menu from './Menu/Menu'
-  import MenuItem from './Menu/MenuItem'
   
   // Globally register some common components for convenience
   Vue.component('node-view', NodeView)
@@ -28,7 +27,6 @@
   Vue.component('icon', Icon)
   Vue.component('simple-button', SimpleButton)
   Vue.component('menu', Menu)
-  Vue.component('menu-item', MenuItem)
 
   export default {
     components: {

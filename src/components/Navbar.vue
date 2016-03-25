@@ -2,7 +2,7 @@
   <div class="navbar">
     <simple-button class="btn" icon="cog" title="Open config"></simple-button>
     <simple-button class="btn sep" icon="stack" title="Toggle node index" @click="toggleIndex"></simple-button>
-    <simple-button class="btn sep" icon="home" title="Open root node" @click="openRootNode"></simple-button>
+    <simple-button class="btn sep" icon="home" title="Open root node" @click="setDisplayNode(rootNodeId)"></simple-button>
     <simple-button class="btn" icon="bookmarks" title="Show bookmarks" @click="toggleBookmarks"></simple-button>
     <simple-button class="btn" icon="bookmark" title="Bookmark open node" @click="addBookmark"></simple-button>
     <div class="spacer"></div>
@@ -10,20 +10,21 @@
 </template>
 
 <script>
-  import {openRootNode, toggleActiveSidebar} from '../Actions'
+  import {setDisplayNode, toggleActiveSidebar, addBookmark} from '../Store/Actions'
   export default {
     vuex: {
       actions: {
-        openRootNode,
+        setDisplayNode,
+        addBookmark,
         toggleIndex (store) {
           toggleActiveSidebar(store, 'Index')
         },
         toggleBookmarks (store) {
           toggleActiveSidebar(store, 'Bookmarks')
-        },
-        addBookmark (store) {
-          store.dispatch('ADD_BOOKMARK', store.state.displayNodeId)
         }
+      },
+      getters: {
+        rootNodeId: (state) => state.rootNodeId
       }
     }
   }

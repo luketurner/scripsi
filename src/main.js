@@ -1,67 +1,41 @@
 import 'babel-polyfill'
-
-// If this was an OAuth redirect, extract the
-// access token and so forth from query params
-// dropboxAuthorizer.getToken()
-// .then((t) => console.log('Got token', t))
-
 import Vue from 'vue'
+import Moment from 'moment'
 import App from './Components/App'
-import Store from './Store'
-import {createNode, setDisplayNode, setRootNode} from './Actions'
+import Store from './Store/index'
+import {createNode, setDisplayNode, setRootNode} from './Store/Actions'
+import defaultNode from './defaultNode'
+import {loadState} from './PersistentStorage'
 
-const defaultRootNode = {
-  content: 'Welcome to Scripsi',
-  type: 'ListItem',
-  children: [
-    {
-      content: 'About',
-      type: 'DefinitionListItem',
-      children: [{
-        content: 'Scripsi is a document editor with a streamlined tree-based interface. ' +
-                 'It makes it possible to do a combination of Workflowy and Notion things.'
-      }]
-    },
-    {
-      content: 'Features',
-      type: 'DefinitionListItem',
-      children: [
-        {
-          type: 'Text',
-          content: 'These are the features I plan to implement'
-        },
-        {
-          type: 'TodoListItem',
-          content: 'Index (complete list of nodes)',
-          params: { completed: true }
-        },
-        {
-          type: 'TodoListItem',
-          content: 'Bookmarks (like Workflowy stars)',
-          params: { completed: true }
-        }, {
-          type: 'TodoListItem',
-          content: 'Drag-and-drop interface'
-        }, {
-          type: 'TodoListItem',
-          content: 'Menu-driven interface'
-        },
-        {
-          type: 'TodoListItem',
-          content: 'Keyboard-driven interface'
-        },
-        {
-          type: 'TodoListItem',
-          content: 'Custom themes and fonts'
-        }
-      ]
-    }
-  ]
-}
+// TODO -- this is to be used for a "last saved X seconds ago" timer
+Moment.locale('en', {
+  relativeTime: {
+    future: 'in %s',
+    past: '%s ago',
+    s: (num, withoutSuffix) => (num === 1 ? 'one' : num) + ' second' + (withoutSuffix ? '' : 's'),
+    m: 'a minute',
+    mm: '%d minutes',
+    h: 'an hour',
+    hh: '%d hours',
+    d: 'a day',
+    dd: '%d days',
+    M: 'a month',
+    MM: '%d months',
+    y: 'a year',
+    yy: '%d years'
+  }
+})
 
-let rootNodeId = createNode(Store, defaultRootNode).id
-setRootNode(Store, rootNodeId)
-setDisplayNode(Store, rootNodeId)
+// Initial load state -- expect this to look for any saved
+// app state in localStorage and use that.
+loadState(Store.state.config.persistenceType)
+  .catch(() => {
+    // If we can't find any state in local storage,
+    // initialize our default data.
+    let rootNodeId = createNode(Store, defaultNode).id
+    setRootNode(Store, rootNodeId)
+    setDisplayNode(Store, rootNodeId)
+  })
 
 /* eslint-disable no-new */
 new Vue({

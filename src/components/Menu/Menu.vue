@@ -1,25 +1,34 @@
 <template>
   <span class="menu-container">
     <div class="menu bottom" v-if="open">
-      <slot>
-        <menu-item>This menu is empty</menu-item>
-      </slot>
+      <div class="item" v-for="item in items" @click="pressItem(item)">
+        {{ item.label }}
+        <menu v-if="item.submenu" :open="item.submenu.open ? true : false" :items="item.submenu"></menu>
+      </div>
     </div>
   </span>
 </template>
 
 <script>
-  import MenuItem from './MenuItem'
   export default {
     props: {
-      open: { default: false }
+      open: { default: false },
+      items: { required: true }
     },
-    components: {
-      MenuItem
+    methods: {
+      pressItem (item) {
+        this.$dispatch('menuItemPress', item)
+        this.$broadcast('menuClose')
+        this.close()
+      },
+      close () {
+        this.open = false
+      }
     },
     events: {
       menuClose () {
-        this.open = false
+        this.close()
+        return true
       }
     }
   }
@@ -47,5 +56,12 @@
     &.right   { margin-left: $offset; }
     &.bottom  { margin-top: $offset; }
     &.left    { margin-left: -$offset; }
+  }
+  .item {
+        margin: 0.25rem;
+    cursor: pointer;
+    &:hover {
+      text-decoration: underline;
+    }
   }
 </style>

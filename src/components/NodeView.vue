@@ -3,11 +3,9 @@
     <div class="menu-button" @mouseenter="mouseOver = true" @mouseleave="mouseOver = false" @click="toggleCollapse" @contextmenu="toggleMenu">
       <icon class="icon" v-if="outlined" :type="node.collapsed ? 'plus' : 'minus'"></icon>
     </div>
-    <menu :open.sync="menuOpen">
-      <menu-item @press="createChildNode(node, {})">Create child</menu-item>
-      <menu-item @press="deleteNode(node)">Delete node</menu-item>
+    <menu :open.sync="menuOpen" :items="menuItems">
     </menu>
-    <div :is="nodeComponent" :node="node" @update="updateNode" :is-root-node="isRootNode">
+    <div :is="nodeComponent" :node="node" @update="updateNode" :is-root-node="isRootNode" :menu-items="menuItems">
     </div>
   </div>
 </template>
@@ -19,7 +17,10 @@
   import DefinitionListItem from './NodeType/DefinitionListItem'
   import JsonObject from './NodeType/Json/Object'
   import Text from './NodeType/Text'
-  import {updateNode, deleteNode, createChildNode} from '../Actions'
+  import {updateNode, deleteNode, createChildNode} from '../Store/Actions'
+  
+  const CREATE_CHILD_NODE = 'CREATE_CHILD_NODE'
+  const DELETE_NODE = 'DELETE_NODE'
 
   export default {
     props: {
@@ -36,7 +37,14 @@
     data () {
       return {
         mouseOver: false,
-        menuOpen: false
+        menuOpen: false,
+        menuItems: [{
+          label: 'Delete node',
+          type: DELETE_NODE
+        }, {
+          label: 'Create child node',
+          type: CREATE_CHILD_NODE
+        }]
       }
     },
     computed: {
@@ -48,6 +56,21 @@
       },
       nodeComponent () {
         return this.node.type
+      }
+    },
+    events: {
+      menuItemPress (menuItem) {
+        switch (menuItem.type) {
+          case DELETE_NODE:
+            this.deleteNode(this.node)
+            break
+          case CREATE_CHILD_NODE:
+            this.createChildNode(this.node, {})
+            break
+          default:
+            this.$broadcast('menuItemPress', menuItem)
+            break
+        }
       }
     },
     methods: {

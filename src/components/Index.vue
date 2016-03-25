@@ -8,7 +8,7 @@
 </template>
 
 <script>
-  import {setDisplayNode} from '../Actions.js'
+  import {setDisplayNode} from '../Store/Actions.js'
   
   export default {
     vuex: {
