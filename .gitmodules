@@ -1,4 +1,0 @@
-[submodule "dist"]
-	path = dist
-	url = ./
-	branch = gh-pages
