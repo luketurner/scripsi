@@ -34,5 +34,6 @@
   .label {
     font-weight: bold;
     font-color: $color-fg-emphasis;
+    flex-shrink: 0;
   }
 </style>

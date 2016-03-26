@@ -17,7 +17,7 @@ const paths = {
 export default {
   props: {
     type: { required: true },
-    title: {}
+    title: { type: String }
   },
   computed: {
     path () {

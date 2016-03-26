@@ -33,6 +33,7 @@
   }
   .child {
     display: flex;
+    flex-shrink: 0;
   }
   ul {
     margin: 0 0 0 1.25rem;

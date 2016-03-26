@@ -1,6 +1,6 @@
 <template>
   <div :class="{ 'node-view': true, 'outlined': outlined }" draggable="true" @dragstart="dragstart" @dragend="dragend" @drop="drop" @dragenter="dragenter" @dragleave="dragleave">
-    <div class="menu-button" @mouseenter="mouseOver = true" @mouseleave="mouseOver = false" @click="toggleCollapse" @contextmenu="toggleMenu">
+    <div class="menu-button" @mouseenter="mouseOver = true" @mouseleave="mouseOver = false" @click="toggleCollapse" @contextmenu.prevent="toggleMenu">
       <icon class="icon" v-if="outlined" :type="node.collapsed ? 'plus' : 'minus'"></icon>
     </div>
     <menu :open="menuOpen" :items="menuItems" @close="menuOpen = false">
@@ -104,8 +104,7 @@
         this.outlined = false
         console.log('dragleave')
       },
-      toggleMenu (ev) {
-        ev.preventDefault()
+      toggleMenu () {
         this.menuOpen = !this.menuOpen
       }
     },

@@ -40,4 +40,7 @@
   .child, .checkbox, .content {
     display: flex;
   }
+  .child {
+    flex-shrink: 0;
+  }
 </style>

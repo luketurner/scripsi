@@ -1,6 +1,6 @@
 <template>
   <span>
-    <text-field class="text" :content="node.content" @change="contentChanged" v-focus-auto></text-field>
+    <text-field class="content" :content="node.content" @change="contentChanged" v-focus-auto></text-field>
     <div class="child" v-if="!node.collapsed" v-for="childId in node.children">
       <node-view :node-id="childId"></node-view>
     </div>
@@ -48,8 +48,13 @@
 </script>
 
 <style lang="sass" scoped>
-  .text {
-    max-width: 45em;
+  .content {
+    display: inline-block;
+    max-width: 45rem;
     min-width: 10px;
+  }
+  .child {
+    display: flex;
+    flex-shrink: 0;
   }
 </style>

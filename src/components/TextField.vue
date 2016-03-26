@@ -1,5 +1,5 @@
 <template>
-  <span class="text" contenteditable="true" @blur="handleBlur">{{ content }}</span>
+  <span class="text" contenteditable="true" @blur="handleBlur" v-html="content"></span>
 </template>
 
 <script>
@@ -13,6 +13,7 @@
       handleBlur: function () {
         let value = this.medium.value()
         if (value !== this.content) {
+          console.log('*** CHANGE ', value, this.content)
           this.$emit('change', value)
         }
       }
@@ -21,6 +22,7 @@
       this.medium = new Medium({
         element: this.$el,
         mode: Medium.inlineMode,
+        pasteAsText: false,
         tags: null
       })
     }
