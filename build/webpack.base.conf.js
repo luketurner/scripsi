@@ -55,9 +55,6 @@ module.exports = {
       }
     ]
   },
-  vue: {
-    postcss: [require('precss')()]
-  },
   eslint: {
     formatter: require('eslint-friendly-formatter')
   }

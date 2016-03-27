@@ -23,7 +23,7 @@
   }
 </script>
 
-<style scoped>
+<style lang="sass" scoped>
   .item {
     font: 0.8em 'Consolas',monospace;
   }

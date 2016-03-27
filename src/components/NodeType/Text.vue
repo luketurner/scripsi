@@ -47,7 +47,7 @@
   }
 </script>
 
-<style scoped>
+<style lang="sass" scoped>
   .content {
     display: inline-block;
     max-width: 45rem;

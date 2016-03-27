@@ -30,8 +30,8 @@
   }
 </script>
 
-<style scoped>
-  @import '../colors';
+<style lang="sass" scoped>
+  @import '../Colors.scss';
 
   .navbar {
     height: 1.5rem;

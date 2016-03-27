@@ -43,8 +43,8 @@
   }
 </script>
 
-<style>
-  @import '../colors';
+<style lang="sass">
+  @import "../Colors.scss";
 
   body {
     margin: 0;

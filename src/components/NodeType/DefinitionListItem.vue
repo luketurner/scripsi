@@ -25,8 +25,8 @@
   }
 </script>
 
-<style scoped>
-  @import '../../colors';
+<style lang="sass" scoped>
+  @import '../../Colors.scss';
   .definition {
     display: flex;
     flex-flow: row nowrap;

@@ -22,8 +22,8 @@
   }
 </script>
 
-<style scoped>
-  @import '../colors';
+<style lang="sass" scoped>
+  @import '../Colors.scss';
   
   .index {
     background-color: $color-bg-secondary;

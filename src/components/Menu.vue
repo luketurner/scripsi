@@ -33,8 +33,8 @@
   }
 </script>
 
-<style scoped>
-  @import '../colors';
+<style lang="sass" scoped>
+  @import '../Colors.scss';
   $offset: 1.5rem;
   .menu {
     font-size: 0.8rem;
