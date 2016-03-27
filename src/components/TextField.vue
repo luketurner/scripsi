@@ -29,7 +29,7 @@
   }
 </script>
 
-<style lang="sass" scoped>
+<style scoped>
 .text {
   &:hover, &:focus {
     outline: none;

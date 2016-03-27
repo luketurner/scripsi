@@ -16,7 +16,7 @@ export default {
 }
 </script>
 
-<style lang="sass" scoped>
+<style scoped>
   button {
     height: 1.25em;
     min-width: 1.25em;

@@ -28,7 +28,7 @@
   }
 </script>
 
-<style lang="sass" scoped>
+<style scoped>
   .item {
     display: flex;
     flex-flow: column nowrap;

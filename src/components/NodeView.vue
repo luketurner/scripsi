@@ -135,7 +135,7 @@
   }
 </script>
 
-<style lang="sass" scoped>
+<style scoped>
   .node-view {
     position: relative;
     display: flex;
