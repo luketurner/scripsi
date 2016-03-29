@@ -9,7 +9,7 @@ export default {
       content: 'In support of that aim, Scripsi organizes and presents data using a hierarchical, tree-like structure. This will be very familiar to anyone who uses Workflowy (or Word\'s outline view, for the older-school folks). Technically, Scripsi uses a directed acyclic graph, a.k.a. DAG. This differs from a tree in that a single node can have multiple parents. For example, a single ListItem can belong to two separate lists, or a single TODO can exist in two separate places at once.'
     },
     {
-      content: 'But, Scripsi supports much more than plain text. Scripsi documents are made up of <em>nodes</em>, which could be plain text nodes (like this one), or list items, TODOs, images, code blocks, etc. Those nodes are organized in a hierarchy for editing and viewing, and non-hierarchical organization is facilitated with tagging.'
+      content: 'But, Scripsi supports much more than plain text. Scripsi documents are made up of <em>nodes</em>, which could be plain text nodes, list items, TODOs, images, code blocks, or tables. The whole Scripsi UI is built using nodes like containers, toolbars, and buttons, that are also exposed to the user. All your nodes are organized in a giant, collapsible outline tree for editing and viewing, and advanced organization is facilitated with tagging.'
     },
     {
       type: 'DefinitionListItem',
@@ -17,52 +17,45 @@ export default {
       children: [
         {
           type: 'TodoListItem',
-          content: 'Plain text',
-          params: { completed: true },
-          children: [
-            {
-              content: 'Plain text nodes are straightforward and unornamented. Usually, each node contains a single paragraph.'
-            }
-          ]
+          content: 'Plain text (paragraphs or notes)',
+          params: { completed: true }
         },
         {
-          type: 'ListItem',
-          content: 'Interactive',
-          children: [
-            {
-              type: 'TodoListItem',
-              content: 'Menu'
-            },
-            {
-              type: 'TodoListItem',
-              content: 'Card'
-            }
-          ]
+          type: 'TodoListItem',
+          content: 'Plain (unordered) lists',
+          params: { completed: true }
         },
         {
-          type: 'ListItem',
-          content: 'Lists',
-          children: [
-            {
-              type: 'TodoListItem',
-              content: 'Plain (unordered) lists',
-              params: { completed: true },
-              children: [
-                {
-                  content: 'Plain lists are the bread-and-butter of any outlining system. In Scripsi, list items should be used anytime you want to impose some hierarchical structure on your document and nothing else seems apropos.'
-                }
-              ]
-            },
-            {
-              type: 'TodoListItem',
-              content: 'Definition lists',
-              params: { completed: true }
-            },
-            {
-              type: 'TodoListItem',
-              content: 'Numbered lists'
-            }
-          ]
+          type: 'TodoListItem',
+          content: 'Definition lists',
+          params: { completed: true }
+        },
+        {
+          type: 'TodoListItem',
+          content: 'Numbered lists'
+        },
+        {
+          type: 'TodoListItem',
+          content: 'Cards (as contextualized, "fat" links)'
+        },
+        {
+          type: 'TodoListItem',
+          content: 'Containers (can stack or flow their contents)'
+        },
+        {
+          type: 'TodoListItem',
+          content: 'Toolbars (can be used to implement individualized UIs)',
+          params: { completed: true }
+        },
+        {
+          type: 'TodoListItem',
+          content: 'Buttons (used in toolbars)',
+          params: { completed: true }
+        },
+        {
+          type: 'TodoListItem',
+          content: 'Icons (embedded SVG; used in buttons, or elsewhere?)',
+          params: { completed: false }
         }
       ]
     }

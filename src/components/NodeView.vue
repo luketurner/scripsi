@@ -12,11 +12,6 @@
 
 <script>
   import _ from 'lodash'
-  import ListItem from './NodeType/ListItem'
-  import TodoListItem from './NodeType/TodoListItem'
-  import DefinitionListItem from './NodeType/DefinitionListItem'
-  import JsonObject from './NodeType/Json/Object'
-  import Text from './NodeType/Text'
   import {updateNode, deleteNode, createChildNode} from '../Store/Actions'
   
   const CREATE_CHILD_NODE = 'CREATE_CHILD_NODE'
@@ -29,11 +24,11 @@
       isRootNode: { type: Boolean, default: false }
     },
     components: {
-      ListItem,
-      TodoListItem,
-      DefinitionListItem,
-      JsonObject,
-      Text
+      ListItem: require('./NodeType/ListItem'),
+      TodoListItem: require('./NodeType/TodoListItem'),
+      DefinitionListItem: require('./NodeType/DefinitionListItem'),
+      JsonObject: require('./NodeType/Json/Object'),
+      Text: require('./NodeType/Text')
     },
     data () {
       return {
