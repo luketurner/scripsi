@@ -6,4 +6,4 @@ deployment:
   production:
     branch: master
     commands:
-      - node deploy
+      - npm run deploy
