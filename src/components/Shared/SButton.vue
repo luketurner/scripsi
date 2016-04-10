@@ -1,23 +1,23 @@
 <template>
-  <button :title="title">
+  <div class="button" :title="title">
     <s-icon :type="icon"></s-icon>
     {{ label }}
-  </button>
+  </div>
 </template>
 
 <script>
-export default {
-  props: ['icon', 'label', 'title'],
-  methods: {
-    clicked () {
-      this.$emit('click')
+  export default {
+    props: ['icon', 'label', 'title'],
+    methods: {
+      clicked () {
+        this.$emit('click')
+      }
     }
   }
-}
 </script>
 
 <style lang="sass" scoped>
-  button {
+  .button {
     height: 1.25em;
     min-width: 1.25em;
     border: none;
