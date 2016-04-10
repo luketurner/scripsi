@@ -1,3 +1,6 @@
+machine:
+  node:
+    version: 5.5.0
 general:
   branches:
     ignore:
