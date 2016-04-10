@@ -1,11 +1,15 @@
 <template>
-  <span class="text" contenteditable="true" @blur="handleBlur" v-html="content"></span>
+  <span class="text" contenteditable="true" @blur="handleBlur" v-html="content" v-focus-auto></span>
 </template>
 
 <script>
   import Medium from 'medium.js'
-  
+  import {focusAuto} from 'vue-focus'
+
   export default {
+    directives: {
+      focusAuto
+    },
     props: {
       content: { required: true }
     },
@@ -13,7 +17,6 @@
       handleBlur: function () {
         let value = this.medium.value()
         if (value !== this.content) {
-          console.log('*** CHANGE ', value, this.content)
           this.$emit('change', value)
         }
       }

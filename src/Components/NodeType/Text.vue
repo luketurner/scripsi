@@ -1,6 +1,6 @@
 <template>
   <span>
-    <text-field class="content" :content="node.content" @change="contentChanged" v-focus-auto></text-field>
+    <text-field class="content" :content="node.content" @change="contentChanged"></text-field>
     <div class="child" v-if="!node.collapsed" v-for="childId in node.children">
       <node-view :node-id="childId"></node-view>
     </div>
@@ -9,12 +9,10 @@
 
 <script>
   import _ from 'lodash'
-  import {focusAuto} from 'vue-focus'
   
   const IMPORT_FROM_JSON = 'IMPORT_FROM_JSON'
   
   export default {
-    directives: { focusAuto },
     props: {
       node: { required: true },
       isRootNode: { default: false },
