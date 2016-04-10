@@ -17,15 +17,15 @@
   import Bookmarks from './Sidebar/Bookmarks'
   import NodeView from './Shared/NodeView'
   import TextField from './Shared/TextField'
-  import Icon from './Shared/Icon'
-  import SimpleButton from './Shared/SimpleButton'
+  import SIcon from './Shared/SIcon'
+  import SButton from './Shared/SButton'
   import Menu from './Shared/Menu'
   
   // Globally register some common components for convenience
   Vue.component('node-view', NodeView)
   Vue.component('text-field', TextField)
-  Vue.component('icon', Icon)
-  Vue.component('simple-button', SimpleButton)
+  Vue.component('s-icon', SIcon)
+  Vue.component('s-button', SButton)
   Vue.component('menu', Menu)
 
   export default {

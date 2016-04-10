@@ -1,6 +1,6 @@
 <template>
   <button :title="title">
-    <icon :type="icon"></icon>
+    <s-icon :type="icon"></s-icon>
     {{ label }}
   </button>
 </template>

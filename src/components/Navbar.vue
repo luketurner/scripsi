@@ -1,10 +1,10 @@
 <template>
   <div class="navbar">
-    <simple-button class="btn" icon="cog" title="Open config"></simple-button>
-    <simple-button class="btn sep" icon="stack" title="Toggle node index" @click="toggleIndex"></simple-button>
-    <simple-button class="btn sep" icon="home" title="Open root node" @click="setDisplayNode(rootNodeId)"></simple-button>
-    <simple-button class="btn" icon="bookmarks" title="Show bookmarks" @click="toggleBookmarks"></simple-button>
-    <simple-button class="btn" icon="bookmark" title="Bookmark open node" @click="addBookmark"></simple-button>
+    <s-button class="btn" icon="cog" title="Open config"></s-button>
+    <s-button class="btn sep" icon="stack" title="Toggle node index" @click="toggleIndex"></s-button>
+    <s-button class="btn sep" icon="home" title="Open root node" @click="setDisplayNode(rootNodeId)"></s-button>
+    <s-button class="btn" icon="bookmarks" title="Show bookmarks" @click="toggleBookmarks"></s-button>
+    <s-button class="btn" icon="bookmark" title="Bookmark open node" @click="addBookmark"></s-button>
     <div class="spacer"></div>
   </div>
 </template>
