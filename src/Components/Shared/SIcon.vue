@@ -28,10 +28,9 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-  @import '../../Colors.scss';
   .icon {
     width: 1em;
     height: 1em;
-    display: inline-block;
+    display: flex;
   }
 </style>

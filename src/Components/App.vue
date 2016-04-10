@@ -1,6 +1,8 @@
 <template>
   <div id="app">
-    <navbar></navbar>
+    <div class="navbar-container">
+      <navbar></navbar>
+    </div>
     <div class="sidebar" :is="sidebarComponent">
     </div>
     <div class="node-container">
@@ -53,7 +55,7 @@
     overflow: hidden;
   }
   * {
-    box-radius: border-box;
+    box-sizing: border-box;
   }
   #app {
     font-family: Helvetica, sans-serif;
@@ -63,6 +65,12 @@
     height: 100%;
     color: $color-fg-secondary;
     background-color: $color-bg-secondary;
+  }
+  .navbar-container {
+    width: 60rem;
+    padding: 0.25rem 1rem;
+    color: $color-fg-primary;
+    background-color: $color-bg-primary;
   }
   .node-container {
     padding: 1rem;

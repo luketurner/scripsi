@@ -26,6 +26,7 @@
   @import '../../Colors.scss';
   
   .index {
+    z-index: 1000;
     background-color: $color-bg-secondary;
   }
   

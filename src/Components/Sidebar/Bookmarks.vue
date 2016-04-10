@@ -27,7 +27,8 @@
 <style lang="sass" scoped>
   @import '../../Colors.scss';
   
-  .index {
+  .bookmarks {
+    z-index: 1000;
     background-color: $color-bg-secondary;
   }
   

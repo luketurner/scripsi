@@ -1,10 +1,10 @@
 <template>
   <div class="navbar">
-    <s-button class="btn" icon="cog" title="Open config"></s-button>
-    <s-button class="btn sep" icon="stack" title="Toggle node index" @click="toggleIndex"></s-button>
-    <s-button class="btn sep" icon="home" title="Open root node" @click="setDisplayNode(rootNodeId)"></s-button>
-    <s-button class="btn" icon="bookmarks" title="Show bookmarks" @click="toggleBookmarks"></s-button>
-    <s-button class="btn" icon="bookmark" title="Bookmark open node" @click="addBookmark"></s-button>
+    <s-button class="btn" icon="cog" title="Open config">Config</s-button>
+    <s-button class="btn sep" icon="stack" title="Toggle node index" @click="toggleIndex">Index</s-button>
+    <s-button class="btn sep" icon="home" title="Open root node" @click="setDisplayNode(rootNodeId)">Home</s-button>
+    <s-button class="btn" icon="bookmarks" title="Show bookmarks" @click="toggleBookmarks">List Marks</s-button>
+    <s-button class="btn" icon="bookmark" title="Bookmark open node" @click="addBookmark">Add Mark</s-button>
     <div class="spacer"></div>
   </div>
 </template>
@@ -49,12 +49,12 @@
     flex-grow: 0;
   }
   .btn {
-    font-size: 1.25rem;
-    margin-right: 0.25rem;
     fill: $color-fg-primary;
+    color: $color-fg-primary;
+    margin-right: 0.75rem;
   }
   .sep {
-    margin-right: 1.5rem;
+    margin-right: 2.5rem;
   }
   .datasource {
     flex-grow: 0;
