@@ -12,39 +12,59 @@ export function toggleActiveSidebar (store, component) {
   store.dispatch(m.SET_ACTIVE_SIDEBAR, store.state.activeSidebarComponent === component ? null : component)
 }
 
-export function createNode (store, params) {
+export function createNode (store, params = {}) {
   if (params.id) {
     throw new Error("createNode params include an 'id', but that's forbidden")
   }
+
+  let id = uuid.v4()
 
   let defaults = {
     type: 'Text',
     content: '',
     children: [],
+    parent: null,
     params: {},
     collapsed: false
   }
 
   let node = {
-    id: uuid.v4(),
+    id: id,
     type: params.type || defaults.type,
     content: params.content || defaults.content,
     params: params.params || defaults.params,
+    parent: params.parent || defaults.parent,
     collapsed: params.collapsed || defaults.collapsed,
     children: _.map(params.children || defaults.children,
-                   (child) => createNode(store, child).id)
+                   (child) => createNode(store, _.set(child, 'parent', id)).id)
   }
+
+  console.log(node)
 
   updateNode(store, node)
   return node
 }
 
-export function createChildNode (store, parentNode, childParams) {
+export function createChildNode (store, parentNode, childParams = {}) {
+  childParams.parent = parentNode.id
   let childNode = createNode(store, childParams)
   parentNode.children.push(childNode.id)
   store.dispatch(m.SET_NODE, parentNode)
 
   return childNode
+}
+
+export function createSiblingNode (store, firstSiblingNode, params = {}) {
+  let parentNode = store.state.nodes[firstSiblingNode.parent]
+  if (!parentNode) {
+    return null
+  }
+  let siblingIndex = parentNode.children.indexOf(firstSiblingNode.id)
+  let siblingNode = createNode(store, _.set(params, 'parent', parentNode.id))
+  parentNode.children.splice(siblingIndex + 1, 0, siblingNode.id)
+  store.dispatch(m.SET_NODE, parentNode)
+
+  return siblingNode
 }
 
 export function deleteNode (store, node) {

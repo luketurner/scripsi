@@ -10,9 +10,12 @@ export default {
     Vue.set(state.nodes, node.id, node)
   },
   [m.DELETE_NODE] (state, id) {
-    _.each(state.nodes, (node) => {
-      node.children.$remove(id)
-    })
+    let node = state.nodes[id]
+    if (!node) { return }
+    if (node.parent) {
+      let parent = state.nodes[node.parent]
+      parent.children.$remove(id)
+    }
     Vue.delete(state.nodes, id)
   },
   [m.SET_LAST_SAVED] (state, timestamp) {

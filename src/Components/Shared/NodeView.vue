@@ -1,5 +1,8 @@
 <template>
-  <div :class="{ 'node-view': true, 'outlined': outlined }" draggable="true" @dragstart="dragstart" @dragend="dragend" @drop="drop" @dragenter="dragenter" @dragleave="dragleave">
+  <div :class="{ 'node-view': true, 'outlined': outlined }"
+    draggable="true" @dragstart="dragstart" @dragend="dragend" @drop="drop" @dragenter="dragenter" @dragleave="dragleave"
+    @keydown.stop.prevent.enter="createSiblingNode(this.node, { type: this.node.type })"
+    @keydown.stop.delete="deleteEmptyNode">
     <div class="menu-button" @mouseenter="mouseOver = true" @mouseleave="mouseOver = false" @click="toggleCollapse" @contextmenu.prevent="toggleMenu">
       <s-icon class="icon" v-if="outlined" :type="node.collapsed ? 'plus' : 'minus'"></s-icon>
     </div>
@@ -12,7 +15,7 @@
 
 <script>
   import _ from 'lodash'
-  import {updateNode, deleteNode, createChildNode} from '../../Store/Actions'
+  import {updateNode, deleteNode, createChildNode, createSiblingNode} from '../../Store/Actions'
   
   const CREATE_CHILD_NODE = 'CREATE_CHILD_NODE'
   const DELETE_NODE = 'DELETE_NODE'
@@ -108,8 +111,14 @@
         updateNode,
         deleteNode,
         createChildNode,
+        createSiblingNode,
+        deleteEmptyNode (store) {
+          if (this.node.content.length === 0) {
+            this.deleteNode(this.node)
+          }
+        },
         toggleCollapse (store) {
-          updateNode(store, _.update(this.node, 'collapsed', (v) => !v))
+          this.updateNode(_.update(this.node, 'collapsed', (v) => !v))
         },
         dragend (store, ev) {
           if (ev.dataTransfer.dropEffect === 'none') { return }
