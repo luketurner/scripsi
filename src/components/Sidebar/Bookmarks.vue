@@ -1,19 +1,21 @@
 <template>
-  <div class="index">
-    <h3>Index</h3>
-    <div v-for="node in nodes" class="line" @click="setDisplayNode(node.id)">
+  <div class="bookmarks">
+    <h3>Bookmarks</h3>
+    <div v-for="node in bookmarks" class="line" @click="setDisplayNode(node.id)">
       {{ node.content.toString().slice(0, 25) }}
     </div>
   </div>
 </template>
 
 <script>
-  import {setDisplayNode} from '../Store/Actions'
+  import {setDisplayNode} from '../../Store/Actions'
   
   export default {
     vuex: {
       getters: {
-        nodes: (state) => state.nodes
+        bookmarks (state) {
+          return state.bookmarks
+        }
       },
       actions: {
         setDisplayNode
@@ -23,7 +25,7 @@
 </script>
 
 <style lang="sass" scoped>
-  @import '../Colors.scss';
+  @import '../../Colors.scss';
   
   .index {
     background-color: $color-bg-secondary;

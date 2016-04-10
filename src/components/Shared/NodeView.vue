@@ -12,7 +12,7 @@
 
 <script>
   import _ from 'lodash'
-  import {updateNode, deleteNode, createChildNode} from '../Store/Actions'
+  import {updateNode, deleteNode, createChildNode} from '../../Store/Actions'
   
   const CREATE_CHILD_NODE = 'CREATE_CHILD_NODE'
   const DELETE_NODE = 'DELETE_NODE'
@@ -24,11 +24,11 @@
       isRootNode: { type: Boolean, default: false }
     },
     components: {
-      ListItem: require('./NodeType/ListItem'),
-      TodoListItem: require('./NodeType/TodoListItem'),
-      DefinitionListItem: require('./NodeType/DefinitionListItem'),
-      JsonObject: require('./NodeType/Json/Object'),
-      Text: require('./NodeType/Text')
+      ListItem: require('../NodeType/ListItem'),
+      TodoListItem: require('../NodeType/TodoListItem'),
+      DefinitionListItem: require('../NodeType/DefinitionListItem'),
+      JsonObject: require('../NodeType/Json/Object'),
+      Text: require('../NodeType/Text')
     },
     data () {
       return {

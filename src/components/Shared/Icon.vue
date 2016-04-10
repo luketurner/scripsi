@@ -28,7 +28,7 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-  @import '../Colors.scss';
+  @import '../../Colors.scss';
   .icon {
     width: 1em;
     height: 1em;

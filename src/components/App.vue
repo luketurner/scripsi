@@ -13,13 +13,13 @@
   import Vue from 'vue'
   
   import Navbar from './Navbar'
-  import Index from './Index'
-  import Bookmarks from './Bookmarks'
-  import NodeView from './NodeView'
-  import TextField from './TextField'
-  import Icon from './Icon'
-  import SimpleButton from './SimpleButton'
-  import Menu from './Menu'
+  import Index from './Sidebar/Index'
+  import Bookmarks from './Sidebar/Bookmarks'
+  import NodeView from './Shared/NodeView'
+  import TextField from './Shared/TextField'
+  import Icon from './Shared/Icon'
+  import SimpleButton from './Shared/SimpleButton'
+  import Menu from './Shared/Menu'
   
   // Globally register some common components for convenience
   Vue.component('node-view', NodeView)
