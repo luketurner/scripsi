@@ -23,6 +23,7 @@
     "vuex": "^0.6.2"
   },
   "devDependencies": {
+    "awesome-typescript-loader": "^0.17.0-rc.5",
     "babel-core": "^6.0.0",
     "babel-loader": "^6.0.0",
     "babel-plugin-transform-runtime": "^6.0.0",
@@ -79,4 +80,5 @@
     "webpack-dev-middleware": "^1.4.0",
     "webpack-hot-middleware": "^2.6.0",
     "webpack-merge": "^0.8.3"
-  }}
+  }
+}

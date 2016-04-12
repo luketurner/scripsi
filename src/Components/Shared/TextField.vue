@@ -2,7 +2,7 @@
   <span class="text" contenteditable="true" @blur="handleBlur" v-html="content" v-focus-auto></span>
 </template>
 
-<script>
+<script lang="ts">
   import Medium from 'medium.js'
   import {focusAuto} from 'vue-focus'
 

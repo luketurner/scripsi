@@ -1,3 +1,5 @@
+import {NodeType} from './Node/Types'
+
 export default {
   content: 'Welcome to Scripsi',
   type: 'ListItem',

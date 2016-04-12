@@ -5,7 +5,7 @@ let getKey = (k) => 'scripsi|' + k
 let load = (key) => {
   return new Promise((resolve, reject) => {
     LocalForage.getItem(getKey(key), (err, val) => {
-      return err || !val ? reject(err) : resolve(JSON.parse(val))
+      return err || !val ? reject(err) : resolve(JSON.parse(<string>(val)))
     })
   })
 }
