@@ -7,6 +7,7 @@
       "node_modules"
     ],
     "awesomeTypescriptLoaderOptions": {
-      "useBabel": true
+      "useBabel": true,
+      "emitRequireType": true
     }
 }
