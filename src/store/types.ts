@@ -7,7 +7,7 @@
  * @interface Action
  * @template T
  */
-interface Action<T> {
+export interface Action<T> {
   ActionType: T;
   [key: string]: any;
 }
@@ -18,6 +18,6 @@ interface Action<T> {
  * 
  * @interface StateTree
  */
-interface StateTree {
+export interface StateTree {
   [key: string]: any // TODO make this type more explicit
 }

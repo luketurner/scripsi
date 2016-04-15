@@ -1,4 +1,4 @@
-import {NodeType} from './Node/Types'
+import {NodeType} from './node/types'
 
 export default {
   content: 'Welcome to Scripsi',
