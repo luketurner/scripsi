@@ -7,8 +7,8 @@
  * @interface Action
  * @template T
  */
-export interface Action<T> {
-  ActionType: T;
+export interface Action {
+  type: string,
   [key: string]: any;
 }
 

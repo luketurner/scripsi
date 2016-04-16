@@ -1,13 +1,13 @@
 import * as React from 'react'
+import {connect} from 'react-redux'
+import {create as createStyler} from 'react-free-style'
+import {get, partialRight} from 'lodash'
+
+import {processRule, registerStyles} from '../util/style'
 import Navbar from './navbar'
 import Sidebar from './sidebar'
-
-import {create as createStyler} from 'react-free-style'
-import {processRule, registerStyles} from '../util/style'
-
-interface LayoutProps {
-  sidebar?: string
-}
+import NodeView from '../node/view'
+import {LayoutStateTree} from './types'
 
 /**
  * Presentational component that encapsulates the global layout.
@@ -15,17 +15,20 @@ interface LayoutProps {
  * @class Layout
  * @extends {React.Component<{}, {}>}
  */
-class Layout extends React.Component<LayoutProps, {}> {
+class Layout extends React.Component<LayoutStateTree, {}> {
   public render() {
     return <div className={classes['container']}>
       <div className={classes['navbar']}>
         <Navbar />
       </div>
-      <div className={classes[this.props.sidebar ? 'sidebar' : 'disabled']}>
+      <div className={classes[this.props.sidebar.left ? 'sidebar' : 'disabled']}>
         <Sidebar />
       </div>
       <div className='content'>
-        Content
+        <NodeView nodeId={this.props.displayNodeId} />
+      </div>
+      <div className={classes[this.props.sidebar.right ? 'sidebar' : 'disabled']}>
+        <Sidebar />
       </div>
       <styler.Element />
     </div>
@@ -47,7 +50,6 @@ let classes = registerStyles(styler, {
     lostColumn: '1/4'
   },
   content: {
-    lostColumn: '3/4'
   },
   disabled: {
     display: 'none'
@@ -59,4 +61,4 @@ styler.registerRule('body :hover', processRule({
   backgroundColor: 'rgba(0, 0, 255, 0.1)'
 }))
 
-export default styler.component(Layout)
+export default connect((state) => state['layout'])(styler.component(Layout))

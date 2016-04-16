@@ -1,4 +1,4 @@
-import {StateTree} from '../store/types'
+import {StateTree} from '../types'
 
 export enum NodeType {
   Text,
@@ -17,8 +17,8 @@ export enum NodeActionType {
   AddChild,
   AddOrphan,
   AddSibling,
-  Delete,
-  Update
+  DeleteNode,
+  UpdateNode
 }
 
 export interface NodeStateTree extends StateTree {

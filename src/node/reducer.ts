@@ -1,8 +1,8 @@
-import {set, update} from 'lodash/fp'
+import {update, set, insert} from '../util/fp'
 import {filter, clone} from 'lodash'
 import {v4 as uuidv4} from 'node-uuid'
 
-import {Action} from '../store/types'
+import {Action} from '../types'
 import {
   NodeActionType,
   NodeStateTree,
@@ -12,7 +12,7 @@ import {
   NodeDisplayStatus
 } from './types'
 
-type NodeReducer = { (state: NodeStateTree, action: Action<NodeActionType>): NodeStateTree }
+type NodeReducer = { (state: NodeStateTree, action: Action): NodeStateTree }
 type NodeReducerSet = Map<NodeActionType, NodeReducer>
 
 const reducers: NodeReducerSet = new Map([
@@ -26,7 +26,7 @@ const reducers: NodeReducerSet = new Map([
   })],
   [NodeActionType.AddOrphan, <NodeReducer>((state, action) => {
     let node = constructNode(action['node'])
-    return <NodeStateTree>set(state, node.id, node)
+    return set(state, node.id, node)
   })],
   [NodeActionType.AddSibling, <NodeReducer>((state, action) => {
     // 1. Create new sibling 
@@ -35,36 +35,29 @@ const reducers: NodeReducerSet = new Map([
     // 2. Add to parent.children after oldSibling
     let oldSibling = state[action['oldSibling']]
     newSibling.parent = oldSibling.parent
-    newState = <NodeStateTree>update(newState, [oldSibling.parent, 'children'], (children: Array<string>) => {
+    newState = update(newState, [oldSibling.parent, 'children'], (children: Array<string>) => {
       let siblingIndex = children.indexOf(oldSibling.id)
-      return clone(children).splice(siblingIndex + 1, 0, newSibling.id)
+      return insert(children, siblingIndex + 1, newSibling.id)
     })
     return newState
   })],
-  [NodeActionType.Delete, <NodeReducer>((state, action) => {
+  [NodeActionType.DeleteNode, <NodeReducer>((state, action) => {
     let nodeId = action['node'].id
     let node = state[nodeId]
     if (!node) { return }
-    let newState = <NodeStateTree>set(state, nodeId, undefined) 
+    let newState = set(state, nodeId, undefined) 
     if (node.parent) {
-      newState = <NodeStateTree>update(newState, [node.parent, 'children'], (children: Array<string>) => {
+      newState = update(newState, [node.parent, 'children'], (children: Array<string>) => {
         return filter(children, (child) => child != nodeId)
       })
     }
     return newState
   })],
-  [NodeActionType.Update, <NodeReducer>((state, action) => {
+  [NodeActionType.UpdateNode, <NodeReducer>((state, action) => {
     let node = action['node']
-    return <NodeStateTree>set(state, node.id, node)
+    return set(state, node.id, node)
   })]
 ])
-  {
-  [NodeActionType[NodeActionType.AddChild]] ,
-  [NodeActionType[NodeActionType.AddOrphan]] ,
-  [NodeActionType[NodeActionType.AddSibling]] ,
-  [NodeActionType[NodeActionType.Delete]] ,
-  [NodeActionType[NodeActionType.Update]]  
-}
 
 /**
  * Reducer for the Node module.
@@ -73,9 +66,10 @@ const reducers: NodeReducerSet = new Map([
  * @param {Action<NodeActionType>} action The action to handle
  * @returns {NodeStateTree} New state tree
  */
-export default (state: NodeStateTree = {}, action: Action<NodeActionType>): NodeStateTree => {
-  if (!action.ActionType) { return state; }
-  return reducers.get(action.ActionType)(state, action);
+export default (state: NodeStateTree = {}, action: Action): NodeStateTree => {
+  let actionType = NodeActionType[action.type]
+  if (!actionType) { return state; }
+  return reducers.get(actionType)(state, action);
 }
 
 

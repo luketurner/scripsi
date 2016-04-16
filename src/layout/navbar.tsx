@@ -4,11 +4,11 @@ import { registerStyles, createStyler } from '../util/style'
 class Navbar extends React.Component<{}, {}> {
   public render() {
     return <div className={classes['navbar']}>
-      <span>config</span>
       <span>index</span>
       <span>home</span>
       <span>addmark</span>
       <span>listmarks</span>
+      <span>config</span>
     </div>
   }
 }
