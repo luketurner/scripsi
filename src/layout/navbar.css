@@ -1,0 +1,16 @@
+.navbar {
+  height: 1.5rem;
+  lost-center: 100% 1rem flex;
+  font-family: Consolas;
+  color: rgba(0, 0, 0, 0.4);
+  &:hover {
+    color: rgba(0, 0, 0, 0.6);
+  }
+  & span {
+    margin: 0.125rem 1rem;
+    cursor: pointer;
+    &:hover {
+      color: rgba(0, 0, 0, 0.8);
+    }
+  }
+}

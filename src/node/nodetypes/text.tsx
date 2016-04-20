@@ -1,11 +1,7 @@
 import * as React from 'react'
 
-import {SNode, NodeType} from '../types'
+import {SNode} from '../types'
 
-class TextNodeView extends React.Component<{ node: SNode }, {}> {
-  public render() {
-    return <div>{ this.props.node.content }</div>
-  }
+export default (props: { node: SNode }) => {
+  return <div>{ props.node.content }</div>
 }
-
-export default TextNodeView

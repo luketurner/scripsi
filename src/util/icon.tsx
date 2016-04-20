@@ -1,5 +1,7 @@
 import * as React from 'react'
 
+const styles: Dict<string> = require('./icon.css')
+
 export enum IconType {
   Plus,
   Minus,
@@ -21,8 +23,8 @@ const iconStyle = {
   height: '1em'
 }
 
-export default function (props: IconProps) {
-  return <svg class="icon" viewBox="0 0 32 32" role="img" title={props.title} style={iconStyle}>
+export default (props: IconProps) => {
+  return <svg className={styles['icon']} viewBox="0 0 32 32" role="img" title={props.title}>
     <path d={paths.get(props.type)}></path>
   </svg>
 }

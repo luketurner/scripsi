@@ -1,0 +1,17 @@
+.container {
+  height: 100%;
+  lost-center: 720px 20px flex;
+  @lost flexbox flex;
+}
+
+.navbar {
+  width: 100%;
+}
+
+.sidebar {
+  lost-column: 1/4;
+}
+
+.disabled {
+  display: none;
+}

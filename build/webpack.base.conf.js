@@ -1,5 +1,9 @@
 var path = require('path')
 
+var precss = require('precss')
+var lost = require('lost')
+var cssnext = require('postcss-cssnext')
+
 module.exports = {
   cache: true,
   entry: './src/main.tsx',
@@ -13,6 +17,7 @@ module.exports = {
   },
   module: {
     loaders: [
+      { test: /\.css$/,  loader: 'style!css?modules&importLoaders=1&parser=postcss-safe-parser!postcss'},
       { test: /\.tsx?$/, loader: 'awesome-typescript', exclude: /node_modules/ },
       { test: /\.jsx?$/, loader: 'babel', exclude: /node_modules/ },
       { test: /\.json$/, loader: 'json' },
@@ -27,6 +32,9 @@ module.exports = {
       },
       { test: /\.(ttf|eot|svg|woff|otf)(\?.+)?$/, loader: 'file' }
     ]
+  },
+  postcss: () => {
+    return [precss, lost, cssnext]
   },
   node: {
     fs: "empty"
