@@ -1,0 +1,15 @@
+{
+  "ambientDependencies": {
+    "draft-js": "registry:dt/draft-js#0.2.2+20160316171810",
+    "localforage": "registry:dt/localforage#0.0.0+20160316155526",
+    "lodash": "github:DefinitelyTyped/DefinitelyTyped/lodash/lodash.d.ts#e12c8e3",
+    "node": "registry:dt/node#4.0.0+20160412142033",
+    "node-uuid": "registry:dt/node-uuid#0.0.0+20160316155526",
+    "node-uuid/node-uuid-base": "registry:dt/node-uuid/node-uuid-base#0.0.0+20160316155526",
+    "node-uuid/node-uuid-cjs": "registry:dt/node-uuid/node-uuid-cjs#0.0.0+20160316155526",
+    "react": "registry:dt/react#0.14.0+20160412154040",
+    "react-dom": "registry:dt/react-dom#0.14.0+20160412154040",
+    "react-redux": "registry:dt/react-redux#4.4.0+20160406115600",
+    "redux": "registry:dt/redux#3.3.1+20160326112656"
+  }
+}

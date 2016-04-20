@@ -4,11 +4,12 @@
         "module": "es6",
         "jsx": "react"
     },
-    "exclude": [
-      "node_modules"
+    "files": [
+      "src/main.tsx",
+      "src/types.d.ts",
+      "typings/browser.d.ts"
     ],
     "awesomeTypescriptLoaderOptions": {
-      "useBabel": true,
-      "emitRequireType": true
+      "useBabel": true
     }
 }
