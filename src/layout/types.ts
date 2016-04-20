@@ -1,5 +1,3 @@
-import {Action} from '../types'
-
 export enum LayoutActionType {
   SetLeftSidebar,
   SetRightSidebar,

@@ -1,5 +1,3 @@
-import {StateTree} from '../types'
-
 export enum NodeType {
   Text,
   ListItem,
@@ -18,10 +16,11 @@ export enum NodeActionType {
   AddOrphan,
   AddSibling,
   DeleteNode,
-  UpdateNode
+  UpdateNode,
+  ImportNodes
 }
 
-export interface NodeStateTree extends StateTree {
+export interface NodeStateTree {
   [key: string]: SNode
 }
 
@@ -30,16 +29,18 @@ export interface SNode {
   type: NodeType
   displayStatus: NodeDisplayStatus
   content: string
-  children: Array<string | SNode>
+  children: Array<string>
   props: { [key: string]: any }
   parent: string
+  collapsed: boolean
 }
 
 export interface SNodeOptions {
   type?: NodeType
   displayStatus?: NodeDisplayStatus
   content?: string
-  children?: Array<string | SNode>
+  children?: Array<string>
   props?: { [key: string]: any }
   parent?: string
+  collapsed?: boolean
 }

@@ -1,6 +1,6 @@
 import {LayoutStateTree, LayoutActionType} from './types'
-import {Action} from '../types'
-import {assign} from 'lodash'
+import {Action} from '../store'
+import {set} from '../util/fp'
 
 const defaultState: LayoutStateTree = {
   sidebar: {
@@ -10,14 +10,15 @@ const defaultState: LayoutStateTree = {
   displayNodeId: null
 }
 
-export default function (state: LayoutStateTree | void, action: Action): LayoutStateTree {
-  if (!state) {
-    return defaultState;
-  }
-  switch (LayoutActionType[action.type]) {
+export default function (state: LayoutStateTree = defaultState, action: Action): LayoutStateTree {
+  let [actionEnumType, actionEnumValue] = action.type
+  if (actionEnumType !== 'LayoutActionType') { return state }
+  if (!<LayoutActionType>actionEnumValue) { return state }
+  
+  switch (actionEnumValue) {
     case LayoutActionType.SetDisplayNodeId:
-      return <LayoutStateTree>assign({}, state, { displayNodeId: action['nodeId'] })
+      return set(state, 'displayNodeId', action['nodeId'])
      default:
-      return <LayoutStateTree>state
+      return state
   }
 }

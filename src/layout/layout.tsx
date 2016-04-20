@@ -57,8 +57,8 @@ let classes = registerStyles(styler, {
 })
 
 // TODO - disable this layout debugging style
-styler.registerRule('body :hover', processRule({
-  backgroundColor: 'rgba(0, 0, 255, 0.1)'
-}))
+// styler.registerRule('body :hover', processRule({
+//   backgroundColor: 'rgba(0, 0, 255, 0.1)'
+// }))
 
 export default connect((state) => state['layout'])(styler.component(Layout))

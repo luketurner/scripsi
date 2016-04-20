@@ -16,8 +16,7 @@ type UpdateFunction<T> = { (oldVal: T): T }
  * @returns {ObjType} A new version of the provided object with the given value mutated
  */
 export function update<ObjType,PropType>(object: ObjType, path: Path, updater: UpdateFunction<PropType>): ObjType {
-  let updatedObject = _.update({}, path, updater)
-  return <ObjType>_.assign({}, object, updatedObject)
+  return <ObjType>_.merge({}, object, _.update({}, path, updater))
 }
 
 /**
@@ -43,9 +42,17 @@ export function set<ObjType,PropType>(object: ObjType, path: Path, value: PropTy
  * @template ItemType
  * @param {Array<ItemType>} list Original array
  * @param {number} index Index at which to insert new value
- * @param {ItemType} value value to insert into array
+ * @param {ItemType} item value to insert into array
  * @returns {Array<ItemType>} New version of the original array with the new value inserted
  */
-export function insert<ItemType>(list: Array<ItemType>, index: number, value: ItemType): Array<ItemType> {
-  return _.clone(list).splice(index, 0, value)
+export function insert<ItemType>(list: Array<ItemType>, index: number, item: ItemType): Array<ItemType> {
+  let newList = _.clone(list)
+  newList.splice(index, 0, item)
+  return newList
+}
+
+export function append<ItemType>(list: Array<ItemType>, item: ItemType): Array<ItemType> {
+  let newList = _.clone(list)
+  newList.push(item)
+  return newList
 }
