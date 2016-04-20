@@ -4,7 +4,7 @@ module.exports = {
   cache: true,
   entry: './src/main.tsx',
   output: {
-    path: path.resolve('../dist'),
+    path: path.resolve('./dist'),
     publicPath: '',
     filename: '[name].js'
   },
