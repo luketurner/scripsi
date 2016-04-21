@@ -1,5 +1,5 @@
-import {update, set, insert, append} from '../util/fp'
-import {filter, clone} from 'lodash'
+import {update} from '../util/update'
+import {filter, map, clone} from 'lodash'
 import {v4 as uuidv4} from 'node-uuid'
 
 import {Action} from '../store'
@@ -8,6 +8,7 @@ import {
   NodeStateTree,
   SNode,
   SNodeOptions,
+  SNodeTree,
   NodeType,
   NodeDisplayStatus
 } from './types'
@@ -25,7 +26,7 @@ type SChildNodeOptions = SNodeOptions & { parent: string }
  * @returns {NodeStateTree} New state
  */
 const addOrphanNode = (state: NodeStateTree, node: SNode) => {
-  return set(state, node.id, node)
+  return update<NodeStateTree,NodeStateTree>(state, { [node.id]: { $set: node } })
 }
 
 /**
@@ -40,7 +41,7 @@ const addChildNode = (state: NodeStateTree, node: SNode) => {
     // 1. Create new child
     let newState = addOrphanNode(state, node)
     // 2. Add to parent
-    newState = update(newState, [node.parent, 'children'], (c: any) => c.push(node))
+    newState = update<NodeStateTree,NodeStateTree>(newState, { [node.parent]: { children: { $push: [node] } } })
     return newState
 }
 
@@ -59,10 +60,17 @@ const addSiblingNode = (state: NodeStateTree, opts: SChildNodeOptions, index?: n
     let newState = addOrphanNode(state, newSibling)
     let parentId = newSibling.parent
     // 2. Add to parent's children array
-    return update(newState, [parentId, 'children'], (children: string[]) => {
-      return index ? insert(children, index, newSibling.id) : append(children, newSibling.id)
-    })
+    let updateCmd = index ? { $splice: [ [ index, 0, newSibling ] ] } : { $push: [newSibling] }
+    return update<NodeStateTree,NodeStateTree>(newState, { [parentId]: { children: updateCmd } })
 }
+
+// const addNodeTree = (state: NodeStateTree, nodeTree: SNodeTree) => {
+//   let node = <SNode>update<SNode | SNodeTree, Array<SNodeTree | string>>(nodeTree, 'children', (children: Array<SNodeTree>): Array<string> => {
+//     return map(children, (child) => {
+//       let childNode = addNodeTree(state, child)
+//     })
+//   })
+// }
 
 const reducers: NodeReducerSet = new Map([
   [NodeActionType.AddChild, (state, action) => {
@@ -81,17 +89,23 @@ const reducers: NodeReducerSet = new Map([
     let nodeId = action['node'].id
     let node = state[nodeId]
     if (!node) { return }
-    let newState = set(state, nodeId, undefined) 
+    let newState = update<NodeStateTree,NodeStateTree>(state, { [nodeId]: { $set: undefined } }) 
     if (node.parent) {
-      newState = update(newState, [node.parent, 'children'], (children: Array<string>) => {
-        return filter(children, (child) => child !== nodeId)
+      newState = update<NodeStateTree,NodeStateTree>(newState, { 
+        [node.parent]: { 
+          children: { 
+            $apply: (children: Array<string>) => {
+              return filter(children, (child) => child !== nodeId)
+            }
+          }
+        }
       })
     }
     return newState
   })],
   [NodeActionType.UpdateNode, <NodeReducer>((state, action) => {
-    let node = action['node']
-    return set(state, node.id, node)
+    let node: SNode = action['node']
+    return update<NodeStateTree,NodeStateTree>(state, { [node.id]: { $set: node } })
   })]
 ])
 

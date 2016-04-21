@@ -1,6 +1,6 @@
 import {LayoutStateTree, LayoutActionType} from './types'
 import {Action} from '../store'
-import {set} from '../util/fp'
+import {update} from '../util/update'
 
 const defaultState: LayoutStateTree = {
   sidebar: {
@@ -17,7 +17,7 @@ export default function (state: LayoutStateTree = defaultState, action: Action):
   
   switch (actionEnumValue) {
     case LayoutActionType.SetDisplayNodeId:
-      return set(state, 'displayNodeId', action['nodeId'])
+      return update<LayoutStateTree,LayoutStateTree>(state, { displayNodeId: { $set: action['nodeId'] } })
      default:
       return state
   }
