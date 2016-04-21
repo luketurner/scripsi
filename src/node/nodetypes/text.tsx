@@ -1,7 +1,12 @@
 import * as React from 'react'
 
-import {SNode} from '../types'
+import {SNode, NodeTypeProps} from '../types'
+import TextEditor from '../../ui/editor'
+import {update} from '../../util/update'
 
-export default (props: { node: SNode }) => {
-  return <div>{ props.node.content }</div>
+export default (props: NodeTypeProps) => {
+  const emitChange = (newContent) => {
+    props.onChange(update<SNode,SNode>(props.node, { content: { $set: newContent } }))
+  }
+  return <TextEditor content={props.node.content} onChange={emitChange} />
 }

@@ -17,7 +17,7 @@ store.dispatch({
   type: ['NodeActionType', NodeActionType.AddOrphan],
   node: {
     type: NodeType.Text,
-    content: 'Test content'
+    content: '{"entityMap":{},"blocks":[{"key":"50fo4","text":"Test content","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[]}]}'
   }
 })
 

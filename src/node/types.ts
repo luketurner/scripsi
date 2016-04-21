@@ -17,22 +17,29 @@ export enum NodeActionType {
   AddSibling,
   DeleteNode,
   UpdateNode,
-  ImportNodes
+  AddNodeTree
 }
 
 export interface NodeStateTree {
   [key: string]: SNode
 }
 
-export interface SNode {
+interface SNodeLeaf {
   id: string
   type: NodeType
   displayStatus: NodeDisplayStatus
   content: string
-  children: Array<string>
   props: { [key: string]: any }
   parent: string
   collapsed: boolean
+}
+
+export interface SNode extends SNodeLeaf {
+  children: Array<string>
+}
+
+export interface SNodeTree extends SNodeLeaf {
+  children: Array<SNodeTree | SNodeLeaf>
 }
 
 export interface SNodeOptions {
@@ -43,4 +50,9 @@ export interface SNodeOptions {
   props?: { [key: string]: any }
   parent?: string
   collapsed?: boolean
+}
+
+export interface NodeTypeProps { 
+  node: SNode
+  onChange: { (newNode: SNode): void }
 }
