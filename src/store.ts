@@ -1,4 +1,4 @@
-import layoutReducer from './layout/reducer'
+import uiReducer from './ui/reducer'
 import nodeReducer from './node/reducer'
 import {createStore, combineReducers, applyMiddleware} from 'redux'
 import {get, set} from 'lodash'
@@ -12,11 +12,6 @@ export interface StateTree {
   [key: string]: any // TODO make this type more explicit
 }
 
-export enum RootActionType {
-  LayoutAction,
-  NodeAction
-}
-
 const logger = store => next => action => {
   console.log('dispatching', action)
   let result = next(action)
@@ -26,5 +21,5 @@ const logger = store => next => action => {
 
 export const store = createStore(combineReducers({
   nodes: nodeReducer,
-  layout: layoutReducer
+  ui: uiReducer
 }), {}, applyMiddleware(logger))

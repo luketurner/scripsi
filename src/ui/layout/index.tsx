@@ -1,12 +1,14 @@
 import * as React from 'react'
-import {connect} from 'react-redux'
 
-import Navbar from '../ui/navbar'
-import {SearchSidebar} from '../ui/sidebar'
-import NodeView from '../node'
-import {LayoutState} from './types'
+import Navbar from '../navbar'
+import {SearchSidebar} from '../sidebar'
+import NodeView from '../../node'
 
 const styles = require('./layout.css')
+
+export interface LayoutProps {
+  displayNodeId: string
+}
 
 /**
  * Presentational component that encapsulates the global layout.
@@ -14,7 +16,7 @@ const styles = require('./layout.css')
  * @class Layout
  * @extends {React.Component<{}, {}>}
  */
-const layout = (props: LayoutState) => {
+export default (props: LayoutProps) => {
   return <div className={styles.container}>
     <div className={styles.navbar}>
       <Navbar />
@@ -27,5 +29,3 @@ const layout = (props: LayoutState) => {
     </div>
   </div>
 }
-
-export default connect((state) => state['layout'])(layout)

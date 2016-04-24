@@ -7,9 +7,9 @@ import { store } from './store'
 import * as _ from 'lodash'
 
 import { NodeType } from './node/types'
-import { LayoutActionType } from './layout/types'
+import { UIAction } from './ui/types'
 
-import Layout from './layout'
+import UI from './ui'
 
 require('file?name=[name].[ext]!./index.html')
 
@@ -22,12 +22,12 @@ store.dispatch({
 })
 
 store.dispatch({
-  type: 'Layout.SetDisplayNodeId',
+  type: 'UI.SetDisplayNodeId',
   nodeId: _.keys(store.getState().nodes.db)[0]
 })
 
 render(
   <Provider store={store}>
-    <Layout />
+    <UI />
   </Provider>, 
   document.getElementById('app'))
