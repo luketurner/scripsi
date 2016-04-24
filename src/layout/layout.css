@@ -1,11 +1,25 @@
+@font-face {
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 400;
+  src: local("Open Sans"), url("./open-sans/OpenSans-Regular.ttf") format("truetype")
+}
+
 .container {
   height: 100%;
-  lost-center: 720px 20px flex;
+  font: 14px "Open Sans", sans-serif;
+  lost-center: 50rem 1rem flex;
+  lost-flex-container: row;
   @lost flexbox flex;
+}
+
+.content {
+  max-width: 40rem;
 }
 
 .navbar {
   width: 100%;
+  margin-bottom: 1rem;
 }
 
 .sidebar {

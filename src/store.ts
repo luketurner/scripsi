@@ -3,22 +3,6 @@ import nodeReducer from './node/reducer'
 import {createStore, combineReducers, applyMiddleware} from 'redux'
 import {get, set} from 'lodash'
 
-export interface ActionType extends Array<string | number> {
-  0: string
-  1: number
-}
-
-/**
- * Defines a more explicit interface for Redux actions. 
- * 
- * @interface Action
- * @template T
- */
-export interface Action {
-  type: ActionType
-  [key: string]: any
-}
-
 /**
  * Abstract state tree type.
  * 

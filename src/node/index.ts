@@ -1,26 +1,27 @@
 import {connect} from 'react-redux'
 
-import {NodeType, SNode, NodeActionType} from './types'
-import {StateTree} from '../store'
+import {SearchState} from './search'
+import {DBState} from './db'
 import NodeTemplate, {NodeTemplateProps} from './template'
 
-interface NodeViewProps {
-  nodeId: string
-}
-
-const mapStateToProps = (state: StateTree, ownProps: NodeViewProps) => {
+const mapStateToProps = (state, ownProps) => {
   return {
-    node: state['nodes'][ownProps.nodeId]
+    node: state.nodes.db[ownProps.nodeId]
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
     onChange: (newNode) => dispatch({ 
-      type: ['NodeActionType', NodeActionType.UpdateNode],
+      type: 'Node.UpdateNode',
       node: newNode
     })
   }
+}
+
+export interface NodeState {
+  db: DBState,
+  search: SearchState
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(NodeTemplate)

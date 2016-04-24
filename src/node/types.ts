@@ -1,5 +1,5 @@
 export enum NodeType {
-  Text,
+  Text = 1,
   ListItem,
   OrderedListItem,
   DictionaryListItem,
@@ -7,21 +7,8 @@ export enum NodeType {
 }
 
 export enum NodeDisplayStatus {
-  Expanded,
+  Expanded = 1,
   Collapsed
-}
-
-export enum NodeActionType {
-  AddChild,
-  AddOrphan,
-  AddSibling,
-  DeleteNode,
-  UpdateNode,
-  AddNodeTree
-}
-
-export interface NodeStateTree {
-  [key: string]: SNode
 }
 
 interface SNodeLeaf {
@@ -29,7 +16,7 @@ interface SNodeLeaf {
   type: NodeType
   displayStatus: NodeDisplayStatus
   content: string
-  props: { [key: string]: any }
+  props: Dict<any>
   parent: string
   collapsed: boolean
 }
@@ -47,7 +34,7 @@ export interface SNodeOptions {
   displayStatus?: NodeDisplayStatus
   content?: string
   children?: Array<string>
-  props?: { [key: string]: any }
+  props?: Dict<any>
   parent?: string
   collapsed?: boolean
 }

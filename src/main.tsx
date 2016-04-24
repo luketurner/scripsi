@@ -6,24 +6,24 @@ import { store } from './store'
 
 import * as _ from 'lodash'
 
-import { NodeActionType, NodeType } from './node/types'
+import { NodeType } from './node/types'
 import { LayoutActionType } from './layout/types'
 
-import Layout from './layout/layout'
+import Layout from './layout'
 
 require('file?name=[name].[ext]!./index.html')
 
 store.dispatch({
-  type: ['NodeActionType', NodeActionType.AddOrphan],
+  type: 'Node.AddOrphan',
   node: {
     type: NodeType.Text,
-    content: '{"entityMap":{},"blocks":[{"key":"50fo4","text":"Test content","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[]}]}'
+    content: '{"entityMap":{},"blocks":[{"key":"50fo4","text":"Welcome to Scripsi. Press Enter to create a new node and start typing!","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[]}]}'
   }
 })
 
 store.dispatch({
-  type: ['LayoutActionType', LayoutActionType.SetDisplayNodeId],
-  nodeId: _.keys(store.getState().nodes)[0]
+  type: 'Layout.SetDisplayNodeId',
+  nodeId: _.keys(store.getState().nodes.db)[0]
 })
 
 render(

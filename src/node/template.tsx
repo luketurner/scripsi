@@ -1,8 +1,7 @@
 import * as React from 'react'
 import {connect} from 'react-redux'
 
-import {NodeType, SNode, NodeActionType} from './types'
-import {StateTree} from '../store'
+import {NodeType, SNode} from './types'
 import Icon, {IconType} from '../ui/icon'
 
 const styles: Dict<string> = require('./template.css')
@@ -31,16 +30,16 @@ class NodeTemplate extends React.Component<NodeTemplateProps, NodeTemplateState>
     this.state = { outlined: false }
     this.outlineOn = this.outlineOn.bind(this)
     this.outlineOff = this.outlineOff.bind(this)
-    this.handleChange = this.handleChange.bind(this)
+    this.toggleCollapsed = this.toggleCollapsed.bind(this)
   }
-  
+
   public render() {
     if (!this.props.node) {
       return <div />
     }
     let NodeTypeComponent = require('./nodetypes/' + NodeType[this.props.node.type].toLowerCase()).default
     return <div className={[styles['node'], this.state.outlined ? styles['outlined'] : ''].join(' ')}>
-      <div className={styles['handle']} onMouseEnter={this.outlineOn} onMouseLeave={this.outlineOff}>
+      <div className={styles['handle']} onMouseEnter={this.outlineOn} onMouseLeave={this.outlineOff} onClick={this.toggleCollapsed}>
         <div>
           <Icon type={this.props.node.collapsed ? IconType.Plus : IconType.Minus} title={(this.props.node.collapsed ? 'Expand' : 'Collapse') + ' node'}/>
         </div>
@@ -57,8 +56,10 @@ class NodeTemplate extends React.Component<NodeTemplateProps, NodeTemplateState>
     this.setState({ outlined: false })
   }
   
-  handleChange(newNode: SNode) {
-    console.log(newNode)
+  toggleCollapsed () {
+    let node = this.props.node
+    node.collapsed = !node.collapsed
+    this.props.onChange(node)
   }
 }
 

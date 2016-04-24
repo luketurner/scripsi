@@ -13,14 +13,12 @@ module.exports = {
     filename: '[name].js'
   },
   resolve: {
-    extensions: ['', '.ts', '.tsx', '.js', '.json']        
+    extensions: ['', '.ts', '.tsx', '.js', '.json']
   },
   module: {
     loaders: [
       { test: /\.css$/,  loader: 'style!css?modules&importLoaders=1&parser=postcss-safe-parser!postcss'},
       { test: /\.tsx?$/, loader: 'awesome-typescript', exclude: /node_modules/ },
-      { test: /\.jsx?$/, loader: 'babel', exclude: /node_modules/ },
-      { test: /\.json$/, loader: 'json' },
 
       // Images, fonts, etc.
       { test: /\.(png|jpe?g|gif|svg)$/,  
@@ -35,8 +33,5 @@ module.exports = {
   },
   postcss: () => {
     return [precss, lost, cssnext]
-  },
-  node: {
-    fs: "empty"
   }
 }

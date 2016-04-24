@@ -7,3 +7,14 @@
 declare interface Dict<ValType> {
   [index: string]: ValType
 }
+
+/**
+ * Defines a more explicit interface for Redux actions. 
+ * 
+ * @interface Action
+ * @template T
+ */
+declare interface Action {
+  type: string
+  [key: string]: any
+}

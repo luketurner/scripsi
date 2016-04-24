@@ -4,6 +4,7 @@ import * as Draft from 'draft-js'
 interface TextEditorProps {
   content: string
   onChange: { (s: string): any }
+  onReturn: Function
 }
 
 interface TextEditorState {
@@ -11,23 +12,32 @@ interface TextEditorState {
 }
 
 const serializeState = (editorState: Draft.EditorState): string => 
-  JSON.stringify(Draft.convertToRaw(editorState.getCurrentContent()))
+  JSON.stringify(
+    Draft.convertToRaw(
+      editorState.getCurrentContent()))
 const deserializeState = (str: string): Draft.EditorState => 
-  Draft.EditorState.createWithContent(Draft.ContentState.createFromBlockArray(Draft.convertFromRaw(JSON.parse(str))))
+  Draft.EditorState.createWithContent(
+    Draft.ContentState.createFromBlockArray(
+      Draft.convertFromRaw(
+        JSON.parse(str))))
 
 class TextEditor extends React.Component<TextEditorProps, TextEditorState> {
   constructor(props) {
     super(props)
     this.emitChange = this.emitChange.bind(this)
     this.handleKeyCommand = this.handleKeyCommand.bind(this)
+    
     this.state = {
-      editorState: deserializeState(props.content)
+      editorState: props.content.length > 1 ? deserializeState(props.content) : Draft.EditorState.createEmpty()
     }
   }
   
   public render() {
-    let editorState = deserializeState(this.props.content)
-    return <Draft.Editor editorState={this.state.editorState} onChange={this.emitChange} handleKeyCommand={this.handleKeyCommand} />
+    return <Draft.Editor editorState={this.state.editorState} 
+                         onChange={this.emitChange}
+                         handleKeyCommand={this.handleKeyCommand}
+                         handleReturn={this.props.onReturn}
+                         ref="editor" />
   }
   
   emitChange(editorState: Draft.EditorState) {
@@ -42,6 +52,10 @@ class TextEditor extends React.Component<TextEditorProps, TextEditorState> {
       return true
     }
     return false
+  }
+  
+  componentDidMount() {
+    this.refs['editor']['focus']();
   }
 }
 

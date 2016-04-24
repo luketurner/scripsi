@@ -1,10 +1,10 @@
 import * as React from 'react'
 import {connect} from 'react-redux'
 
-import Navbar from './navbar'
-import Sidebar from './sidebar'
-import NodeView from '../node/view'
-import {LayoutStateTree} from './types'
+import Navbar from '../ui/navbar'
+import {SearchSidebar} from '../ui/sidebar'
+import NodeView from '../node'
+import {LayoutState} from './types'
 
 const styles = require('./layout.css')
 
@@ -14,19 +14,16 @@ const styles = require('./layout.css')
  * @class Layout
  * @extends {React.Component<{}, {}>}
  */
-const layout = (props: LayoutStateTree) => {
+const layout = (props: LayoutState) => {
   return <div className={styles.container}>
     <div className={styles.navbar}>
       <Navbar />
     </div>
-    <div className={styles[props.sidebar.left ? 'sidebar' : 'disabled']}>
-      <Sidebar />
+    <div className={styles['sidebar']}>
+      <SearchSidebar />
     </div>
-    <div>
+    <div className={styles['content']}>
       <NodeView nodeId={props.displayNodeId} />
-    </div>
-    <div className={styles[props.sidebar.right ? 'sidebar' : 'disabled']}>
-      <Sidebar />
     </div>
   </div>
 }

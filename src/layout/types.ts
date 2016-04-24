@@ -4,7 +4,7 @@ export enum LayoutActionType {
   SetDisplayNodeId
 }
 
-export interface LayoutStateTree {
+export interface LayoutState {
   displayNodeId?: string,
   sidebar: {
     left?: string,

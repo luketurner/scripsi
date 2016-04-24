@@ -4,7 +4,7 @@ export enum PersistenceType {
   Local
 }
 
-export interface PersistenceStateTree extends StateTree {
+export interface PersistenceState {
   persistenceType: PersistenceType;
   lastSaved: Date;
 }

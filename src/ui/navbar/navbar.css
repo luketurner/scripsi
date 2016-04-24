@@ -1,0 +1,12 @@
+.navbar {
+  height: 1.5rem;
+  lost-flex-container: row;
+  justify-content: center;
+  a {
+    text-decoration: none;
+    color: #aaa;
+    &:hover {
+      color: #777;
+    }
+  }
+}
