@@ -4,9 +4,11 @@ export type DBState = Dict<SNode>
 
 export enum DBAction {
   AddChild = 1,
+  AddBelow,
   AddOrphan,
   AddSibling,
   DeleteNode,
-  UpdateNode,
-  AddNodeTree
+  Demote,
+  Promote,
+  UpdateNode
 }

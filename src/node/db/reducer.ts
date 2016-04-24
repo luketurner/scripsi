@@ -1,5 +1,5 @@
 import {v4 as uuidv4} from 'node-uuid'
-import {filter} from 'lodash'
+import * as _ from 'lodash'
 
 import {update} from '../../util/update'
 
@@ -58,6 +58,39 @@ const addSiblingNode = (state: DBState, node: SNode, index?: number) => {
     return update<DBState,DBState>(newState, { [parentId]: { children: updateCmd } })
 }
 
+const deleteNode = (state: DBState, node: SNode) => {
+    let newState = update<DBState,DBState>(state, { [node.id]: { $set: undefined } }) 
+    if (node.parent) {
+      newState = update<DBState,DBState>(newState, {
+        [node.parent]: { 
+          children: { 
+            $apply: (children: Array<string>) => {
+              return _.filter(children, (child) => child !== node.id)
+            }
+          }
+        }
+      })
+    }
+    return newState
+}
+
+const swapParents = (state: DBState, node: SNode, newParentId: string) => {
+  let oldParent = state[node.parent]
+  let newParent = state[newParentId]
+  if (!newParent) { return state } // new parent id is invalid
+  
+  let updateQuery = {
+    [node.id]: { parent: { $set: newParentId } }, // update 'parent' ref on child node
+    [newParentId]: { children: { $push: [node.id] } } // add child to new parent
+  }
+  
+  if (oldParent) { // remove child from old parent
+    updateQuery[oldParent.id] = { children: { $apply: (children) => _.without(children, node.id) } }
+  }
+  
+  return update<DBState,DBState>(state, updateQuery)
+}
+
 // const addNodeTree = (state: DBState, nodeTree: SNodeTree) => {
 //   let node = <SNode>update<SNode | SNodeTree, Array<SNodeTree | string>>(nodeTree, 'children', (children: Array<SNodeTree>): Array<string> => {
 //     return map(children, (child) => {
@@ -86,23 +119,51 @@ const reducers: DBReducerSet = new Map([
     let opts: SChildNodeOptions = action['node']
     return addChildNode(state, constructNode(opts))
   }],
+  [DBAction.AddBelow, <DBReducer>((state, action) => {
+    let newNode: SNode = constructNode(action['node'])
+    let existingNode: SNode = state[action['existingNodeId']]
+    
+    // Create a sibling node if it would be visually below the existing node.
+    if (existingNode.parent && (existingNode.children.length === 0 || existingNode.collapsed)) {
+      newNode.parent = existingNode.parent
+      return addSiblingNode(state, newNode)
+    }
+    
+    // Otherwise we need to create a child node.
+    newNode.parent = existingNode.id
+    return addChildNode(state, newNode)
+  })],
+  [DBAction.Demote, <DBReducer>((state, action) => {
+    let node: SNode = state[action['nodeId']]
+    if (!node) { return state } // invalid node id
+    
+    let parent: SNode = state[node.parent]
+    if (!parent) { return state } // we can't demote an orphaned node
+    
+    let childIndex = _.indexOf(parent.children, node.id)
+    if (childIndex === 0) { return state } // we are already as demoted as possible
+    
+    let newParentId = parent.children[childIndex - 1]
+    return swapParents(state, node, newParentId)
+  })],
+  [DBAction.Promote, <DBReducer>((state, action) => {
+    let node: SNode = state[action['nodeId']]
+    if (!node) { return state } // invalid node id
+    
+    let parent: SNode = state[node.parent]
+    if (!parent) { return state }
+    
+    let grandparent: SNode = state[parent.parent]
+    if (!grandparent) { return state }
+    
+    let newParentId = grandparent.id
+    return swapParents(state, node, newParentId)
+  })],
   [DBAction.DeleteNode, <DBReducer>((state, action) => {
     let nodeId = action['node'].id
     let node = state[nodeId]
     if (!node) { return }
-    let newState = update<DBState,DBState>(state, { [nodeId]: { $set: undefined } }) 
-    if (node.parent) {
-      newState = update<DBState,DBState>(newState, {
-        [node.parent]: { 
-          children: { 
-            $apply: (children: Array<string>) => {
-              return filter(children, (child) => child !== nodeId)
-            }
-          }
-        }
-      })
-    }
-    return newState
+    return deleteNode(state, node)
   })],
   [DBAction.UpdateNode, <DBReducer>((state, action) => {
     let node: SNode = action['node']

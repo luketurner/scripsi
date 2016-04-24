@@ -1,20 +1,26 @@
 import * as React from 'react'
 import * as Draft from 'draft-js'
 
+export interface KeyboardEventHandler { (e: any): boolean }
+
 interface TextEditorProps {
   content: string
   onChange: { (s: string): any }
-  onReturn: Function
+  onReturn?: KeyboardEventHandler
+  onTab?: KeyboardEventHandler
 }
 
 interface TextEditorState {
   editorState: Draft.EditorState
 }
 
+const constantlyFalse = () => false
+
 const serializeState = (editorState: Draft.EditorState): string => 
   JSON.stringify(
     Draft.convertToRaw(
       editorState.getCurrentContent()))
+
 const deserializeState = (str: string): Draft.EditorState => 
   Draft.EditorState.createWithContent(
     Draft.ContentState.createFromBlockArray(
@@ -36,7 +42,8 @@ class TextEditor extends React.Component<TextEditorProps, TextEditorState> {
     return <Draft.Editor editorState={this.state.editorState} 
                          onChange={this.emitChange}
                          handleKeyCommand={this.handleKeyCommand}
-                         handleReturn={this.props.onReturn}
+                         handleReturn={this.props.onReturn || constantlyFalse}
+                         onTab={this.props.onTab || constantlyFalse}
                          ref="editor" />
   }
   
