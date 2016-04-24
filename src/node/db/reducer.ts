@@ -77,7 +77,7 @@ const deleteNode = (state: DBState, node: SNode) => {
 const swapParents = (state: DBState, node: SNode, newParentId: string) => {
   let oldParent = state[node.parent]
   let newParent = state[newParentId]
-  if (!newParent) { return state } // new parent id is invalid
+  if (!newParent || _.get(oldParent, 'id') === newParent.id) { return state }
   
   let updateQuery = {
     [node.id]: { parent: { $set: newParentId } }, // update 'parent' ref on child node
@@ -158,6 +158,15 @@ const reducers: DBReducerSet = new Map([
     
     let newParentId = grandparent.id
     return swapParents(state, node, newParentId)
+  })],
+  [DBAction.ChangeParent, <DBReducer>((state, action) => {
+    let node: SNode = state[action['nodeId']]
+    if (!node) { return state } // invalid node id
+    
+    let newParent: SNode = state[action['parentId']]
+    if (!newParent) { return state } // invalid parent id
+    
+    return swapParents(state, node, newParent.id)
   })],
   [DBAction.DeleteNode, <DBReducer>((state, action) => {
     let nodeId = action['node'].id

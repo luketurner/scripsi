@@ -1,5 +1,9 @@
 import {connect} from 'react-redux'
+import {DragDropContext} from 'react-dnd'
 
 import Layout from './layout'
 
-export default connect((state) => state.ui)(Layout)
+const provideDragDrop = DragDropContext(require('react-dnd-html5-backend'))
+const connectUIState = connect((state) => state.ui)
+
+export default provideDragDrop(connectUIState((Layout)))

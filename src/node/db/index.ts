@@ -7,6 +7,7 @@ export enum DBAction {
   AddBelow,
   AddOrphan,
   AddSibling,
+  ChangeParent,
   DeleteNode,
   Demote,
   Promote,

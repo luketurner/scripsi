@@ -1,13 +1,14 @@
 import * as React from 'react'
 import * as Draft from 'draft-js'
 
-export interface KeyboardEventHandler { (e: any): boolean }
+export interface EditorEventHandler { (e: any): boolean }
 
 interface TextEditorProps {
   content: string
   onChange: { (s: string): any }
-  onReturn?: KeyboardEventHandler
-  onTab?: KeyboardEventHandler
+  onReturn?: EditorEventHandler
+  onTab?: EditorEventHandler
+  onDrop?: EditorEventHandler
 }
 
 interface TextEditorState {
@@ -15,6 +16,7 @@ interface TextEditorState {
 }
 
 const constantlyFalse = () => false
+const constantlyTrue = () => true
 
 const serializeState = (editorState: Draft.EditorState): string => 
   JSON.stringify(
@@ -44,6 +46,7 @@ class TextEditor extends React.Component<TextEditorProps, TextEditorState> {
                          handleKeyCommand={this.handleKeyCommand}
                          handleReturn={this.props.onReturn || constantlyFalse}
                          onTab={this.props.onTab || constantlyFalse}
+                         handleDrop={this.props.onDrop || constantlyTrue}
                          ref="editor" />
   }
   

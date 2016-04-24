@@ -1,5 +1,6 @@
 import * as React from 'react'
 import {connect} from 'react-redux'
+import {DragSource} from 'react-dnd'
 
 import {NodeType, SNode} from './types'
 import Icon, {IconType} from '../ui/icon'
@@ -10,6 +11,9 @@ const styles: Dict<string> = require('./template.css')
 export interface NodeTemplateProps { 
   node: SNode
   onChange: { (newNode: SNode): void }
+  onDragEnd: { (droppedNodeId: string): void }
+  connectDragSource: { (target: any): any }
+  connectDropTarget: { (target: any): any }
   hidden: boolean
 }
 
@@ -39,14 +43,15 @@ class NodeTemplate extends React.Component<NodeTemplateProps, NodeTemplateState>
       return <div />
     }
     let NodeTypeComponent = require('./nodetypes/' + NodeType[this.props.node.type].toLowerCase()).default
-    return <div className={[styles['node'], this.state.outlined ? styles['outlined'] : ''].join(' ')}>
-      <div className={styles['handle']} onMouseEnter={this.outlineOn} onMouseLeave={this.outlineOff} onClick={this.toggleCollapsed}>
-        <div>
-          <Icon type={this.props.node.collapsed ? IconType.Plus : IconType.Minus} title={(this.props.node.collapsed ? 'Expand' : 'Collapse') + ' node'}/>
+    return this.props.connectDragSource(this.props.connectDropTarget(
+      <div className={[styles['node'], this.state.outlined ? styles['outlined'] : ''].join(' ')}>
+        <div className={styles['handle']} onMouseEnter={this.outlineOn} onMouseLeave={this.outlineOff} onClick={this.toggleCollapsed}>
+          <div>
+            <Icon type={this.props.node.collapsed ? IconType.Plus : IconType.Minus} title={(this.props.node.collapsed ? 'Expand' : 'Collapse') + ' node'}/>
+          </div>
         </div>
-      </div>
-      <NodeTypeComponent node={this.props.node} onChange={this.props.onChange} hidden={this.props.hidden} />
-    </div>
+        <NodeTypeComponent node={this.props.node} onChange={this.props.onChange} hidden={this.props.hidden} />
+      </div>))
   }
   
   outlineOn() {

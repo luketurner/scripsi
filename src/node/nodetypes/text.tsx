@@ -5,13 +5,13 @@ import { map } from 'lodash'
 import {SNode, NodeType} from '../types'
 import NodeView from '../index'
 import {NodeTemplateProps} from '../template'
-import TextEditor, {KeyboardEventHandler} from '../../ui/editor'
+import TextEditor, {EditorEventHandler} from '../../ui/editor'
 import {update} from '../../util/update'
 
 
 interface TextNodeTypeProps extends NodeTemplateProps {
-  onReturn: KeyboardEventHandler
-  onTab: KeyboardEventHandler
+  onReturn: EditorEventHandler
+  onTab: EditorEventHandler
 }
 
 const textNodeView = (props: TextNodeTypeProps) => {
