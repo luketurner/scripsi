@@ -17,7 +17,7 @@ module.exports = {
   },
   module: {
     loaders: [
-      { test: /\.css$/,  loader: 'style!css?modules&importLoaders=1&parser=postcss-safe-parser!postcss'},
+      { test: /\.css$/,  loader: 'style!css?modules&importLoaders=1!postcss?parser=postcss-safe-parser'},
       { test: /\.tsx?$/, loader: 'awesome-typescript', exclude: /node_modules/ },
 
       // Images, fonts, etc.
