@@ -10,6 +10,7 @@ const styles: Dict<string> = require('./template.css')
 export interface NodeTemplateProps { 
   node: SNode
   onChange: { (newNode: SNode): void }
+  hidden: boolean
 }
 
 interface NodeTemplateState {
@@ -44,7 +45,7 @@ class NodeTemplate extends React.Component<NodeTemplateProps, NodeTemplateState>
           <Icon type={this.props.node.collapsed ? IconType.Plus : IconType.Minus} title={(this.props.node.collapsed ? 'Expand' : 'Collapse') + ' node'}/>
         </div>
       </div>
-      <NodeTypeComponent node={this.props.node} onChange={this.props.onChange} />
+      <NodeTypeComponent node={this.props.node} onChange={this.props.onChange} hidden={this.props.hidden} />
     </div>
   }
   

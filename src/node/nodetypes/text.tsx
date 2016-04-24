@@ -2,12 +2,14 @@ import * as React from 'react'
 import { connect } from 'react-redux'
 import { map } from 'lodash'
 
-import {SNode, NodeTypeProps, NodeType} from '../types'
+import {SNode, NodeType} from '../types'
 import NodeView from '../index'
+import {NodeTemplateProps} from '../template'
 import TextEditor from '../../ui/editor'
 import {update} from '../../util/update'
 
-interface TextNodeTypeProps extends NodeTypeProps {
+
+interface TextNodeTypeProps extends NodeTemplateProps {
   onReturn: Function
 }
 
@@ -16,7 +18,7 @@ const textNodeView = (props: TextNodeTypeProps) => {
     props.onChange(update<SNode,SNode>(props.node, { content: { $set: newContent } }))
   }
   return <div>
-    <TextEditor content={props.node.content} onChange={emitChange} onReturn={props.onReturn} />
+    { props.hidden || <TextEditor content={props.node.content} onChange={emitChange} onReturn={props.onReturn} /> }
     { props.node.collapsed || map(props.node.children, (child) => <NodeView key={child} nodeId={child} />) }
   </div>
 }

@@ -2,7 +2,7 @@ import * as React from 'react'
 import {connect} from 'react-redux'
 import {map} from 'lodash'
 
-import {SNode} from '../../node/types'
+import {SNode, NodeType} from '../../node/types'
 
 const styles: Dict<string> = require('./search.css')
 
@@ -25,7 +25,11 @@ export default (props: SidebarProps) => {
       <div onClick={setQuery('parent:""')}>orphaned</div>
     </div>
     {map(props.searchResults, (result) =>
-      <div>{result.id}</div>
+      <div className={styles['result']}>
+        <div className={styles['type']}>{NodeType[result.type]}</div>
+        <div>•</div>
+        <div>{result.id.slice(0, 7)}</div>
+      </div>
     )}
   </div>
 }

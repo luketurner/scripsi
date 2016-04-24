@@ -38,8 +38,3 @@ export interface SNodeOptions {
   parent?: string
   collapsed?: boolean
 }
-
-export interface NodeTypeProps { 
-  node: SNode
-  onChange: { (newNode: SNode): void }
-}
