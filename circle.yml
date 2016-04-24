@@ -5,9 +5,11 @@ general:
   branches:
     ignore:
       - gh-pages
+test:
+  override:
+    - npm run build # temporarily disable tests
 deployment:
   production:
     branch: master
     commands:
-      - npm run build
       - npm run deploy
