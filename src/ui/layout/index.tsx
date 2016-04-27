@@ -8,6 +8,8 @@ const styles = require('./layout.css')
 
 export interface LayoutProps {
   displayNodeId: string
+  showLeftSidebar: boolean
+  toggleLeftSidebar: { (): void }
 }
 
 /**
@@ -21,8 +23,9 @@ export default (props: LayoutProps) => {
     <div className={styles.navbar}>
       <Navbar />
     </div>
-    <div className={styles['sidebar']}>
-      <SearchSidebar />
+    <div className={styles[props.showLeftSidebar ? 'sidebar' : 'sidebarCollapsed']}>
+      <div className={styles['collapser']} onClick={props.toggleLeftSidebar}>{ props.showLeftSidebar ? '<<' : '>>' }</div>
+      { props.showLeftSidebar && <SearchSidebar /> }
     </div>
     <div className={styles['content']}>
       <NodeView nodeId={props.displayNodeId} />

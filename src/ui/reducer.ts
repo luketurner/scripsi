@@ -2,7 +2,8 @@ import {UIState, UIAction} from './types'
 import {update} from '../util/update'
 
 const defaultState: UIState = {
-  displayNodeId: null
+  displayNodeId: null,
+  showLeftSidebar: true
 }
 
 export default function (state: UIState = defaultState, action: Action): UIState {
@@ -15,6 +16,9 @@ export default function (state: UIState = defaultState, action: Action): UIState
   switch (actionType) {
     case UIAction.SetDisplayNodeId:
       return update<UIState,UIState>(state, { displayNodeId: { $set: action['nodeId'] } })
+    case UIAction.ToggleLeftSidebar:
+      return update<UIState,UIState>(state, { showLeftSidebar: { $apply: (x) => !x } })
+
      default:
       return state
   }

@@ -22,10 +22,22 @@
   margin-bottom: 1rem;
 }
 
+.sidebarCollapsed {
+  lost-flex-container: column;
+}
+
 .sidebar {
+  lost-flex-container: column;
   lost-column: 1/4;
 }
 
 .disabled {
   display: none;
+}
+
+.collapser {
+  cursor: pointer;
+  display: flex;
+  align-self: flex-end;
+  width: 2rem;
 }

@@ -51,7 +51,8 @@ class NodeTemplate extends React.Component<NodeTemplateProps, NodeTemplateState>
           </div>
         </div>
         <NodeTypeComponent node={this.props.node} onChange={this.props.onChange} hidden={this.props.hidden} />
-      </div>))
+      </div>
+    ))
   }
   
   outlineOn() {
