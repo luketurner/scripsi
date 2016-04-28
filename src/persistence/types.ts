@@ -1,10 +1,20 @@
-import {StateTree} from '../store/types'
+export enum PersistType {
+  Local = 1
+}
 
-export enum PersistenceType {
-  Local
+export enum PersistenceActionType {
+  SetPersistType = 1,
+  SaveStarted,
+  SaveCompleted,
+  SaveFailed,
+  LoadStarted,
+  LoadCompleted,
+  LoadFailed
 }
 
 export interface PersistenceState {
-  persistenceType: PersistenceType;
-  lastSaved: Date;
+  persistType: PersistType
+  isSaving: boolean
+  databaseName: string
+  lastError: string
 }

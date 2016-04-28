@@ -51,8 +51,8 @@ class TextEditor extends React.Component<TextEditorProps, TextEditorState> {
   }
   
   emitChange(editorState: Draft.EditorState) {
-    this.props.onChange(serializeState(editorState))
     this.setState({ editorState })
+    this.props.onChange(serializeState(editorState))
   }
   
   handleKeyCommand(command) {

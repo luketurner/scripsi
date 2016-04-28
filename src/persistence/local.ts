@@ -1,4 +1,6 @@
 import LocalForage from 'localforage'
+import {debounce} from 'lodash'
+
 
 let getKey = (k) => 'scripsi|' + k
 
@@ -22,6 +24,6 @@ export default {
   authorize: () => {
     return new Promise((resolve, reject) => resolve())
   },
-  loadState: () => load('state'),
-  saveState: (val) => save('state', val)
+  loadState: load,
+  saveState: save
 }

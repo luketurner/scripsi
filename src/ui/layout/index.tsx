@@ -7,6 +7,7 @@ import NodeView from '../../node'
 const styles = require('./layout.css')
 
 export interface LayoutProps {
+  isSaving: boolean
   displayNodeId: string
   showLeftSidebar: boolean
   toggleLeftSidebar: { (): void }
@@ -21,7 +22,7 @@ export interface LayoutProps {
 export default (props: LayoutProps) => {
   return <div className={styles.container}>
     <div className={styles.navbar}>
-      <Navbar />
+      <Navbar isSaving={props.isSaving} />
     </div>
     <div className={styles[props.showLeftSidebar ? 'sidebar' : 'sidebarCollapsed']}>
       <div className={styles['collapser']} onClick={props.toggleLeftSidebar}>{ props.showLeftSidebar ? '<<' : '>>' }</div>

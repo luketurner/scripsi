@@ -61,6 +61,7 @@
     "postcss-safe-parser": "^1.0.7",
     "precss": "^1.4.0",
     "react-dnd-html5-backend": "^2.1.2",
+    "redux-thunk": "^2.0.1",
     "shelljs": "^0.6.0",
     "sinon": "^1.17.3",
     "sinon-chai": "^2.8.0",

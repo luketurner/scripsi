@@ -1,12 +1,18 @@
+$text-color: #aaa;
+
 .navbar {
   height: 1.5rem;
   lost-flex-container: row;
   justify-content: center;
   a {
     text-decoration: none;
-    color: #aaa;
+    color: $text-color;
     &:hover {
       color: #777;
     }
   }
+}
+
+.saving {
+  color: $text-color;
 }

@@ -2,29 +2,27 @@ import * as React from 'react'
 import { render } from 'react-dom'
 import { Provider } from 'react-redux'
 
+import { loadState } from './persistence'
 import { store } from './store'
+import setupDefaultState from './setupDefaultState'
 
 import * as _ from 'lodash'
 
 import { NodeType } from './node/types'
 import { UIAction } from './ui/types'
 
+
 import UI from './ui'
 
 require('file?name=[name].[ext]!./index.html')
 
-store.dispatch({
-  type: 'Node.AddOrphan',
-  node: {
-    type: NodeType.Text,
-    content: '{"entityMap":{},"blocks":[{"key":"50fo4","text":"Welcome to Scripsi. Press Enter to create a new node and start typing!","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[]}]}'
-  }
-})
 
-store.dispatch({
-  type: 'UI.SetDisplayNodeId',
-  nodeId: _.keys(store.getState().nodes.db)[0]
-})
+store.dispatch(loadState())
+  .then((action) => {
+    if (action.type === 'Persistence.LoadFailed') {
+      setupDefaultState(store)
+    }
+  })
 
 render(
   <Provider store={store}>

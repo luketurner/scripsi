@@ -1,38 +1,56 @@
-import {includes} from 'lodash'
+import {PersistType} from './types'
 
 import Local from './Local'
 
-const notPersistedMutations = [MutationType.SetLastSaved]
-
 let persistenceTypes = {
-  local: Local
+  [PersistType.Local]: Local
 }
 
-export function loadState (persistenceType) {
-  return persistenceTypes[persistenceType]
-    .loadState()
-    .then((newState) => {
-      Store.dispatch(MutationType.SetState, newState)
+export function loadState () {
+  return (dispatch, getState) => {
+    let persistence = getState().persistence
+    dispatch({
+      type: 'Persistence.LoadStarted'
     })
-}
-
-export function saveState (persistenceType, data) {
-  return persistenceTypes[persistenceType]
-    .saveState(data)
-    .then((val) => {
-      Store.dispatch(MutationType.SetLastSaved, Date.now())
-    }, (err) => console.log('saved err', err)) // TODO handle this error
-}
-
-let debouncedSaveState = _.debounce(saveState, 150)
-
-export let persistenceMiddleware = {
-  onInit (state, store) {
-    store.watch('config.persistenceType', (persistenceType) => loadState(persistenceType))
-  },
-  onMutation (mutation, state) {
-    if (!includes(notPersistedMutations, mutation.type)) {
-      return debouncedSaveState(state.config.persistenceType, state)
-    }
+    return persistenceTypes[persistence.persistType]
+      .loadState(persistence.databaseName)
+      .then((val) => dispatch({
+          type: 'Store.SetState',
+          state: val
+        }))
+      .then(() => dispatch({
+          type: 'Persistence.LoadCompleted'
+        }),
+        (err) => dispatch({
+          type: 'Persistence.LoadFailed',
+          error: err
+        }))
   }
+}
+
+export function saveState () {
+  return (dispatch, getState) => {
+    let state = getState()
+    dispatch({
+      type: 'Persistence.SaveStarted'
+    })
+    return persistenceTypes[state.persistence.persistType]
+      .saveState(state.persistence.databaseName, state)
+      .then((val) => dispatch({
+          type: 'Persistence.SaveCompleted'
+        }), (err) => dispatch({
+          type: 'Persistence.SaveFailed',
+          error: err
+        }))
+  }
+}
+
+export const persistenceMiddleware = (store) => (next) => (action: Action) => {
+  let result = next(action)
+  let state = store.getState()
+  let actionType = action.type.split('.')[0];
+  if (actionType !== 'Persistence') {
+    store.dispatch(saveState())
+  }
+  return result
 }
