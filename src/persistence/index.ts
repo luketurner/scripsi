@@ -1,6 +1,6 @@
 import {PersistType} from './types'
 
-import Local from './Local'
+import Local from './local'
 
 let persistenceTypes = {
   [PersistType.Local]: Local
