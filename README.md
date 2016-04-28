@@ -1,7 +1,8 @@
 # scripsi
 
-This application is about making a knock-your-socks-off powerful writing platform.
-It takes an "everything and the kitchen sink" approach to including features.
+Build Status: [![Circle CI](https://circleci.com/gh/luketurner/scripsi.svg?style=svg)](https://circleci.com/gh/luketurner/scripsi)
+
+Scripsi is an open-source note-taking/writing/PIM system, inspired by [Workflowy](https://workflowy.com/) and [Notion](https://www.notion.so/). A running implementation is available at [luketurner.org/scripsi](http://luketurner.org/scripsi). (Important: This domain does not support HTTPS. Until that's fixed, I do not recommend that you use this for anything sensitive or personal. If you want to store personal or sensitive data, you should run a copy of `scripsi` using an HTTP server you control.)
 
 ## Ideas
 
