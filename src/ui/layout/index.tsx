@@ -1,7 +1,7 @@
 import * as React from 'react'
 
 import Navbar from '../navbar'
-import {SearchSidebar} from '../sidebar'
+import Sidebar from '../sidebar'
 import NodeView from '../../node'
 
 const styles = require('./layout.css')
@@ -26,7 +26,7 @@ export default (props: LayoutProps) => {
     </div>
     <div className={styles[props.showLeftSidebar ? 'sidebar' : 'sidebarCollapsed']}>
       <div className={styles['collapser']} onClick={props.toggleLeftSidebar}>{ props.showLeftSidebar ? '<<' : '>>' }</div>
-      { props.showLeftSidebar && <SearchSidebar /> }
+      { props.showLeftSidebar && <Sidebar /> }
     </div>
     <div className={styles['content']}>
       <NodeView nodeId={props.displayNodeId} />

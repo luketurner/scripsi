@@ -1,5 +1,7 @@
 import {PersistType} from './types'
 
+import setupDefaultState from '../store/setupDefaultState'
+
 import Local from './local'
 
 let persistenceTypes = {
@@ -40,6 +42,25 @@ export function saveState () {
           type: 'Persistence.SaveCompleted'
         }), (err) => dispatch({
           type: 'Persistence.SaveFailed',
+          error: err
+        }))
+  }
+}
+
+export function resetState () {
+  return (dispatch, getState) => {
+    let persistence = getState().persistence
+    dispatch({
+      type: 'Persistence.ResetStarted'
+    })
+    return persistenceTypes[persistence.persistType]
+      .resetState(persistence.databaseName)
+      .then(() => dispatch(setupDefaultState()))
+      .then(() => dispatch({
+          type: 'Persistence.ResetCompleted'
+        }),
+        (err) => dispatch({
+          type: 'Persistence.ResetFailed',
           error: err
         }))
   }

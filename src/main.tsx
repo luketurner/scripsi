@@ -4,7 +4,7 @@ import { Provider } from 'react-redux'
 
 import { loadState } from './persistence'
 import { store } from './store'
-import setupDefaultState from './setupDefaultState'
+import setupDefaultState from './store/setupDefaultState'
 
 import * as _ from 'lodash'
 
@@ -20,7 +20,7 @@ require('file?name=[name].[ext]!./index.html')
 store.dispatch(loadState())
   .then((action) => {
     if (action.type === 'Persistence.LoadFailed') {
-      setupDefaultState(store)
+      store.dispatch(setupDefaultState())
     }
   })
 

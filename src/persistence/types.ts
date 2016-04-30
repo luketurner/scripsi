@@ -4,12 +4,16 @@ export enum PersistType {
 
 export enum PersistenceActionType {
   SetPersistType = 1,
+  SetDatabaseName,
   SaveStarted,
   SaveCompleted,
   SaveFailed,
   LoadStarted,
   LoadCompleted,
-  LoadFailed
+  LoadFailed,
+  ResetStarted,
+  ResetCompleted,
+  ResetFailed
 }
 
 export interface PersistenceState {

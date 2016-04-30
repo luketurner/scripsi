@@ -12,18 +12,15 @@ let load = (key) => {
   })
 }
 
-let save = (key, val) => {
-  return new Promise((resolve, reject) => {
-    LocalForage.setItem(getKey(key), JSON.stringify(val), (err, newVal) => {
-      return err ? reject(err) : resolve(newVal)
-    })
-  })
-}
+let save = (key, val) => LocalForage.setItem(getKey(key), JSON.stringify(val))
+
+let reset = (key) => LocalForage.removeItem(key)
 
 export default {
   authorize: () => {
     return new Promise((resolve, reject) => resolve())
   },
   loadState: load,
-  saveState: save
+  saveState: save,
+  resetState: reset
 }

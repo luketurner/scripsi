@@ -19,6 +19,9 @@ export default (state: PersistenceState = defaultState, action: Action): Persist
     case PersistenceActionType.SetPersistType:
       let persistType = PersistType[action['persistType']]
       return update<PersistenceState,PersistenceState>(state, { persistType: { $set: persistType } })
+    case PersistenceActionType.SetDatabaseName:
+      let databaseName = PersistType[action['databaseName']]
+      return update<PersistenceState,PersistenceState>(state, { databaseName: { $set: databaseName } })
     case PersistenceActionType.LoadStarted:
       return state
     case PersistenceActionType.LoadCompleted:

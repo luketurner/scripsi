@@ -1,5 +1,14 @@
+import * as React from 'react'
 
 import nodeSearcher from '../../node/search'
-import Search from './search'
+import configEditor from '../../config'
+import SearchSection from './search'
+import ConfigSection from './config'
 
-export const SearchSidebar = nodeSearcher(Search)
+const Search = nodeSearcher(SearchSection)
+const Config = configEditor(ConfigSection)
+
+export default () => <div>
+  <Config />
+  <Search />
+</div>
