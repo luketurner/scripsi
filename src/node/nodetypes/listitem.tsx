@@ -8,17 +8,19 @@ import {NodeTemplateProps} from '../template'
 import TextEditor, {EditorEventHandler} from '../../ui/editor'
 import {update} from '../../util/update'
 
+const classes = require('./listitem.css')
 
-interface TextNodeTypeProps extends NodeTemplateProps {
+
+interface ListItemNodeTypeProps extends NodeTemplateProps {
   onReturn: EditorEventHandler
   onTab: EditorEventHandler
 }
 
-const textNodeView = (props: TextNodeTypeProps) => {
+const listItemNodeView = (props: ListItemNodeTypeProps) => {
   const emitChange = (newContent) => {
     props.onChange(update<SNode,SNode>(props.node, { content: { $set: newContent } }))
   }
-  return <div>
+  return <div class="item">
     { props.hidden || <TextEditor content={props.node.content}
                                   onChange={emitChange}
                                   onReturn={props.onReturn}
@@ -34,7 +36,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         type: 'Node.AddBelow',
         existingNodeId: ownProps.node.id,
         node: {
-          type: NodeType.Text
+          type: NodeType.ListItem
         }
       })
       return true
@@ -49,4 +51,4 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   }
 }
 
-export default connect((state) => state, mapDispatchToProps)(textNodeView)
+export default connect((state) => state, mapDispatchToProps)(listItemNodeView)

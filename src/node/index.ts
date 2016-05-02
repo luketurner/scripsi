@@ -37,7 +37,6 @@ export interface NodeViewProps {
 
 const dragSource = DragSource<NodeTemplateProps>('node', {
   beginDrag: (props) => {
-    console.log('begin drag')
     return { id: props.node.id }
   },
   endDrag: (props, monitor) => {
