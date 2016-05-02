@@ -45,11 +45,10 @@ class NodeTemplate extends React.Component<NodeTemplateProps, NodeTemplateState>
     let NodeTypeComponent = require('./nodetypes/' + NodeType[this.props.node.type].toLowerCase()).default
     return this.props.connectDragSource(this.props.connectDropTarget(
       <div className={[styles['node'], this.state.outlined ? styles['outlined'] : ''].join(' ')}>
-        <div className={styles['handle']} onMouseEnter={this.outlineOn} onMouseLeave={this.outlineOff} onClick={this.toggleCollapsed}>
-          <div>
-            <Icon type={this.props.node.collapsed ? IconType.Plus : IconType.Minus} title={(this.props.node.collapsed ? 'Expand' : 'Collapse') + ' node'}/>
-          </div>
-        </div>
+        <div className={styles['handle']}
+             onMouseEnter={this.outlineOn}
+             onMouseLeave={this.outlineOff}
+             onClick={this.toggleCollapsed} />
         <NodeTypeComponent node={this.props.node} onChange={this.props.onChange} hidden={this.props.hidden} />
       </div>
     ))
