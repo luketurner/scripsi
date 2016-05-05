@@ -169,7 +169,7 @@ const reducers: DBReducerSet = new Map([
     return swapParents(state, node, newParent.id)
   })],
   [DBAction.DeleteNode, <DBReducer>((state, action) => {
-    let nodeId = action['node'].id
+    let nodeId = action['nodeId']
     let node = state[nodeId]
     if (!node) { return }
     return deleteNode(state, node)

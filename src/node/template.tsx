@@ -1,9 +1,12 @@
 import * as React from 'react'
 import {connect} from 'react-redux'
 import {DragSource} from 'react-dnd'
+import {partial} from 'lodash'
 
 import {NodeType, SNode} from './types'
 import Icon, {IconType} from '../ui/icon'
+import Menu from '../ui/menu'
+import {update} from '../util/update'
 
 const styles: Dict<string> = require('./template.css')
 
@@ -29,26 +32,41 @@ interface NodeTemplateState {
  * @class NodeTemplate
  * @extends {React.Component<NodeTemplateProps, NodeTemplateState>}
  */
-class NodeTemplate extends React.Component<NodeTemplateProps, NodeTemplateState> {
-  constructor(props) {
-    super(props)
-    this.state = { outlined: false }
-    this.outlineOn = this.outlineOn.bind(this)
-    this.outlineOff = this.outlineOff.bind(this)
-    this.toggleCollapsed = this.toggleCollapsed.bind(this)
+export default class NodeTemplate extends React.Component<NodeTemplateProps, NodeTemplateState> {
+  state = {
+    outlined: false
   }
 
   public render() {
     if (!this.props.node) {
       return <div />
     }
+    const convertNodeType = (nodeType) => ({
+      type: 'Node.UpdateNode',
+      node: update(this.props.node, { type: { $set: nodeType } })
+    })
+    const menuItems = [{
+        label: 'Delete node',
+        actionCreator: () => ({ type: 'Node.DeleteNode', nodeId: this.props.node.id })
+      }, {
+        label: 'Convert to...',
+        items: [{
+          label: 'Plain text',
+          actionCreator: partial(convertNodeType, NodeType.Text)
+        }, {
+          label: 'List item',
+          actionCreator: partial(convertNodeType, NodeType.ListItem)
+        }]
+      }
+    ]
     let NodeTypeComponent = require('./nodetypes/' + NodeType[this.props.node.type].toLowerCase()).default
     return this.props.connectDragSource(this.props.connectDropTarget(
       <div className={[styles['node'], this.state.outlined ? styles['outlined'] : ''].join(' ')}>
         <div className={styles['handle']}
-             onMouseEnter={this.outlineOn}
-             onMouseLeave={this.outlineOff}
-             onClick={this.toggleCollapsed} />
+             onMouseEnter={this.outlineOn.bind(this)}
+             onMouseLeave={this.outlineOff.bind(this)}
+             onClick={this.toggleCollapsed.bind(this)} />
+        <Menu items={menuItems} />
         <NodeTypeComponent node={this.props.node} onChange={this.props.onChange} hidden={this.props.hidden} />
       </div>
     ))
@@ -68,5 +86,3 @@ class NodeTemplate extends React.Component<NodeTemplateProps, NodeTemplateState>
     this.props.onChange(node)
   }
 }
-
-export default NodeTemplate

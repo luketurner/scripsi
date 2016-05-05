@@ -20,7 +20,7 @@ const listItemNodeView = (props: ListItemNodeTypeProps) => {
   const emitChange = (newContent) => {
     props.onChange(update<SNode,SNode>(props.node, { content: { $set: newContent } }))
   }
-  return <div class="item">
+  return <div className={classes['item']}>
     { props.hidden || <TextEditor content={props.node.content}
                                   onChange={emitChange}
                                   onReturn={props.onReturn}
