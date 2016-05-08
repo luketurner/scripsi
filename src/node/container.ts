@@ -1,10 +1,15 @@
-import {connect} from 'react-redux'
-import {DragSource, DropTarget} from 'react-dnd'
+import { compose } from 'redux'
+import { connect } from 'react-redux'
+import { DragSource, DropTarget } from 'react-dnd'
+import { SNode } from './types'
 
-import {SearchState} from './search'
-import {DBState} from './db'
-import NodeTemplate, {NodeTemplateProps} from './template'
-import {SNode} from './types'
+import { updateNode } from './actions'
+
+import { NodeTemplateProps } from '../ui/snode'
+
+interface NodeViewProps {
+  nodeId: string
+}
 
 const mapStateToProps = (state, ownProps) => {
   return {
@@ -14,25 +19,9 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps): any => {
   return {
-    onChange: (newNode) => dispatch({ 
-      type: 'Node.UpdateNode',
-      node: newNode
-    }),
-    onDragEnd: (droppedNodeId) => dispatch({
-      type: 'Node.ChangeParent',
-      nodeId: ownProps.nodeId,
-      parentId: droppedNodeId
-    })
+    onChange: (newNode) => dispatch(updateNode(newNode)),
+    onDragEnd: (droppedNodeId) => dispatch(updateNode({ id: ownProps.nodeId, parent: droppedNodeId }))
   }
-}
-
-export interface NodeState {
-  db: DBState,
-  search: SearchState
-}
-
-export interface NodeViewProps {
-  nodeId: string
 }
 
 const dragSource = DragSource<NodeTemplateProps>('node', {
@@ -62,4 +51,7 @@ const dropTarget = DropTarget<NodeTemplateProps>('node', {
   connectDropTarget: connect.dropTarget()
 }))
 
-export default connect<any,NodeTemplateProps,NodeViewProps>(mapStateToProps, mapDispatchToProps)(dragSource(dropTarget(NodeTemplate)))
+export default compose<any, any, any>(
+  connect<any, NodeViewProps, NodeTemplateProps>(mapStateToProps, mapDispatchToProps),
+  dragSource,
+  dropTarget)

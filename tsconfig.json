@@ -2,7 +2,8 @@
     "compilerOptions": {
         "target": "es6",
         "module": "es6",
-        "jsx": "react"
+        "jsx": "react",
+        "experimentalDecorators": "true"
     },
     "files": [
       "src/main.tsx",

@@ -17,7 +17,8 @@
     "react-dom": "registry:dt/react-dom#0.14.0+20160412154040",
     "react-redux": "registry:dt/react-redux#4.4.0+20160406115600",
     "redux": "registry:dt/redux#3.3.1+20160326112656",
-    "redux-thunk": "registry:dt/redux-thunk#2.0.1+20160317120654"
+    "redux-actions": "registry:dt/redux-actions#0.8.0+20160505165756",
+    "redux-saga": "registry:dt/redux-saga#0.9.1+20160316155526",
     "sinon": "registry:dt/sinon#1.16.0+20160317120654",
     "sinon-chai": "registry:dt/sinon-chai#2.7.0+20160317120654"
   }

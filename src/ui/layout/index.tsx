@@ -2,7 +2,7 @@ import * as React from 'react'
 
 import Navbar from '../navbar'
 import Sidebar from '../sidebar'
-import NodeView from '../../node'
+import NodeView from '../snode'
 
 const styles = require('./layout.css')
 

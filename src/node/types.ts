@@ -11,7 +11,7 @@ export enum NodeDisplayStatus {
   Collapsed
 }
 
-interface SNodeLeaf {
+export interface SNode {
   id: string
   type: NodeType
   displayStatus: NodeDisplayStatus
@@ -19,14 +19,7 @@ interface SNodeLeaf {
   props: Dict<any>
   parent: string
   collapsed: boolean
-}
-
-export interface SNode extends SNodeLeaf {
   children: Array<string>
-}
-
-export interface SNodeTree extends SNodeLeaf {
-  children: Array<SNodeTree | SNodeLeaf>
 }
 
 export interface SNodeOptions {
@@ -37,4 +30,16 @@ export interface SNodeOptions {
   props?: Dict<any>
   parent?: string
   collapsed?: boolean
+}
+
+export type SNodeDB = Dict<SNode>
+
+export type SNodeSearch = {
+  query: string
+  results: SNode[]
+}
+
+export interface NodeState {
+  db: SNodeDB,
+  search: SNodeSearch
 }

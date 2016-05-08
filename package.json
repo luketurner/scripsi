@@ -21,7 +21,9 @@
     "react-dnd": "^2.1.4",
     "react-dom": "^15.0.1",
     "react-redux": "^4.4.5",
-    "redux": "^3.4.0"
+    "redux": "^3.4.0",
+    "redux-actions": "^0.9.1",
+    "redux-saga": "^0.10.2"
   },
   "devDependencies": {
     "awesome-typescript-loader": "^0.17.0-rc.5",

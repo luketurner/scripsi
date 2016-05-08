@@ -1,10 +1,18 @@
-import searchReducer, {defaultSearchState} from './search/reducer'
-import dbReducer, {defaultDbState} from './db/reducer'
-import {NodeState} from './index'
+import * as _ from 'lodash'
+import { compose } from 'redux'
+
+import { NodeState } from '../types'
+
+import insertReducer from './insert-reducer'
+import searchReducer from './search-reducer'
+import updateReducer from './update-reducer'
 
 const defaultState: NodeState = {
-  db: defaultDbState,
-  search: defaultSearchState
+  db: {},
+  search: {
+    query: '',
+    results: []
+  }
 }
 
 /**
@@ -18,7 +26,7 @@ const defaultState: NodeState = {
  */
 export default (state: NodeState = defaultState, action: Action): NodeState => {
   return {
-    db: dbReducer(state.db, action),
+    db: compose(insertReducer, updateReducer)(state.db, action),
     search: searchReducer(state, action) // Let search reducer access all state props
   }
 }

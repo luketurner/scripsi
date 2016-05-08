@@ -1,14 +1,15 @@
 import * as React from 'react'
-import {connect} from 'react-redux'
-import {DragSource} from 'react-dnd'
-import {partial} from 'lodash'
+import { connect } from 'react-redux'
+import { DragSource } from 'react-dnd'
+import { partial } from 'lodash'
 
-import {NodeType, SNode} from './types'
-import Icon, {IconType} from '../ui/icon'
-import Menu from '../ui/menu'
-import {update} from '../util/update'
+import { NodeType, SNode } from '../../node/types'
+import NodeContainer from '../../node/container'
+import Icon, { IconType } from '../icon'
+import Menu from '../menu'
+import { update } from '../../util/update'
 
-const styles: Dict<string> = require('./template.css')
+const styles: Dict<string> = require('./index.css')
 
 
 export interface NodeTemplateProps { 
@@ -32,6 +33,7 @@ interface NodeTemplateState {
  * @class NodeTemplate
  * @extends {React.Component<NodeTemplateProps, NodeTemplateState>}
  */
+@NodeContainer()
 export default class NodeTemplate extends React.Component<NodeTemplateProps, NodeTemplateState> {
   state = {
     outlined: false
@@ -59,7 +61,7 @@ export default class NodeTemplate extends React.Component<NodeTemplateProps, Nod
         }]
       }
     ]
-    let NodeTypeComponent = require('./nodetypes/' + NodeType[this.props.node.type].toLowerCase()).default
+    let NodeTypeComponent = require('../nodetypes/' + NodeType[this.props.node.type].toLowerCase()).default
     return this.props.connectDragSource(this.props.connectDropTarget(
       <div className={[styles['node'], this.state.outlined ? styles['outlined'] : ''].join(' ')}>
         <div className={styles['handle']}

@@ -2,9 +2,8 @@ import * as React from 'react'
 import { connect } from 'react-redux'
 import { map } from 'lodash'
 
-import {SNode, NodeType} from '../types'
-import NodeView from '../index'
-import {NodeTemplateProps} from '../template'
+import {SNode, NodeType} from '../../node/types'
+import NodeView, { NodeTemplateProps } from '../snode'
 import TextEditor, {EditorEventHandler} from '../../ui/editor'
 import {update} from '../../util/update'
 
