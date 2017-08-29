@@ -1,17 +1,22 @@
 import * as React from 'react'
+// import { connect } from 'react-redux'
+import * as CSSModule from 'react-css-modules'
+
+import { observer } from 'mobx-react';
 
 import Navbar from '../navbar'
 import Sidebar from '../sidebar'
-import NodeView from '../snode'
+import NodeView from '../node-view'
+import UIState from '../state';
 
 const styles = require('./layout.css')
 
-export interface LayoutProps {
-  isSaving: boolean
-  displayNodeId: string
-  showLeftSidebar: boolean
-  toggleLeftSidebar: { (): void }
-}
+type PanelComponent = React.Component<any, any>
+
+// const connectLayout = connect((state) => ({
+//   displayNodeId: state.ui.displayNodeId,
+//   isSaving: state.persistence.isSaving
+// }))
 
 /**
  * Presentational component that encapsulates the global layout.
@@ -19,17 +24,17 @@ export interface LayoutProps {
  * @class Layout
  * @extends {React.Component<{}, {}>}
  */
-export default (props: LayoutProps) => {
-  return <div className={styles.container}>
-    <div className={styles.navbar}>
-      <Navbar isSaving={props.isSaving} />
+
+export default CSSModule(observer(({ uiState, store }) => {
+  return <div styleName='container'>
+    <div styleName='navbar'>
+      <Navbar isUnsaved={store.persistence.isUnsaved} />
     </div>
-    <div className={styles[props.showLeftSidebar ? 'sidebar' : 'sidebarCollapsed']}>
-      <div className={styles['collapser']} onClick={props.toggleLeftSidebar}>{ props.showLeftSidebar ? '<<' : '>>' }</div>
-      { props.showLeftSidebar && <Sidebar /> }
+    <div styleName='sidebar'>
+      <Sidebar uiState={uiState} store={store} />
     </div>
-    <div className={styles['content']}>
-      <NodeView nodeId={props.displayNodeId} />
+    <div styleName='content'>
+      <NodeView node={uiState.viewRootNode} uiState={uiState} />
     </div>
   </div>
-}
+}), styles)

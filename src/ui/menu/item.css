@@ -1,0 +1,5 @@
+.item {
+  display: flex;
+  padding: 0.125rem;
+  color: inherit;
+}

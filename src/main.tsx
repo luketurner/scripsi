@@ -1,31 +1,18 @@
-import * as React from 'react'
-import { render } from 'react-dom'
-import { Provider } from 'react-redux'
+import * as _ from 'lodash';
+import * as React from 'react';
+import { render } from 'react-dom';
+import DevTools from 'mobx-react-devtools';
 
-import { loadState } from './persistence'
-import { store } from './store'
-import setupDefaultState from './store/setupDefaultState'
+import store from './store';
+import UI from './ui/index';
 
-import * as _ from 'lodash'
-
-import { NodeType } from './node/types'
-import { UIAction } from './ui/types'
-
-
-import UI from './ui'
-
-require('file?name=[name].[ext]!./index.html')
-
-
-store.dispatch(loadState())
-  .then((action) => {
-    if (action.type === 'Persistence.LoadFailed') {
-      store.dispatch(setupDefaultState())
-    }
-  })
+// Copies index.html to the output directory
+require('file-loader?name=[name].[ext]!./index.html');
 
 render(
-  <Provider store={store}>
-    <UI />
-  </Provider>, 
-  document.getElementById('app'))
+  <div>
+    <UI store={store} />
+    <DevTools />
+  </div>,
+  document.getElementById('app')
+);

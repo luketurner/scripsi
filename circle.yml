@@ -5,9 +5,6 @@ general:
   branches:
     ignore:
       - gh-pages
-dependencies:
-  post:
-    - node_modules/.bin/typings install
 deployment:
   production:
     branch: master

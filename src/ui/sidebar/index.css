@@ -1,0 +1,18 @@
+.container {
+  lost-flex-container: row;
+}
+
+.buttons {
+  lost-flex-container: column;
+}
+
+.button {
+  font-size: 2rem;
+  padding: 0.5rem;
+  cursor: pointer;
+  fill: rgba(0, 0, 0, 0.5);
+}
+
+.panel {
+  margin: 1rem;
+}

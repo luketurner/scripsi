@@ -1,17 +1,10 @@
-import {connect} from 'react-redux'
-import {DragDropContext} from 'react-dnd'
+import { observer } from 'mobx-react';
+import * as React from 'react';
 
-import Layout from './layout'
+import Layout from './layout';
+import uiState from './state';
+import { GlobalStore } from '../store';
 
-const provideDragDrop = DragDropContext(require('react-dnd-html5-backend'))
-const connectUIState = connect((state) => ({
-  displayNodeId: state.ui.displayNodeId,
-  showLeftSidebar: state.ui.showLeftSidebar,
-  isSaving: state.persistence.isSaving
-}), (dispatch) => ({
-  toggleLeftSidebar: () => dispatch({
-    type: 'UI.ToggleLeftSidebar'
-  })
-}))
-
-export default provideDragDrop(connectUIState(Layout))
+export default observer<{ store: GlobalStore }>(({ store }) => 
+  <Layout uiState={uiState} store={store} />
+);

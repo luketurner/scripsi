@@ -1,16 +1,18 @@
 {
-    "compilerOptions": {
-        "target": "es6",
-        "module": "es6",
-        "jsx": "react",
-        "experimentalDecorators": "true"
-    },
-    "files": [
-      "src/main.tsx",
-      "src/types.d.ts",
-      "typings/browser.d.ts"
-    ],
-    "awesomeTypescriptLoaderOptions": {
-      "useBabel": true
-    }
+  "compilerOptions": {
+      "target": "es6",
+      "module": "commonjs",
+      "jsx": "react",
+      "sourceMap": true,
+      "experimentalDecorators": true
+  },
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "src/**/*.spec.ts"
+  ],
+  "awesomeTypescriptLoaderOptions": {
+    "useBabel": false
+  }
 }

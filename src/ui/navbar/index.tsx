@@ -1,9 +1,11 @@
-import * as React from 'react'
+import { observer } from 'mobx-react';
+import * as React from 'react';
+import * as CSSModule from 'react-css-modules';
 
-const styles: Dict<string> = require('./navbar.css')
+const styles = require('./navbar.css');
 
-export default (props: { isSaving: boolean }) => {
-  return <div className={styles['navbar']}>
-      <a href="/">scripsi</a>{props.isSaving && <span className={styles['saving']}>*</span>}
-    </div>
-}
+export default CSSModule(observer<{ isUnsaved: boolean }>(({ isUnsaved }) => 
+  <div styleName="navbar">
+    <a href="/">scripsi</a>{isUnsaved && <span styleName="saving">*</span>}
+  </div>
+), styles);

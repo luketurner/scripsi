@@ -1,7 +1,6 @@
 // Sets up testing environment.
-// This project uses a domain-driven folder architecture, meaning that tests
-// are stored in the same folder as the files they are testing, not in this
-// folder.
+// This project uses a feature-driven folder architecture, meaning that tests
+// are stored in the same folder as the files they are testing, not here.
 
 const expect = chai.expect;
 

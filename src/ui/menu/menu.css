@@ -1,0 +1,8 @@
+.menu {
+  background-color: rgb(200, 200, 200);
+  border-radius: 0.125rem;
+  padding: 0.125rem;
+  position: absolute;
+  lost-flex-container: column;
+  font-size: 0.8rem;
+}

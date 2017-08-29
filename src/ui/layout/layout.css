@@ -8,7 +8,7 @@
 .container {
   height: 100%;
   font: 14px "Open Sans", sans-serif;
-  lost-center: 50rem 1rem flex;
+  lost-center: 80rem 1rem flex;
   lost-flex-container: row;
   @lost flexbox flex;
 }
