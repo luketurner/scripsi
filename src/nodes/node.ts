@@ -1,5 +1,5 @@
 import * as _ from 'lodash';
-import { observable, action, runInAction, computed } from 'mobx';
+import { observable, action, runInAction, computed, autorun } from 'mobx';
 import { v4 as uuidv4 } from 'node-uuid';
 
 import nodeStore from './store';
@@ -10,9 +10,17 @@ export class SNode {
   @observable displayStatus: NodeDisplayStatus;
   @observable content: string;
   @observable props: Dict<any>;
-  @observable parent?: SNode;
   @observable collapsed: boolean;
-  @observable children: Array<SNode>;
+  @observable parent?: Uuid;
+  @observable children: Array<Uuid>;
+
+  get parentNode(): SNode {
+    return nodeStore.getNode(this.parent);
+  }
+
+  get childNodes(): SNode[] {
+    return this.children.map(id => nodeStore.getNode(id));
+  }
 
   constructor(options: SNodeOptions = {}) {
     this.id = options.id || uuidv4();
@@ -35,23 +43,25 @@ export class SNode {
   @action('node.addChildNode')
   addChildNode(newNode: SNode, position?: number): SNode {
     if (position) {
-      this.children.splice(position, 0, newNode);
+      this.children.splice(position, 0, newNode.id);
     } else {
-      this.children.push(newNode);
+      this.children.push(newNode.id);
     }
-    newNode.parent = this;
-    return newNode;
+    newNode.parent = this.id;
+    return nodeStore.addNode(newNode);
   }
 
   @action('node.addSiblingNode')
   addSiblingNode(newNode: SNode): SNode {
-    if (!this.parent) { // TODO
+    const parent = this.parentNode;
+
+    if (!parent) { // TODO
       throw new Error('Unable to create sibling for node with no parent');
     }
 
-    const position = this.parent.findChildIndex(this);
+    const position = parent.findChildIndex(this);
 
-    return this.parent.addChildNode(newNode, position);
+    return parent.addChildNode(newNode, position);
   }
 
   addNodeBelow(newNode: SNode): SNode {
@@ -65,50 +75,58 @@ export class SNode {
   removeChild(childNode: SNode) {
     const ix = this.findChildIndex(childNode);
     this.children.splice(ix, 1);
+    nodeStore.removeNode(childNode);
     return this;
   }
 
   @action('node.setParent')
   setParent(newParent: SNode, position?: number) {
-    this.parent.removeChild(this);
+    const parent = this.parentNode;
+    parent.removeChild(this);
     newParent.addChildNode(this, position);
     return this;
   }
 
   promote() {
-    if (!this.parent || !this.parent.parent) { // TODO
+    const parent = this.parentNode;
+    
+    if (!parent || !parent.parent) { // TODO
       throw new Error('Unable to promote node with no parent/grandparent');
     }
 
-    const position = this.parent.parent.findChildIndex(this.parent);
-    return this.setParent(this.parent.parent, position + 1);
+    const grandparent = parent.parentNode;
+
+    const position = grandparent.findChildIndex(parent);
+    return this.setParent(grandparent, position + 1);
   }
 
   demote() {
-    if (!this.parent) {
+    const parent = this.parentNode;
+    if (!parent) {
       throw new Error('Unable to demote node with no parent');
     }
 
-    if (this.parent.children.length === 1) {
+    if (parent.children.length === 1) {
       throw new Error('Unable to demote node with no siblings');
     }
     
-    const position = this.parent.findChildIndex(this);
+    const position = parent.findChildIndex(this);
+
 
     if (position === 0) {
       throw new Error('Unable to demote node with no prior siblings');
     }
 
-    const priorSibling = this.parent.children[position - 1];
+    const priorSibling = parent.childNodes[position - 1];
     return this.setParent(priorSibling);
   }
 
   findChildIndex(childNode: SNode): number {
-    return _.findIndex(this.children, { id: childNode.id });
+    return this.children.findIndex(node => node === childNode.id);
   }
 
   remove() {
-    this.parent.removeChild(this);
+    this.parentNode.removeChild(this);
   }
 
   @action('node.toggleCollapsed')
@@ -120,6 +138,24 @@ export class SNode {
   setContent(content = '') {
     this.content = content;
   }
+
+  // normalize(): Dict<FlatSNode> {
+  //   const normalizedNodes = {};
+
+  //   return this.children.reduce((memo, child) => {
+  //     return Object.assign(memo, child.normalize());
+  //   }, {
+  //     [this.id]: Object.assign(new FlatSNode(), _.omit(this, ['parent', 'children']), { 
+  //       parent: this.parent && this.parent.id,
+  //       children: this.children.map((child) => child.id)
+  //     })
+  //   });
+  // }
+
+  // static denormalize(rootNode: FlatSNode, normalizedNodes: Dict<FlatSNode>): SNode {
+  //   const node = new SNode(_.omit(rootNode, ['parent', 'children']));
+  //   node.parent = rootNode.parent && normalizedNodes[rootNode.parent];
+  // }
 }
 
 export interface SNodeOptions {
@@ -127,9 +163,9 @@ export interface SNodeOptions {
   type?: NodeType
   displayStatus?: NodeDisplayStatus
   content?: string
-  children?: Array<SNode>
+  children?: Array<Uuid>
   props?: Dict<any>
-  parent?: SNode
+  parent?: Uuid
   collapsed?: boolean
 }
 

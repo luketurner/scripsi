@@ -5,6 +5,7 @@ export interface EditorEventHandler<T> { (e: T): boolean }
 
 interface TextEditorProps {
   content: string
+  isFocused: boolean
   onChange: { (s: string): any }
   onReturn?: EditorEventHandler<any>
   onTab?: EditorEventHandler<any>
@@ -68,7 +69,9 @@ class TextEditor extends React.Component<TextEditorProps, TextEditorState> {
   }
   
   componentDidMount() {
-    this.refs['editor']['focus']();
+    if (this.props.isFocused) {
+      this.refs['editor']['focus']();
+    }
   }
 }
 

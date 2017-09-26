@@ -1,4 +1,4 @@
-import { observable, action } from 'mobx';
+import { observable, action, autorun } from 'mobx';
 import * as React from 'react';
 
 import { SNode } from '../nodes';
@@ -14,14 +14,13 @@ import store from '../store';
  */
 export class UIState {
   @observable isSaving: boolean;
-  @observable viewRootNode: SNode;
-  @observable hoveredNode: SNode;
+  @observable focusedNode: Uuid;
+  @observable hoveredNode: Uuid;
   @observable openSidebarPanel: SidebarPanelType;
 
   constructor() {
     this.isSaving = false;
     this.openSidebarPanel = SidebarPanelType.Search;
-    this.viewRootNode = store.nodes.rootNode;
   }
 }
 

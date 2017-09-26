@@ -12,7 +12,7 @@ const styles = require('./listitem.css');
 
 export default CSSModule(observer(({ uiState, node }: NodeTypeProps) => {
   const childrenElements = map(node.children, (child) => 
-    <NodeView uiState={uiState} node={child} key={child.id} />
+    <NodeView uiState={uiState} nodeId={child} key={child} />
   );
 
   return <div styleName="item">

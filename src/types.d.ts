@@ -7,3 +7,5 @@
 declare interface Dict<ValType> {
   [index: string]: ValType
 }
+
+type Uuid = string;

@@ -12,7 +12,7 @@ import { NodeTypeProps } from './types';
 export default observer(({ node, uiState }: NodeTypeProps) => {
 
   const children = map(node.children, (child) => 
-    <NodeView uiState={uiState} key={child.id} node={child} />
+    <NodeView uiState={uiState} key={child} nodeId={child} />
   );
 
   return <div>

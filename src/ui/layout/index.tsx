@@ -34,7 +34,7 @@ export default CSSModule(observer(({ uiState, store }) => {
       <Sidebar uiState={uiState} store={store} />
     </div>
     <div styleName='content'>
-      <NodeView node={uiState.viewRootNode} uiState={uiState} />
+      <NodeView nodeId={store.nodes.viewRootNode} uiState={uiState} />
     </div>
   </div>
 }), styles)

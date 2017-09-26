@@ -1,20 +1,37 @@
 import { observable, action } from 'mobx';
-import { SNode } from './node';
+import { SNode, SNodeOptions } from './node';
 
 export class SNodeStore {
-  @observable rootNode: SNode;
+  @observable rootNode: Uuid;
+  @observable viewRootNode: Uuid;
   @observable searchQuery: string;
+  @observable index = new Map<Uuid, SNode>();
 
-  @action('uiState.setSearchQuery')
+  @action('nodeStore.setSearchQuery')
   setSearchQuery(query: string) {
     this.searchQuery = query;
   }
+
+  @action('nodeStore.addNode')
+  addNode(node: SNode): SNode {
+    this.index.set(node.id, node);
+    return node;
+  }
+
+  @action('nodeStore.addNode')
+  removeNode(node: SNode): SNode {
+    this.index.delete(node.id);
+    return node;
+  }
+
+  getNode(id: Uuid): SNode {
+    const node = this.index.get(id);
+    if (!node) throw new Error('Could not find node with id: ' + id);
+    return node;
+  }
 }
 
+
+
 const store = new SNodeStore();
-
-store.rootNode = new SNode({
-  content: '{"entityMap":{},"blocks":[{"key":"50fo4","text":"Welcome to Scripsi. Press Enter to create a new node and start typing!","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[]}]}'
-});
-
 export default store;
