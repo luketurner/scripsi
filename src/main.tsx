@@ -12,6 +12,9 @@ import { MissingStateError } from './persistent-storage/errors';
 // Copies index.html to the output directory
 require('file-loader?name=[name].[ext]!./index.html');
 
+// Include Draft.js CSS declarations
+require('../node_modules/draft-js/dist/Draft.css');
+
 async function main() {
   try {
     console.debug('Attempting to load persistent data...');
