@@ -24,18 +24,23 @@ export default observer<NodeTextEditorProps>(({ node, uiState }) =>
       return true;
     })}
     onTab={action((event: any) => {
+      event.preventDefault();
       if (event.shiftKey) {
         node.promote();
       } else {
         node.demote();
       }
-      uiState.focusedNode = node.id; // Should normally be focused anyway? TODO -- not working?
+      uiState.focusedNode = node.id; // Should normally be focused anyway?
       return false;
     })}
     onBackspace={action(() => {
+      event.preventDefault();
       if (node.id === nodeStore.viewRootNode) return;
       uiState.focusedNode = node.parent;
       node.remove();
+    })}
+    onFocus={action(() => {
+      uiState.focusedNode = node.id;
     })}
   />
 );

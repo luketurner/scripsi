@@ -1,5 +1,6 @@
 import * as Draft from 'draft-js'
 import * as React from 'react'
+import { observer } from 'mobx-react';
 
 export interface EditorEventHandler<T> { (e: T): boolean }
 
@@ -11,6 +12,7 @@ interface TextEditorProps {
   onTab?: EditorEventHandler<any>
   onDrop?: EditorEventHandler<any>
   onBackspace?: { (): void }
+  onFocus?: { (): void }
 }
 
 interface TextEditorState {
@@ -31,6 +33,7 @@ const deserializeState = (stateString: string): Draft.EditorState =>
       Draft.convertFromRaw(
         JSON.parse(stateString))));
 
+@observer
 class TextEditor extends React.Component<TextEditorProps, TextEditorState> {
   constructor(props) {
     super(props);
@@ -49,6 +52,7 @@ class TextEditor extends React.Component<TextEditorProps, TextEditorState> {
                          handleReturn={this.props.onReturn || constantlyFalse}
                          onTab={this.props.onTab || constantlyFalse}
                          handleDrop={this.props.onDrop || constantlyTrue}
+                         onFocus={() => this.props.onFocus || constantlyFalse}
                          ref="editor" />;
   }
   
