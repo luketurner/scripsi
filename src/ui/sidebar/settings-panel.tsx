@@ -6,7 +6,7 @@ import { observer } from 'mobx-react';
 
 const styles = require('./settings-panel.css');
 
-export default CSSModule(observer(({ uiState, store }) => 
+export default CSSModule(observer(({ store }) => 
   <div styleName="container">
     <div>Database Name</div>
     <input value={store.settings.databaseName}

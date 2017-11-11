@@ -6,17 +6,16 @@ import * as CSSModule from 'react-css-modules';
 import { SNode, NodeType } from '../../nodes';
 import nodeStore from '../../nodes/store';
 import Menu, { MenuItem, MenuAnchor } from '../menu';
-import { UIState } from '../state';
+import uiState from '../state';
 import Handle from './handle';
 
 const styles = require('./node-view.css');
 
 export interface NodeViewProps {
   nodeId: string
-  uiState: UIState
 }
 
-export default CSSModule(observer<NodeViewProps>(({ nodeId, uiState }) => {
+export default CSSModule(observer<NodeViewProps>(({ nodeId }) => {
 
   let node;
 
@@ -32,8 +31,7 @@ export default CSSModule(observer<NodeViewProps>(({ nodeId, uiState }) => {
   const nodeStyles = ['node', isOutlined ? 'outlined' : ''].join(' ');
 
   return <div styleName={nodeStyles}>
-    <Handle node={node} uiState={uiState} />
-    <NodeTypeComponent node={node}
-                       uiState={uiState} />
+    <Handle node={node} />
+    <NodeTypeComponent node={node} />
   </div>;
 }), styles, { allowMultiple: true });

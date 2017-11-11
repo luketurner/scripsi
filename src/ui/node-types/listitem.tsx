@@ -10,13 +10,13 @@ import { NodeTypeProps } from './types';
 
 const styles = require('./listitem.css');
 
-export default CSSModule(observer(({ uiState, node }: NodeTypeProps) => {
+export default CSSModule(observer(({ node }: NodeTypeProps) => {
   const childrenElements = map(node.children, (child) => 
-    <NodeView uiState={uiState} nodeId={child} key={child} />
+    <NodeView nodeId={child} key={child} />
   );
 
   return <div styleName="item">
-    { <NodeTextEditor node={node} uiState={uiState} /> }
+    { <NodeTextEditor node={node} /> }
     { node.collapsed || childrenElements }
   </div>;
 }), styles);

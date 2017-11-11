@@ -4,15 +4,14 @@ import * as React from 'react';
 
 import { SNode } from '../../nodes';
 import nodeStore from '../../nodes/store';
-import { UIState } from '../state';
+import uiState from '../state';
 import TextEditor from './text-editor';
 
 interface NodeTextEditorProps {
-  node: SNode,
-  uiState: UIState
+  node: SNode
 }
 
-export default observer<NodeTextEditorProps>(({ node, uiState }) => 
+export default observer<NodeTextEditorProps>(({ node }) => 
   <TextEditor
     isFocused={uiState.focusedNode === node.id}
     content={node.content}

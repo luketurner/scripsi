@@ -5,7 +5,7 @@ import nodeStore from '../../nodes/store';
 
 const styles = require('./node-list-panel.css');
 
-export default CSSModule(({ uiState }) =>
+export default CSSModule((props) =>
   <div styleName="container">
     <input styleName="search-bar" placeholder="Search nodes..."
            onChange={(e) => nodeStore.setSearchQuery(e.target.value)} />

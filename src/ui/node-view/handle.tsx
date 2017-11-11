@@ -7,11 +7,11 @@ import Icon, { IconType } from '../icon';
 import { SNode, NodeType } from '../../nodes';
 import nodeStore from '../../nodes/store';
 import Menu, { MenuItem, SubMenu, MenuAnchor } from '../menu';
-import { UIState } from '../state';
+import uiState from '../state';
 
 const styles = require('./handle.css');
 
-export default CSSModule(observer(({ node, uiState }) => 
+export default CSSModule(observer(({ node }) => 
   <MenuAnchor id={node.id}>
 
     <div styleName='handle' 

@@ -8,15 +8,14 @@ import { SNode } from '../../nodes';
 import NodeView from '../node-view';
 import { NodeTypeProps } from './types';
 
-
-export default observer(({ node, uiState }: NodeTypeProps) => {
+export default observer(({ node }: NodeTypeProps) => {
 
   const children = map(node.children, (child) => 
-    <NodeView uiState={uiState} key={child} nodeId={child} />
+    <NodeView key={child} nodeId={child} />
   );
 
   return <div>
-    { node.isVisible && <NodeTextEditor node={node} uiState={uiState} /> }
+    { node.isVisible && <NodeTextEditor node={node} /> }
     { node.collapsed || children }
   </div>;
 });

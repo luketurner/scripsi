@@ -3,5 +3,4 @@ import { UIState } from '../state';
 
 export interface NodeTypeProps {
   node: SNode
-  uiState: UIState
 }

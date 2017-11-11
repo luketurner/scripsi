@@ -7,19 +7,20 @@ import * as CSSModule from 'react-css-modules';
 import Icon, { IconType } from '../icon';
 import NodeListPanel from './node-list-panel';
 import SettingsPanel from './settings-panel';
-import { UIState } from '../state';
 import { GlobalStore } from '../../store';
 
 const styles = require('./index.css');
 
+// Must be declared before importing uiState -- TODO - fix this somehow?
 export enum SidebarPanelType {
   Empty = 1,
   Search,
   Settings
 }
 
+import uiState from '../state';
+
 interface SidebarProps {
-  uiState: UIState
   store: GlobalStore
 }
 
@@ -39,7 +40,7 @@ const sidebarPanels = {
   }
 };
 
-export default CSSModule(observer<SidebarProps>(({ uiState, store }) => {
+export default CSSModule(observer<SidebarProps>(({ store }) => {
   const openPanel = sidebarPanels[uiState.openSidebarPanel];
 
   return <div styleName="container">

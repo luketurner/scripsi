@@ -37,10 +37,10 @@ export default CSSModule(observer(({ store }) => {
       <Navbar isUnsaved={store.persistence.isUnsaved} />
     </div>
     <div styleName='sidebar'>
-      <Sidebar uiState={uiState} store={store} />
+      <Sidebar store={store} />
     </div>
     <div styleName='content'>
-      <NodeView nodeId={store.nodes.viewRootNode} uiState={uiState} />
+      <NodeView nodeId={store.nodes.viewRootNode} />
     </div>
   </div>
 }), styles)
