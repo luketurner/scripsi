@@ -15,7 +15,7 @@
 
 
 .search-bar {
-  width: 100%;
+  lost-column: 1;
   border: none;
   border-bottom: 1px solid #ccc;
   outline: 0;

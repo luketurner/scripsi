@@ -7,14 +7,24 @@ import * as CSSModule from 'react-css-modules';
 import { Backend } from '../../persistent-storage/backends';
 import persistenceStore from '../../persistent-storage/store';
 
-export default observer<{ backend: Backend }>(({ backend }) => {
+const styles = require('./toggle.css');
+
+export interface ToggleProps {
+  model: Object;
+  prop: string;
+}
+
+export default CSSModule(observer<ToggleProps>(({ model, prop }) => {
+
+  const isOn = !!model[prop];
 
   const handleClick = action<any>((e) => {
     e.preventDefault();
-    backend.isEnabled = !backend.isEnabled;
+    console.log('model', model, prop);
+    model[prop] = !model[prop];
   });
   
-  return <button onClick={handleClick}>
-    { (backend.isEnabled ? 'Disable' : 'Enable') + ' ' + backend.name } 
+  return <button onClick={handleClick} styleName={isOn ? 'on' : 'off'}>
+    {isOn ? 'On' : 'Off'} 
   </button>;
-});
+}), styles);
