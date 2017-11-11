@@ -10,15 +10,3 @@
   border-color: rgba(0, 0, 0, 0.3);
   background-color: rgba(0, 0, 0, 0.1);
 }
-
-.handle {
-  width: 5rem;
-  height: 0.5rem;
-  border-radius: 0.125rem;
-  margin-left: -0.25rem;
-  display: flex;
-  cursor: pointer;
-  &:hover {
-    background-color: rgba(0, 0, 0, 0.1);
-  }
-}

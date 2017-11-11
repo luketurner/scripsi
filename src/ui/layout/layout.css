@@ -6,7 +6,6 @@
 }
 
 .container {
-  height: 100%;
   font: 14px "Open Sans", sans-serif;
   lost-center: 80rem 1rem flex;
   lost-flex-container: row;
@@ -20,6 +19,7 @@
 .navbar {
   width: 100%;
   margin-bottom: 1rem;
+  flex-grow: 0;
 }
 
 .sidebarCollapsed {

@@ -7,7 +7,7 @@ import { observer } from 'mobx-react';
 import Navbar from '../navbar'
 import Sidebar from '../sidebar'
 import NodeView from '../node-view'
-import UIState from '../state';
+import uiState from '../state';
 
 const styles = require('./layout.css')
 
@@ -25,8 +25,14 @@ type PanelComponent = React.Component<any, any>
  * @extends {React.Component<{}, {}>}
  */
 
-export default CSSModule(observer(({ uiState, store }) => {
-  return <div styleName='container'>
+export default CSSModule(observer(({ store }) => {
+  const closeOpenMenus = (e) => {
+    if (uiState.menus.size > 0) {
+      uiState.menus.clear();
+      e.preventDefault();
+    }
+  };
+  return <div styleName='container' onClick={closeOpenMenus}>
     <div styleName='navbar'>
       <Navbar isUnsaved={store.persistence.isUnsaved} />
     </div>

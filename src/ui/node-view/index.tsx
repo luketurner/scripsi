@@ -5,7 +5,9 @@ import * as CSSModule from 'react-css-modules';
 
 import { SNode, NodeType } from '../../nodes';
 import nodeStore from '../../nodes/store';
+import Menu, { MenuItem, MenuAnchor } from '../menu';
 import { UIState } from '../state';
+import Handle from './handle';
 
 const styles = require('./node-view.css');
 
@@ -30,10 +32,7 @@ export default CSSModule(observer<NodeViewProps>(({ nodeId, uiState }) => {
   const nodeStyles = ['node', isOutlined ? 'outlined' : ''].join(' ');
 
   return <div styleName={nodeStyles}>
-    <div styleName='handle'
-         onMouseEnter={action('ui.hoverNode', () => uiState.hoveredNode = node.id)}
-         onMouseLeave={action('ui.unhoverNode', () => uiState.hoveredNode = null)}
-         onClick={() => node.toggleCollapsed()} />
+    <Handle node={node} uiState={uiState} />
     <NodeTypeComponent node={node}
                        uiState={uiState} />
   </div>;

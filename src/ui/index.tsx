@@ -6,5 +6,5 @@ import uiState from './state';
 import { GlobalStore } from '../store';
 
 export default observer<{ store: GlobalStore }>(({ store }) => 
-  <Layout uiState={uiState} store={store} />
+  <Layout store={store} />
 );

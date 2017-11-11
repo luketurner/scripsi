@@ -17,10 +17,14 @@ export class UIState {
   @observable focusedNode: Uuid;
   @observable hoveredNode: Uuid;
   @observable openSidebarPanel: SidebarPanelType;
+  @observable menus: Map<string,boolean>;
 
   constructor() {
     this.isSaving = false;
     this.openSidebarPanel = SidebarPanelType.Search;
+    this.menus = new Map();
+    this.focusedNode = null;
+    this.hoveredNode = null;
   }
 }
 
