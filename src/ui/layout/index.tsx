@@ -34,7 +34,7 @@ export default CSSModule(observer(({ store }) => {
   };
   return <div styleName='container' onClick={closeOpenMenus}>
     <div styleName='navbar'>
-      <Navbar isUnsaved={store.persistence.isUnsaved} />
+      <Navbar />
     </div>
     <div styleName='sidebar'>
       <Sidebar store={store} />

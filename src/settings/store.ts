@@ -1,10 +1,18 @@
 import { observable } from 'mobx';
 
+export interface DropboxConfig {
+  accessToken?: string
+}
+
 export class SettingStore {
-  @observable databaseName;
+  @observable databaseName: string;
+  @observable dropboxConfig: DropboxConfig;
 
   constructor() {
     this.databaseName = 'scripsi';
+    this.dropboxConfig = {
+      accessToken: ''
+    }
   }
 }
 

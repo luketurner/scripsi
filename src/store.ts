@@ -17,7 +17,7 @@ export class GlobalStore {
     
     spy(event => {
       if (event.type === 'action' && event.name.startsWith('node')) {
-        runInAction('persistence.setUnsaved', () => this.persistence.isUnsaved = true);
+        runInAction('persistence.setLastUpdate', () => this.persistence.lastUpdate = Date.now());
       }
     });
   }

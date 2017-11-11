@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "draft-js": "^0.5.0",
+    "dropbox": "^2.5.12",
     "localforage": "^1.4.0",
     "lodash": "^4.6.1",
     "mobx": "^3.2.2",
