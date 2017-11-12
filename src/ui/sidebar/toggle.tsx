@@ -20,7 +20,6 @@ export default CSSModule(observer<ToggleProps>(({ model, prop }) => {
 
   const handleClick = action<any>((e) => {
     e.preventDefault();
-    console.log('model', model, prop);
     model[prop] = !model[prop];
   });
   

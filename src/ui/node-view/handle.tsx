@@ -22,16 +22,16 @@ export default CSSModule(observer(({ node }) =>
     <Menu id={node.id}>
 
       <MenuItem onClick={() => node.promote()}>
-        <Icon type={IconType.DecreaseIndent} /> promote
+        Promote
       </MenuItem>
 
       <MenuItem onClick={() => node.demote()}>
-        <Icon type={IconType.IncreaseIndent} /> demote      
+        Demote
       </MenuItem>
 
       <SubMenu label={<div>Node Types</div>}>
-        <MenuItem>test</MenuItem>
-        <MenuItem>test2</MenuItem>
+        <MenuItem disabled={node.type === NodeType.Text} onClick={() => node.setType(NodeType.Text)}>Plain Text</MenuItem>
+        <MenuItem disabled={node.type === NodeType.ListItem} onClick={() => node.setType(NodeType.ListItem)}>List</MenuItem>
       </SubMenu>
 
     </Menu>

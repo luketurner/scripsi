@@ -40,6 +40,12 @@ export class SNode {
     return this.content.includes(nodeStore.searchQuery);
   }
 
+  @action('node.setType')
+  setType(nodeType: NodeType): SNode {
+    this.type = nodeType;
+    return this;
+  }
+
   @action('node.addChildNode')
   addChildNode(newNode: SNode, position?: number): SNode {
     if (position) {

@@ -18,8 +18,7 @@ export default class LocalBackend extends Backend {
   }
 
   async _save(key, value) {
-    console.log('len', JSON.stringify(value).length);
-    return LocalForage.setItem(getKey(key), 'asdf');
+    return LocalForage.setItem(getKey(key), value);
   }
 
   async _reset(key) {

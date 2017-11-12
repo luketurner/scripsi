@@ -3,7 +3,10 @@
   padding: 0.25rem 0.125rem;
   color: inherit;
   text-decoration: inherit;
-  * {
-    padding: 0 0.25rem;
-  }
+  font-size: 0.9rem;
+}
+
+.disabled {
+  color: #aaa;
+  cursor: default;
 }
