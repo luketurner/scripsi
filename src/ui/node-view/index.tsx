@@ -49,6 +49,18 @@ const nodeDropTarget = DropTarget<NodeViewProps>('node', {
         nodeId: props.nodeId
       };
     }
+  },
+  canDrop: (props, monitor) => {
+    try {
+      const sourceNodeId = monitor.getItem()['nodeId'];
+      const targetNodeId = props.nodeId;
+      const sourceNode = nodeStore.getNode(sourceNodeId);
+
+      return sourceNode.hasDescendant(targetNodeId);
+    } catch (e) {
+      console.error('Error in canDrop:', e);
+      return false;
+    }
   }
 }, (connect, monitor) => {
   return {

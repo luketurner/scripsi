@@ -18,8 +18,10 @@ export class SNode {
     return nodeStore.getNode(this.parent);
   }
 
-  get childNodes(): SNode[] {
-    return this.children.map(id => nodeStore.getNode(id));
+  *getChildNodes(): IterableIterator<SNode> {
+    for (const childId in this.children) {
+      yield nodeStore.getNode(childId);
+    }
   }
 
   constructor(options: SNodeOptions = {}) {
@@ -123,8 +125,8 @@ export class SNode {
       throw new Error('Unable to demote node with no prior siblings');
     }
 
-    const priorSibling = parent.childNodes[position - 1];
-    return this.setParent(priorSibling);
+    const priorSiblingId = parent.children[position - 1];
+    return this.setParent(nodeStore.getNode(priorSiblingId));
   }
 
   findChildIndex(childNode: SNode): number {
@@ -143,6 +145,24 @@ export class SNode {
   @action('node.setContent')
   setContent(content = '') {
     this.content = content;
+  }
+
+  /**
+   * Checks whether otherNodeId is a descendant of the current node.
+   * Recursively walks all child nodes, so this function has annoyingly
+   * slow run-time properties, but it can be useful to detect/avoid cyclical
+   * descendant/ancestor relationships.
+   * 
+   * @param {string} otherNodeId 
+   * @returns {boolean} 
+   * @memberof SNode
+   */
+  hasDescendant(otherNodeId: string): boolean {
+    for (const child of this.getChildNodes()) {
+      if (child.id === otherNodeId) return true;
+      if (child.hasDescendant(otherNodeId)) return true;
+    }
+    return false;
   }
 
   // normalize(): Dict<FlatSNode> {
