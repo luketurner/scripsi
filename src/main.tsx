@@ -41,7 +41,6 @@ async function main() {
 
   render(
     <div>
-      <style> {'* { box-sizing: border-box; }'/* TODO -- More convenient way to inject global styles */} </style>
       <UI store={store} />
       <DevTools />
     </div>,

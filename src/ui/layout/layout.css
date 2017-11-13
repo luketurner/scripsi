@@ -5,6 +5,8 @@
   src: local("Open Sans"), url("./open-sans/OpenSans-Regular.ttf") format("truetype")
 }
 
+:global * { box-sizing: border-box; }
+
 .container {
   font: 14px "Open Sans", sans-serif;
   lost-center: 80rem 1rem flex;
