@@ -19,7 +19,7 @@ export default CSSModule(observer(({ node }) => {
   const setNodeType = [
     NodeType.Text,
     NodeType.ListItem
-  ].reduce<any>((nodeType, memo) => {
+  ].reduce<any>((memo, nodeType) => {
     memo[nodeType] = () => node.setType(NodeType.ListItem);
     return memo;
   }, {});
@@ -45,7 +45,7 @@ export default CSSModule(observer(({ node }) => {
         </MenuItem>
 
         <SubMenu label={<div>Node Types</div>}>
-          <MenuItem disabled={node.type === NodeType.Text} onClick={setNodeType[NodeType.ListItem]}>Plain Text</MenuItem>
+          <MenuItem disabled={node.type === NodeType.Text} onClick={setNodeType[NodeType.Text]}>Plain Text</MenuItem>
           <MenuItem disabled={node.type === NodeType.ListItem} onClick={setNodeType[NodeType.ListItem]}>List</MenuItem>
         </SubMenu>
 
