@@ -4,19 +4,21 @@ import { observer } from 'mobx-react';
 import * as React from 'react';
 import * as CSSModule from 'react-css-modules';
 
-import Icon, { IconType } from '../icon';
-import NodeListPanel from './node-list-panel';
-import SettingsPanel from './settings-panel';
-import { GlobalStore } from '../../store';
-
-const styles = require('./index.css');
-
 // Must be declared before importing uiState -- TODO - fix this somehow?
 export enum SidebarPanelType {
   Empty = 1,
   Search,
-  Settings
+  Settings,
+  Toolbox
 }
+
+import Icon, { IconType } from '../icon';
+import NodeListPanel from './node-list-panel';
+import SettingsPanel from './settings-panel';
+import ToolboxPanel from './toolbox-panel';
+import { GlobalStore } from '../../store';
+
+const styles = require('./index.css');
 
 import uiState from '../state';
 
@@ -37,25 +39,39 @@ const sidebarPanels = {
     title: 'Nodes',
     component: NodeListPanel,
     icon: IconType.Stack
+  },
+  [SidebarPanelType.Toolbox]: {
+    title: 'Toolbox',
+    component: ToolboxPanel,
+    icon: IconType.Hammer
   }
 };
+
+const SidebarButton = CSSModule(({ title, icon, panelType }) => {
+  const toggleSidebar = action(() => {
+    const newPanel = uiState.openSidebarPanel === panelType ? SidebarPanelType.Empty : panelType;
+    uiState.openSidebarPanel = newPanel;
+  });
+  let styleNames = 'button';
+  if (uiState.openSidebarPanel === panelType) {
+    styleNames += ' selected';
+  }
+  return <div styleName="button" key={title} onClick={toggleSidebar}>
+    <Icon type={icon} title={title} />
+  </div>;
+}, styles, { allowMultiple: true });
 
 export default CSSModule(observer<SidebarProps>(({ store }) => {
   const openPanel = sidebarPanels[uiState.openSidebarPanel];
 
   return <div styleName="container">
     <div styleName="buttons">
-      { _.map(_.omit(sidebarPanels, SidebarPanelType.Empty), (panel, panelType) => 
-        <div key={panel.title} 
-             title={panel.title}
-             styleName="button"
-             onClick={action(() => uiState.openSidebarPanel = panelType)}>
-          <Icon type={panel.icon} title={panel.title} />
-        </div>
-      )}
+      <SidebarButton panelType={SidebarPanelType.Toolbox} title="Toolbox" icon={IconType.Hammer} />
+      <SidebarButton panelType={SidebarPanelType.Search} title="Node List" icon={IconType.Stack} />
+      <SidebarButton panelType={SidebarPanelType.Settings} title="Settings" icon={IconType.Cog} />
     </div>
     <div styleName="panel">
-      <openPanel.component uiState={uiState} store={store} />
+      <openPanel.component />
     </div>
   </div>;
 }), styles);

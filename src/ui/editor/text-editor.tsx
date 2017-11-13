@@ -52,7 +52,7 @@ class TextEditor extends React.Component<TextEditorProps, TextEditorState> {
                          handleReturn={this.props.onReturn || constantlyFalse}
                          onTab={this.props.onTab || constantlyFalse}
                          handleDrop={this.props.onDrop || constantlyTrue}
-                         onFocus={() => this.props.onFocus || constantlyFalse}
+                         onFocus={this.props.onFocus || constantlyFalse}
                          ref="editor" />;
   }
   

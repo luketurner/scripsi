@@ -13,15 +13,6 @@
   }
 }
 
-
-.search-bar {
-  lost-column: 1;
-  border: none;
-  border-bottom: 1px solid #ccc;
-  outline: 0;
-  color: #777;
-}
-
 .result {
   border-top: 1px solid #ccc;
   lost-flex-container: row;

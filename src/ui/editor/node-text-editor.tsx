@@ -33,7 +33,6 @@ export default observer<NodeTextEditorProps>(({ node }) =>
       return false;
     })}
     onBackspace={action(() => {
-      event.preventDefault();
       if (node.id === nodeStore.viewRootNode) return;
       uiState.focusedNode = node.parent;
       node.remove();

@@ -3,7 +3,7 @@ $text-color: #aaa;
 .navbar {
   height: 1.5rem;
   lost-flex-container: row;
-  justify-content: center;
+  color: $text-color;  
   a {
     text-decoration: none;
     color: $text-color;
@@ -13,6 +13,22 @@ $text-color: #aaa;
   }
 }
 
+.brand-section {
+  width: 3rem;
+  margin-right: 2rem;
+}
+
 .saving {
   color: $text-color;
+}
+
+.search-bar-section {
+  lost-column: 1/2 0;
+}
+
+.search-bar {
+  border: none;
+  border-bottom: 1px solid #ccc;
+  outline: 0;
+  color: #777;
 }
