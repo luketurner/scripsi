@@ -1,33 +1,33 @@
-import * as Draft from 'draft-js'
-import * as React from 'react'
+import * as Draft from 'draft-js';
 import { observer } from 'mobx-react';
+import * as React from 'react';
 
-export interface EditorEventHandler<T> { (e: T): boolean }
+export type EditorEventHandler<T> = (e: T) => boolean;
 
 interface TextEditorProps {
-  content: string
-  isFocused: boolean
-  onChange: { (s: string): any }
-  onReturn?: EditorEventHandler<any>
-  onTab?: EditorEventHandler<any>
-  onDrop?: EditorEventHandler<any>
-  onBackspace?: { (): void }
-  onFocus?: { (): void }
+  content: string;
+  isFocused: boolean;
+  onChange: (s: string) => any;
+  onReturn?: EditorEventHandler<any>;
+  onTab?: EditorEventHandler<any>;
+  onDrop?: EditorEventHandler<any>;
+  onBackspace?: () => void;
+  onFocus?: () => void;
 }
 
 interface TextEditorState {
-  editorState: Draft.EditorState
+  editorState: Draft.EditorState;
 }
 
 const constantlyFalse = () => false;
 const constantlyTrue = () => true;
 
-const serializeState = (editorState: Draft.EditorState): string => 
+const serializeState = (editorState: Draft.EditorState): string =>
   JSON.stringify(
     Draft.convertToRaw(
       editorState.getCurrentContent()));
 
-const deserializeState = (stateString: string): Draft.EditorState => 
+const deserializeState = (stateString: string): Draft.EditorState =>
   Draft.EditorState.createWithContent(
     Draft.ContentState.createFromBlockArray(
       Draft.convertFromRaw(
@@ -39,29 +39,29 @@ class TextEditor extends React.Component<TextEditorProps, TextEditorState> {
     super(props);
     this.emitChange = this.emitChange.bind(this);
     this.handleKeyCommand = this.handleKeyCommand.bind(this);
-    
+
     this.state = {
       editorState: props.content.length > 1 ? deserializeState(props.content) : Draft.EditorState.createEmpty()
     };
   }
-  
+
   public render() {
-    return <Draft.Editor editorState={this.state.editorState} 
+    return <Draft.Editor editorState={this.state.editorState}
                          onChange={this.emitChange}
                          handleKeyCommand={this.handleKeyCommand}
                          handleReturn={this.props.onReturn || constantlyFalse}
                          onTab={this.props.onTab || constantlyFalse}
                          handleDrop={this.props.onDrop || constantlyTrue}
                          onFocus={this.props.onFocus || constantlyFalse}
-                         ref="editor" />;
+                         ref='editor' />;
   }
-  
-  emitChange(editorState: Draft.EditorState) {
+
+  public emitChange(editorState: Draft.EditorState) {
     this.setState({ editorState });
     this.props.onChange(serializeState(editorState));
   }
-  
-  handleKeyCommand(command) {
+
+  public handleKeyCommand(command) {
     if (command === 'backspace') {
       // if there's no text to delete, allow caller to rebind onBackspace
       const hasText = this.state.editorState.getCurrentContent().hasText();
@@ -71,10 +71,10 @@ class TextEditor extends React.Component<TextEditorProps, TextEditorState> {
     }
     return false;
   }
-  
-  componentDidMount() {
+
+  public componentDidMount() {
     if (this.props.isFocused) {
-      this.refs['editor']['focus']();
+      this.refs.editor.focus();
     }
   }
 }

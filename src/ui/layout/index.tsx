@@ -1,17 +1,17 @@
-import * as React from 'react'
+import * as React from 'react';
 // import { connect } from 'react-redux'
-import * as CSSModule from 'react-css-modules'
+import * as CSSModule from 'react-css-modules';
 
 import { observer } from 'mobx-react';
 
-import Navbar from '../navbar'
-import Sidebar from '../sidebar'
-import NodeView from '../node-view'
+import Navbar from '../navbar';
+import NodeView from '../node-view';
+import Sidebar from '../sidebar';
 import uiState from '../state';
 
-const styles = require('./layout.css')
+const styles = require('./layout.css');
 
-type PanelComponent = React.Component<any, any>
+type PanelComponent = React.Component<any, any>;
 
 // const connectLayout = connect((state) => ({
 //   displayNodeId: state.ui.displayNodeId,
@@ -20,13 +20,13 @@ type PanelComponent = React.Component<any, any>
 
 /**
  * Presentational component that encapsulates the global layout.
- * 
+ *
  * @class Layout
  * @extends {React.Component<{}, {}>}
  */
 
 export default CSSModule(observer(({ store }) => {
-  const closeOpenMenus = (e) => {
+  const closeOpenMenus = e => {
     if (uiState.menus.size > 0) {
       uiState.menus.clear();
       e.preventDefault();
@@ -42,5 +42,5 @@ export default CSSModule(observer(({ store }) => {
     <div styleName='content'>
       <NodeView nodeId={store.nodes.viewRootNode} />
     </div>
-  </div>
-}), styles)
+  </div>;
+}), styles);

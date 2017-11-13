@@ -18,12 +18,12 @@ export default CSSModule(observer<ToggleProps>(({ model, prop }) => {
 
   const isOn = !!model[prop];
 
-  const handleClick = action<any>((e) => {
+  const handleClick = action<any>(e => {
     e.preventDefault();
     model[prop] = !model[prop];
   });
-  
+
   return <button onClick={handleClick} styleName={isOn ? 'on' : 'off'}>
-    {isOn ? 'On' : 'Off'} 
+    {isOn ? 'On' : 'Off'}
   </button>;
 }), styles);

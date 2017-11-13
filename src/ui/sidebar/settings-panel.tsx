@@ -4,19 +4,19 @@ import * as CSSModule from 'react-css-modules';
 import { action } from 'mobx';
 import { observer } from 'mobx-react';
 import persistenceStore from '../../persistent-storage/store';
-import ToggleBackend from './toggle';
 import settingsStore from '../../settings/store';
+import ToggleBackend from './toggle';
 
 const styles = require('./settings-panel.css');
 
-export default CSSModule(observer((props) => {
+export default CSSModule(observer(props => {
   const dropboxBackend = persistenceStore.backends.get('dropbox');
 
   return <div styleName='container'>
 
     <h1>Settings</h1>
 
-    <div styleName="input-row">
+    <div styleName='input-row'>
       <label>Database Name</label>
       <input value={settingsStore.databaseName}
             onChange={action((e: any) => settingsStore.databaseName = e.target.value)} />
@@ -28,9 +28,8 @@ export default CSSModule(observer((props) => {
         <ToggleBackend model={dropboxBackend} prop='isEnabled'/>
       </div>
     </header>
-      
 
-    <div styleName="input-row">
+    <div styleName='input-row'>
       <label>Access Token</label>
       <input value={settingsStore.dropboxConfig.accessToken}
             onChange={action((e: any) => settingsStore.dropboxConfig.accessToken = e.target.value)} />

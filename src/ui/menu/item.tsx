@@ -6,7 +6,7 @@ import * as CSSModule from 'react-css-modules';
 const styles = require('./item.css');
 
 // TODO -- don't use `any`
-export default CSSModule(observer<any>((props) => {
+export default CSSModule(observer<any>(props => {
 
   if (props.disabled) {
     const stubHandler = e => {
@@ -16,11 +16,11 @@ export default CSSModule(observer<any>((props) => {
     return <a styleName='disabled item' onClick={stubHandler}>{props.children}</a>;
   }
 
-  const clickHandler = (e) => {
+  const clickHandler = e => {
     e.preventDefault();
     if (props.onClick) {
       props.onClick(e);
     }
   };
-  return <a styleName='item' onClick={clickHandler} href="">{props.children}</a>;
+  return <a styleName='item' onClick={clickHandler} href=''>{props.children}</a>;
 }), styles, { allowMultiple: true });

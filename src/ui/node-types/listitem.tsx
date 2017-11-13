@@ -11,12 +11,12 @@ import { NodeTypeProps } from './types';
 const styles = require('./listitem.css');
 
 export default CSSModule(observer(({ node }: NodeTypeProps) => {
-  const childrenElements = map(node.children, (child) => 
+  const childrenElements = map(node.children, child =>
     <NodeView nodeId={child} key={child} />
   );
 
-  return <div styleName="item">
-    { <NodeTextEditor node={node} /> }
-    { node.collapsed || childrenElements }
+  return <div styleName='item'>
+    {<NodeTextEditor node={node} />}
+    {node.collapsed || childrenElements}
   </div>;
 }), styles);

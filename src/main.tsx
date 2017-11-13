@@ -1,13 +1,13 @@
-import { runInAction } from 'mobx';
 import * as _ from 'lodash';
+import { runInAction } from 'mobx';
+import DevTools from 'mobx-react-devtools';
 import * as React from 'react';
 import { render } from 'react-dom';
-import DevTools from 'mobx-react-devtools';
 
 import { SNode } from './nodes';
+import { MissingStateError } from './persistent-storage/errors';
 import store from './store';
 import UI from './ui/index';
-import { MissingStateError } from './persistent-storage/errors';
 
 // Copies index.html to the output directory
 require('file-loader?name=[name].[ext]!./index.html');
@@ -25,7 +25,7 @@ async function main() {
 
   } catch (e) {
     if (e instanceof MissingStateError) {
-      console.debug('No persistent data found. Using starter document.');      
+      console.debug('No persistent data found. Using starter document.');
     } else {
       console.error('Encountered an unexpected error loading persistent data', e);
     }
@@ -41,7 +41,7 @@ async function main() {
 
   render(
     <div>
-      <style> {'* { box-sizing: border-box; }' /* TODO -- More convenient way to inject global styles */ } </style> 
+      <style> {'* { box-sizing: border-box; }'/* TODO -- More convenient way to inject global styles */} </style>
       <UI store={store} />
       <DevTools />
     </div>,
@@ -50,4 +50,3 @@ async function main() {
 }
 
 main();
-

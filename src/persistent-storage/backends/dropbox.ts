@@ -1,13 +1,13 @@
 const Dropbox = require('dropbox');
 
+import { autorun, observable } from 'mobx';
 import settings from '../../settings/store';
-import { observable, autorun } from 'mobx';
 import { Backend } from './index';
 
 export default class DropboxBackend extends Backend {
 
-  name = 'dropbox';
-  dropboxClient;
+  public name = 'dropbox';
+  public dropboxClient;
 
   constructor() {
     super();
@@ -19,15 +19,15 @@ export default class DropboxBackend extends Backend {
     });
   }
 
-  async _load(key) {
+  public async _load(key) {
 
   }
 
-  async _save(key, value) {
+  public async _save(key, value) {
 
   }
 
-  async _reset(key) {
+  public async _reset(key) {
 
   }
 }

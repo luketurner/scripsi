@@ -1,18 +1,18 @@
 import * as _ from 'lodash';
 
-import { observable, autorunAsync, runInAction, toJS, action } from 'mobx';
+import { action, autorunAsync, observable, runInAction, toJS } from 'mobx';
 
-import { Backend } from './backends';
-import { MissingStateError, InvalidPersistenceOperation } from './errors';
 import { SNode } from '../nodes';
 import store from '../store';
+import { Backend } from './backends';
+import { InvalidPersistenceOperation, MissingStateError } from './errors';
 
 import * as backends from './backends';
 
 export class PersistenceStore {
-  @observable databaseName = 'scripsi';
-  @observable backends: Map<string, Backend>;
-  @observable lastUpdate: number;
+  @observable public databaseName = 'scripsi';
+  @observable public backends: Map<string, Backend>;
+  @observable public lastUpdate: number;
 
   constructor() {
     this.backends = new Map();
@@ -41,7 +41,7 @@ export class PersistenceStore {
 
     if (backend.lastUpdate > lastUpdate) {
       // In the future, this may indicate that the backend has changes from another client.
-      return console.error(`Unable to save to backend: ${backend.name}. May overwrite changes from another client. (${backend.lastUpdate} -> ${this.lastUpdate})`);          
+      return console.error(`Unable to save to backend: ${backend.name}. May overwrite changes from another client. (${backend.lastUpdate} -> ${this.lastUpdate})`);
     }
 
     if (backend.lastUpdate < lastUpdate) {
@@ -56,20 +56,20 @@ export class PersistenceStore {
   }
 
   @action('persistence.addBackend')
-  addBackend(backend: Backend) {
+  public addBackend(backend: Backend) {
     this.backends.set(backend.name, backend);
   }
 
   @action('persistence.loadState')
-  loadState(newState) {
+  public loadState(newState) {
     store.nodes.rootNode = newState.rootNode;
     store.nodes.viewRootNode = newState.viewRootNode;
-    
+
     store.nodes.index.clear();
     Object.entries(newState.index).forEach(([x, y]) => store.nodes.addNode(new SNode(y)));
   }
 
-  async loadFromBackend() {
+  public async loadFromBackend() {
     const key = this.databaseName + '|nodes';
     const backend = this.getPrimaryBackend();
     const newState = await backend.load(key);
@@ -96,7 +96,7 @@ export class PersistenceStore {
   // }
 
   @action('persistence.enableBackend')
-  enableBackend(backendName: string): Backend {
+  public enableBackend(backendName: string): Backend {
     const backend = this.backends.get(backendName);
 
     if (!backend) {
@@ -112,7 +112,7 @@ export class PersistenceStore {
     return backend;
   }
 
-  getPrimaryBackend(): Backend {
+  public getPrimaryBackend(): Backend {
     for (const entry of this.backends.values()) {
       if (entry.isPrimary && entry.isEnabled) {
         return entry;
@@ -120,7 +120,7 @@ export class PersistenceStore {
     }
   }
 
-  *getSecondaryBackends(): IterableIterator<Backend> {
+  public *getSecondaryBackends(): IterableIterator<Backend> {
     for (const entry of this.backends.values()) {
       if (!entry.isPrimary) {
         yield entry;
@@ -128,11 +128,11 @@ export class PersistenceStore {
     }
   }
 
-  isPrimaryUnsaved(): boolean {
+  public isPrimaryUnsaved(): boolean {
     return this.getPrimaryBackend().lastUpdate < this.lastUpdate;
   }
 
-  *getUnsavedSecondaryBackends(): IterableIterator<Backend> {
+  public *getUnsavedSecondaryBackends(): IterableIterator<Backend> {
     for (const entry of this.getSecondaryBackends()) {
       if (entry.isEnabled && entry.lastUpdate < this.lastUpdate) {
         yield entry;
@@ -140,7 +140,7 @@ export class PersistenceStore {
     }
   }
 
-  areSecondaryBackendsUnsaved(): boolean {
+  public areSecondaryBackendsUnsaved(): boolean {
     return !this.getUnsavedSecondaryBackends().next().done;
   }
 }

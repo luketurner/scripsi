@@ -1,23 +1,23 @@
-import { observable, action, autorun } from 'mobx';
+import { action, autorun, observable } from 'mobx';
 import * as React from 'react';
 
 import { SNode } from '../nodes';
-import { SidebarPanelType } from './sidebar';
 import store from '../store';
+import { SidebarPanelType } from './sidebar';
 
 /**
  * Class defining ephemeral, UI-specific state.
  * This state is not persisted anywhere.
- * 
+ *
  * @export
  * @class UIState
  */
 export class UIState {
-  @observable isSaving: boolean;
-  @observable focusedNode: Uuid;
-  @observable hoveredNode: Uuid;
-  @observable openSidebarPanel: SidebarPanelType;
-  @observable menus: Map<string,boolean>;
+  @observable public isSaving: boolean;
+  @observable public focusedNode: Uuid;
+  @observable public hoveredNode: Uuid;
+  @observable public openSidebarPanel: SidebarPanelType;
+  @observable public menus: Map<string, boolean>;
 
   constructor() {
     this.isSaving = false;

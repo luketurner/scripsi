@@ -3,25 +3,25 @@ import {debounce} from 'lodash';
 
 import { Backend } from './index';
 
-const getKey = (k) => 'scripsi|' + k;
+const getKey = k => 'scripsi|' + k;
 
 export default class LocalBackend extends Backend {
 
-  name = 'local';
+  public name = 'local';
 
-  async _load(key) {
+  public async _load(key) {
     return new Promise((resolve, reject) => {
       LocalForage.getItem(getKey(key), (err, val) => {
         return err ? reject(err) : resolve(val);
       });
-    })
+    });
   }
 
-  async _save(key, value) {
+  public async _save(key, value) {
     return LocalForage.setItem(getKey(key), value);
   }
 
-  async _reset(key) {
+  public async _reset(key) {
     LocalForage.removeItem(key);
   }
 }

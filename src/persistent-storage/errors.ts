@@ -15,7 +15,7 @@ export class InvalidPersistenceOperation extends Error {
 }
 
 export class WIPException extends Error {
-  
+
   constructor(...args) {
     super(...args);
     Error.captureStackTrace(this, MissingStateError);

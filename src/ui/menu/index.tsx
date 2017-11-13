@@ -3,17 +3,17 @@ import { observer } from 'mobx-react';
 import * as React from 'react';
 import * as CSSModule from 'react-css-modules';
 
+import uiState from '../state';
 import MenuAnchor from './anchor';
 import MenuItem from './item';
 import SubMenu from './sub-menu';
-import uiState from '../state';
 
 const styles = require('./menu.css');
 
 export { MenuItem, MenuAnchor, SubMenu };
 
 export interface MenuProps {
-  // items: { 
+  // items: {
   //   label: string
   //   handler: Function
   // }[]
@@ -21,7 +21,7 @@ export interface MenuProps {
 }
 
 export default CSSModule(observer<MenuProps>(({ children, id }) => {
-  const closeMenu = (e) => {
+  const closeMenu = e => {
     e.preventDefault();
     uiState.menus.clear();
   };

@@ -12,18 +12,18 @@ export enum SidebarPanelType {
   Toolbox
 }
 
+import { GlobalStore } from '../../store';
 import Icon, { IconType } from '../icon';
 import NodeListPanel from './node-list-panel';
 import SettingsPanel from './settings-panel';
 import ToolboxPanel from './toolbox-panel';
-import { GlobalStore } from '../../store';
 
 const styles = require('./index.css');
 
 import uiState from '../state';
 
 interface SidebarProps {
-  store: GlobalStore
+  store: GlobalStore;
 }
 
 const sidebarPanels = {
@@ -56,7 +56,7 @@ const SidebarButton = CSSModule(({ title, icon, panelType }) => {
   if (uiState.openSidebarPanel === panelType) {
     styleNames += ' selected';
   }
-  return <div styleName="button" key={title} onClick={toggleSidebar}>
+  return <div styleName='button' key={title} onClick={toggleSidebar}>
     <Icon type={icon} title={title} />
   </div>;
 }, styles, { allowMultiple: true });
@@ -64,13 +64,13 @@ const SidebarButton = CSSModule(({ title, icon, panelType }) => {
 export default CSSModule(observer<SidebarProps>(({ store }) => {
   const openPanel = sidebarPanels[uiState.openSidebarPanel];
 
-  return <div styleName="container">
-    <div styleName="buttons">
-      <SidebarButton panelType={SidebarPanelType.Toolbox} title="Toolbox" icon={IconType.Hammer} />
-      <SidebarButton panelType={SidebarPanelType.Search} title="Node List" icon={IconType.Stack} />
-      <SidebarButton panelType={SidebarPanelType.Settings} title="Settings" icon={IconType.Cog} />
+  return <div styleName='container'>
+    <div styleName='buttons'>
+      <SidebarButton panelType={SidebarPanelType.Toolbox} title='Toolbox' icon={IconType.Hammer} />
+      <SidebarButton panelType={SidebarPanelType.Search} title='Node List' icon={IconType.Stack} />
+      <SidebarButton panelType={SidebarPanelType.Settings} title='Settings' icon={IconType.Cog} />
     </div>
-    <div styleName="panel">
+    <div styleName='panel'>
       <openPanel.component />
     </div>
   </div>;

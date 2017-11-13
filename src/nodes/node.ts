@@ -1,24 +1,24 @@
 import * as _ from 'lodash';
-import { observable, action, runInAction, computed, autorun } from 'mobx';
+import { action, autorun, computed, observable, runInAction } from 'mobx';
 import { v4 as uuidv4 } from 'node-uuid';
 
 import nodeStore from './store';
 
 export class SNode {
-  @observable id: string;
-  @observable type: NodeType;
-  @observable displayStatus: NodeDisplayStatus;
-  @observable content: string;
-  @observable props: Dict<any>;
-  @observable collapsed: boolean;
-  @observable parent?: Uuid;
-  @observable children: Array<Uuid>;
+  @observable public id: string;
+  @observable public type: NodeType;
+  @observable public displayStatus: NodeDisplayStatus;
+  @observable public content: string;
+  @observable public props: Dict<any>;
+  @observable public collapsed: boolean;
+  @observable public parent?: Uuid;
+  @observable public children: Uuid[];
 
   get parentNode(): SNode {
     return nodeStore.getNode(this.parent);
   }
 
-  *getChildNodes(): IterableIterator<SNode> {
+  public *getChildNodes(): IterableIterator<SNode> {
     for (const childId in this.children) {
       yield nodeStore.getNode(childId);
     }
@@ -26,7 +26,7 @@ export class SNode {
 
   constructor(options: SNodeOptions = {}) {
     this.id = options.id || uuidv4();
-    this.type = options.type || NodeType.Text
+    this.type = options.type || NodeType.Text;
     this.content = options.content || '';
     this.props = options.props || {};
     this.parent = options.parent || null;
@@ -43,13 +43,13 @@ export class SNode {
   }
 
   @action('node.setType')
-  setType(nodeType: NodeType): SNode {
+  public setType(nodeType: NodeType): SNode {
     this.type = nodeType;
     return this;
   }
 
   @action('node.addChildNode')
-  addChildNode(newNode: SNode, position?: number): SNode {
+  public addChildNode(newNode: SNode, position?: number): SNode {
     if (position) {
       this.children.splice(position, 0, newNode.id);
     } else {
@@ -60,7 +60,7 @@ export class SNode {
   }
 
   @action('node.addSiblingNode')
-  addSiblingNode(newNode: SNode): SNode {
+  public addSiblingNode(newNode: SNode): SNode {
     const parent = this.parentNode;
 
     if (!parent) { // TODO
@@ -72,15 +72,15 @@ export class SNode {
     return parent.addChildNode(newNode, position);
   }
 
-  addNodeBelow(newNode: SNode): SNode {
+  public addNodeBelow(newNode: SNode): SNode {
     if (this.children.length === 0) {
-      return this.addSiblingNode(newNode);      
+      return this.addSiblingNode(newNode);
     }
-    return this.addChildNode(newNode, 0);    
+    return this.addChildNode(newNode, 0);
   }
 
   @action('node.removeChild')
-  removeChild(childNode: SNode) {
+  public removeChild(childNode: SNode) {
     const ix = this.findChildIndex(childNode);
     this.children.splice(ix, 1);
     nodeStore.removeNode(childNode);
@@ -88,16 +88,16 @@ export class SNode {
   }
 
   @action('node.setParent')
-  setParent(newParent: SNode, position?: number) {
+  public setParent(newParent: SNode, position?: number) {
     const parent = this.parentNode;
     parent.removeChild(this);
     newParent.addChildNode(this, position);
     return this;
   }
 
-  promote() {
+  public promote() {
     const parent = this.parentNode;
-    
+
     if (!parent || !parent.parent) { // TODO
       throw new Error('Unable to promote node with no parent/grandparent');
     }
@@ -108,7 +108,7 @@ export class SNode {
     return this.setParent(grandparent, position + 1);
   }
 
-  demote() {
+  public demote() {
     const parent = this.parentNode;
     if (!parent) {
       throw new Error('Unable to demote node with no parent');
@@ -117,9 +117,8 @@ export class SNode {
     if (parent.children.length === 1) {
       throw new Error('Unable to demote node with no siblings');
     }
-    
-    const position = parent.findChildIndex(this);
 
+    const position = parent.findChildIndex(this);
 
     if (position === 0) {
       throw new Error('Unable to demote node with no prior siblings');
@@ -129,21 +128,21 @@ export class SNode {
     return this.setParent(nodeStore.getNode(priorSiblingId));
   }
 
-  findChildIndex(childNode: SNode): number {
+  public findChildIndex(childNode: SNode): number {
     return this.children.findIndex(node => node === childNode.id);
   }
 
-  remove() {
+  public remove() {
     this.parentNode.removeChild(this);
   }
 
   @action('node.toggleCollapsed')
-  toggleCollapsed() {
+  public toggleCollapsed() {
     this.collapsed = !this.collapsed;
   }
 
   @action('node.setContent')
-  setContent(content = '') {
+  public setContent(content = '') {
     this.content = content;
   }
 
@@ -152,12 +151,12 @@ export class SNode {
    * Recursively walks all child nodes, so this function has annoyingly
    * slow run-time properties, but it can be useful to detect/avoid cyclical
    * descendant/ancestor relationships.
-   * 
-   * @param {string} otherNodeId 
-   * @returns {boolean} 
+   *
+   * @param {string} otherNodeId
+   * @returns {boolean}
    * @memberof SNode
    */
-  hasDescendant(otherNodeId: string): boolean {
+  public hasDescendant(otherNodeId: string): boolean {
     for (const child of this.getChildNodes()) {
       if (child.id === otherNodeId) return true;
       if (child.hasDescendant(otherNodeId)) return true;
@@ -171,7 +170,7 @@ export class SNode {
   //   return this.children.reduce((memo, child) => {
   //     return Object.assign(memo, child.normalize());
   //   }, {
-  //     [this.id]: Object.assign(new FlatSNode(), _.omit(this, ['parent', 'children']), { 
+  //     [this.id]: Object.assign(new FlatSNode(), _.omit(this, ['parent', 'children']), {
   //       parent: this.parent && this.parent.id,
   //       children: this.children.map((child) => child.id)
   //     })
@@ -186,13 +185,13 @@ export class SNode {
 
 export interface SNodeOptions {
   id?: string;
-  type?: NodeType
-  displayStatus?: NodeDisplayStatus
-  content?: string
-  children?: Array<Uuid>
-  props?: Dict<any>
-  parent?: Uuid
-  collapsed?: boolean
+  type?: NodeType;
+  displayStatus?: NodeDisplayStatus;
+  content?: string;
+  children?: Uuid[];
+  props?: Dict<any>;
+  parent?: Uuid;
+  collapsed?: boolean;
 }
 
 export enum NodeType {

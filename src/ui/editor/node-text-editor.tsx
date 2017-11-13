@@ -8,14 +8,14 @@ import uiState from '../state';
 import TextEditor from './text-editor';
 
 interface NodeTextEditorProps {
-  node: SNode
+  node: SNode;
 }
 
-export default observer<NodeTextEditorProps>(({ node }) => 
+export default observer<NodeTextEditorProps>(({ node }) =>
   <TextEditor
     isFocused={uiState.focusedNode === node.id}
     content={node.content}
-    onChange={(v) => node.setContent(v)}
+    onChange={v => node.setContent(v)}
     onReturn={action(() => {
       const newChild = new SNode();
       node.addChildNode(newChild);

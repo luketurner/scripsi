@@ -2,10 +2,10 @@ import { observer } from 'mobx-react';
 import * as React from 'react';
 import * as CSSModule from 'react-css-modules';
 
-import Icon, { IconType } from '../icon';
-import nodeStore from '../../nodes/store';
-import uiState from '../state';
 import { NodeType } from '../../nodes';
+import nodeStore from '../../nodes/store';
+import Icon, { IconType } from '../icon';
+import uiState from '../state';
 
 const styles = require('./toolbox-panel.css');
 
@@ -13,10 +13,10 @@ const NodeTypeButton = CSSModule(({ node, nodeType, icon, title }) => {
   return <div styleName='node-type' key={title} onClick={() => node.setType(nodeType)}>
     <Icon type={icon} title={title} />
     {title}
-  </div>
+  </div>;
 }, styles);
 
-export default CSSModule(observer((props) => {
+export default CSSModule(observer(props => {
   const focusedNodeId = uiState.focusedNode;
   let focusedNode = null;
   if (focusedNodeId) {
@@ -27,8 +27,8 @@ export default CSSModule(observer((props) => {
 
     {focusedNode && <div styleName='node-types'>
       <h2>Node Types</h2>
-      <NodeTypeButton node={focusedNode} title="Text" nodeType={NodeType.Text} icon={IconType.IncreaseIndent} />
-      <NodeTypeButton node={focusedNode} title="UL" nodeType={NodeType.ListItem} icon={IconType.UnorderedList} />
+      <NodeTypeButton node={focusedNode} title='Text' nodeType={NodeType.Text} icon={IconType.IncreaseIndent} />
+      <NodeTypeButton node={focusedNode} title='UL' nodeType={NodeType.ListItem} icon={IconType.UnorderedList} />
     </div>}
   </div>;
 }), styles);

@@ -1,3 +1,3 @@
-import { SNode, NodeType } from './node';
+import { NodeType, SNode } from './node';
 
 export { SNode, NodeType };

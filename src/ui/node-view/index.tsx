@@ -4,16 +4,16 @@ import * as React from 'react';
 import * as CSSModule from 'react-css-modules';
 import { DragSource, DropTarget } from 'react-dnd';
 
-import { SNode, NodeType } from '../../nodes';
+import { NodeType, SNode } from '../../nodes';
 import nodeStore from '../../nodes/store';
-import Menu, { MenuItem, MenuAnchor } from '../menu';
+import Menu, { MenuAnchor, MenuItem } from '../menu';
 import uiState from '../state';
 import Handle from './handle';
 
 const styles = require('./node-view.css');
 
 export interface NodeViewProps {
-  nodeId: string
+  nodeId: string;
 }
 
 const nodeDragSource = DragSource<NodeViewProps>('node', {
@@ -23,12 +23,12 @@ const nodeDragSource = DragSource<NodeViewProps>('node', {
   endDrag: (props, monitor, component) => {
     const dropResult = monitor.getDropResult();
 
-    if (!dropResult || !dropResult['nodeId']) {
+    if (!dropResult || !dropResult.nodeId) {
       return;
     }
 
     try {
-      const targetNode = nodeStore.getNode(dropResult['nodeId']);
+      const targetNode = nodeStore.getNode(dropResult.nodeId);
       const sourceNode = nodeStore.getNode(props.nodeId);
       sourceNode.setParent(targetNode);
     } catch (e) {
@@ -52,7 +52,7 @@ const nodeDropTarget = DropTarget<NodeViewProps>('node', {
   },
   canDrop: (props, monitor) => {
     try {
-      const sourceNodeId = monitor.getItem()['nodeId'];
+      const sourceNodeId = monitor.getItem().nodeId;
       const targetNodeId = props.nodeId;
       const sourceNode = nodeStore.getNode(sourceNodeId);
 
@@ -81,10 +81,10 @@ export default nodeDragSource(nodeDropTarget(CSSModule(observer<NodeViewProps>(p
 
   const NodeTypeComponent = require('../node-types/' + NodeType[node.type].toLowerCase()).default;
 
-  const isOutlined = node.id === uiState.hoveredNode || props['hasDraggingOver'];
+  const isOutlined = node.id === uiState.hoveredNode || props.hasDraggingOver;
   const nodeStyles = ['node', isOutlined ? 'outlined' : ''].join(' ');
 
-  return props['connectDragSource'](props['connectDropTarget'](<div styleName={nodeStyles}>
+  return props.connectDragSource(props.connectDropTarget(<div styleName={nodeStyles}>
     <Handle node={node} />
     <NodeTypeComponent node={node} />
   </div>));
