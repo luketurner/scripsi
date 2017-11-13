@@ -74,7 +74,7 @@ class TextEditor extends React.Component<TextEditorProps, TextEditorState> {
 
   public componentDidMount() {
     if (this.props.isFocused) {
-      this.refs.editor.focus();
+      this.refs.editor['focus']();
     }
   }
 }
