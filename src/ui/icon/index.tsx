@@ -44,9 +44,8 @@ const paths = { // Unless otherwise noted, taken from IcoMoon.io
   [IconType.Hammer]: 'M31.562 25.905l-9.423-9.423c-0.583-0.583-1.538-0.583-2.121 0l-0.707 0.707-5.75-5.75 9.439-9.439h-10l-4.439 4.439-0.439-0.439h-2.121v2.121l0.439 0.439-6.439 6.439 5 5 6.439-6.439 5.75 5.75-0.707 0.707c-0.583 0.583-0.583 1.538 0 2.121l9.423 9.423c0.583 0.583 1.538 0.583 2.121 0l3.535-3.535c0.583-0.583 0.583-1.538 0-2.121z'
 };
 
-export default CSSModule(({ title, type }) =>
+export default CSSModule(({ title, type }) => (
   <svg styleName='icon' viewBox='0 0 32 32' role='img'>
-    <path d={paths[type]}></path>
-  </svg>,
-  styles
-);
+      <path d={paths[type]} />
+  </svg>
+), styles);

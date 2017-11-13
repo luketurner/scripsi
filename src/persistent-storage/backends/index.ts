@@ -29,22 +29,22 @@ export abstract class Backend {
 
   // Abstract private methods to be implemented by each subclass. TODO -- can I do abstract private methods?
   public abstract _load(key: string): Promise<any>;
-  public abstract _save(key: string, value: Object): Promise<any>;
+  public abstract _save(key: string, value: object): Promise<any>;
   public abstract _reset(key: string): Promise<any>;
 
   // TODO -- do we need to reassign `this.wip = this.wip.then()`, or just do `this.wip.then()`?
   public async load(key: string): Promise<void> {
-    this.wip = this.wip.then(() => this._load(key));
+    this.wip = this.wip.then(async () => this._load(key));
     return this.wip;
   }
 
-  public async save(key: string, value: Object): Promise<void> {
-    this.wip = this.wip.then(() => this._save(key, value));
+  public async save(key: string, value: object): Promise<void> {
+    this.wip = this.wip.then(async () => this._save(key, value));
     return this.wip;
   }
 
   public async reset(key: string): Promise<void> {
-    this.wip = this.wip.then(() => this._reset(key));
+    this.wip = this.wip.then(async () => this._reset(key));
     return this.wip;
   }
 }

@@ -7,12 +7,16 @@
     "prefer-const": true,
     "arrow-parens": [true, "ban-single-arg-parens"],
     "quotemark": [true, "single", "avoid-escape", "avoid-template"],
-    "no-training-whitespace": true,
+    "no-trailing-whitespace": true,
     "encoding": true,
     "trailing-comma": [true, {"multiline": "never", "singleline": "never"}],
-    "promise-function-async": true,
     "no-console": [true, "log"], // forbid console.log only
     "no-var-requires": false, // interferes with usage of require() for non-JS resources
-    "no-string-literal": false // interferes with TS property access conventions
+    "no-string-literal": false, // interferes with TS property access conventions
+    "no-implicit-dependencies": false, // interferes with webpack require()
+    "no-submodule-imports": false, // interferes with webpack require()
+    "jsx-curly-spacing": "never",
+    "jsx-equals-spacing": "never",
+    "interface-name": false // seems to conflict with how I think of TS interfaces
   }
 }

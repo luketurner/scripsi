@@ -84,8 +84,10 @@ export default nodeDragSource(nodeDropTarget(CSSModule(observer<NodeViewProps>(p
   const isOutlined = node.id === uiState.hoveredNode || props['hasDraggingOver'];
   const nodeStyles = ['node', isOutlined ? 'outlined' : ''].join(' ');
 
-  return props['connectDragSource'](props['connectDropTarget'](<div styleName={nodeStyles}>
-    <Handle node={node} />
-    <NodeTypeComponent node={node} />
-  </div>));
+  return props['connectDragSource'](props['connectDropTarget'](
+    <div styleName={nodeStyles}>
+      <Handle node={node} />
+      <NodeTypeComponent node={node} />
+    </div>
+  ));
 }), styles, { allowMultiple: true })));

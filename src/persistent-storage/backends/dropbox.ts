@@ -20,14 +20,14 @@ export default class DropboxBackend extends Backend {
   }
 
   public async _load(key) {
-
+    return null;
   }
 
   public async _save(key, value) {
-
+    return null;
   }
 
   public async _reset(key) {
-
+    return null;
   }
 }

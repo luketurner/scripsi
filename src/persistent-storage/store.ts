@@ -4,14 +4,13 @@ import { action, autorunAsync, observable, runInAction, toJS } from 'mobx';
 
 import { SNode } from '../nodes';
 import store from '../store';
-import { Backend } from './backends';
 import { InvalidPersistenceOperation, MissingStateError } from './errors';
 
 import * as backends from './backends';
 
 export class PersistenceStore {
   @observable public databaseName = 'scripsi';
-  @observable public backends: Map<string, Backend>;
+  @observable public backends: Map<string, backends.Backend>;
   @observable public lastUpdate: number;
 
   constructor() {
@@ -27,36 +26,12 @@ export class PersistenceStore {
     autorunAsync(async () => {
       const state = toJS(store.nodes);
       const lastUpdate = this.lastUpdate;
-      await Promise.all(_.map(this.backends.values(), backend => this.saveToBackend(backend, lastUpdate, state)));
+      await Promise.all(_.map(this.backends.values(), async backend => this.saveToBackend(backend, lastUpdate, state)));
     }, 1000);
   }
 
-  private async saveToBackend(backend, lastUpdate, state) {
-
-    const key = this.databaseName + '|nodes';
-
-    if (!backend.isEnabled) {
-      return;
-    }
-
-    if (backend.lastUpdate > lastUpdate) {
-      // In the future, this may indicate that the backend has changes from another client.
-      return console.error(`Unable to save to backend: ${backend.name}. May overwrite changes from another client. (${backend.lastUpdate} -> ${this.lastUpdate})`);
-    }
-
-    if (backend.lastUpdate < lastUpdate) {
-      try {
-        console.debug(`Saving state to backend: ${backend.name} (${backend.lastUpdate} -> ${this.lastUpdate})`, state);
-        await backend.save(key, state);
-        backend.lastUpdate = lastUpdate;
-      } catch (err) {
-        console.error(`Unable to save to backend: ${backend.name}. ${err}. (${backend.lastUpdate} -> ${this.lastUpdate})`);
-      }
-    }
-  }
-
   @action('persistence.addBackend')
-  public addBackend(backend: Backend) {
+  public addBackend(backend: backends.Backend) {
     this.backends.set(backend.name, backend);
   }
 
@@ -96,7 +71,7 @@ export class PersistenceStore {
   // }
 
   @action('persistence.enableBackend')
-  public enableBackend(backendName: string): Backend {
+  public enableBackend(backendName: string): backends.Backend {
     const backend = this.backends.get(backendName);
 
     if (!backend) {
@@ -112,7 +87,7 @@ export class PersistenceStore {
     return backend;
   }
 
-  public getPrimaryBackend(): Backend {
+  public getPrimaryBackend(): backends.Backend {
     for (const entry of this.backends.values()) {
       if (entry.isPrimary && entry.isEnabled) {
         return entry;
@@ -120,7 +95,7 @@ export class PersistenceStore {
     }
   }
 
-  public *getSecondaryBackends(): IterableIterator<Backend> {
+  public *getSecondaryBackends(): IterableIterator<backends.Backend> {
     for (const entry of this.backends.values()) {
       if (!entry.isPrimary) {
         yield entry;
@@ -132,7 +107,7 @@ export class PersistenceStore {
     return this.getPrimaryBackend().lastUpdate < this.lastUpdate;
   }
 
-  public *getUnsavedSecondaryBackends(): IterableIterator<Backend> {
+  public *getUnsavedSecondaryBackends(): IterableIterator<backends.Backend> {
     for (const entry of this.getSecondaryBackends()) {
       if (entry.isEnabled && entry.lastUpdate < this.lastUpdate) {
         yield entry;
@@ -142,6 +117,26 @@ export class PersistenceStore {
 
   public areSecondaryBackendsUnsaved(): boolean {
     return !this.getUnsavedSecondaryBackends().next().done;
+  }
+
+  private async saveToBackend(backend, lastUpdate, state) {
+    const key = this.databaseName + '|nodes';
+    if (!backend.isEnabled) {
+      return;
+    }
+    if (backend.lastUpdate > lastUpdate) {
+      // In the future, this may indicate that the backend has changes from another client.
+      return console.error(`Unable to save to backend: ${backend.name}. May overwrite changes from another client. (${backend.lastUpdate} -> ${this.lastUpdate})`);
+    }
+    if (backend.lastUpdate < lastUpdate) {
+      try {
+        console.debug(`Saving state to backend: ${backend.name} (${backend.lastUpdate} -> ${this.lastUpdate})`, state);
+        await backend.save(key, state);
+        backend.lastUpdate = lastUpdate;
+      } catch (err) {
+        console.error(`Unable to save to backend: ${backend.name}. ${err}. (${backend.lastUpdate} -> ${this.lastUpdate})`);
+      }
+    }
   }
 }
 

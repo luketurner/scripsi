@@ -11,30 +11,46 @@ import uiState from '../state';
 
 const styles = require('./handle.css');
 
-export default CSSModule(observer(({ node }) =>
-  <MenuAnchor id={node.id}>
+export default CSSModule(observer(({ node }) => {
 
-    <div styleName='handle'
-      onMouseEnter={action('ui.hoverNode', () => uiState.hoveredNode = node.id)}
-      onMouseLeave={action('ui.unhoverNode', () => uiState.hoveredNode = null)}
-      onClick={() => node.toggleCollapsed()} />
+  const hoverNode = action('ui.hoverNode', () => uiState.hoveredNode = node.id);
+  const unhoverNode = action('ui.unhoverNode', () => uiState.hoveredNode = null);
 
-    <Menu id={node.id}>
+  const setNodeType = [
+    NodeType.Text,
+    NodeType.ListItem
+  ].reduce<any>((nodeType, memo) => {
+    memo[nodeType] = () => node.setType(NodeType.ListItem);
+    return memo;
+  }, {});
 
-      <MenuItem onClick={() => node.promote()}>
-        Promote
-      </MenuItem>
+  return (
+    <MenuAnchor id={node.id}>
 
-      <MenuItem onClick={() => node.demote()}>
-        Demote
-      </MenuItem>
+      <div
+        styleName='handle'
+        onMouseEnter={hoverNode}
+        onMouseLeave={unhoverNode}
+        onClick={node.toggleCollapsed}
+      />
 
-      <SubMenu label={<div>Node Types</div>}>
-        <MenuItem disabled={node.type === NodeType.Text} onClick={() => node.setType(NodeType.Text)}>Plain Text</MenuItem>
-        <MenuItem disabled={node.type === NodeType.ListItem} onClick={() => node.setType(NodeType.ListItem)}>List</MenuItem>
-      </SubMenu>
+      <Menu id={node.id}>
 
-    </Menu>
+        <MenuItem onClick={node.promote}>
+          Promote
+        </MenuItem>
 
-  </MenuAnchor>
-), styles);
+        <MenuItem onClick={node.demote}>
+          Demote
+        </MenuItem>
+
+        <SubMenu label={<div>Node Types</div>}>
+          <MenuItem disabled={node.type === NodeType.Text} onClick={setNodeType[NodeType.ListItem]}>Plain Text</MenuItem>
+          <MenuItem disabled={node.type === NodeType.ListItem} onClick={setNodeType[NodeType.ListItem]}>List</MenuItem>
+        </SubMenu>
+
+      </Menu>
+
+    </MenuAnchor>
+  );
+}), styles);

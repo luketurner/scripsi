@@ -15,8 +15,10 @@ export default CSSModule(observer(({ node }: NodeTypeProps) => {
     <NodeView nodeId={child} key={child} />
   );
 
-  return <div styleName='item'>
-    {<NodeTextEditor node={node} />}
-    {node.collapsed || childrenElements}
-  </div>;
+  return (
+    <div styleName='item'>
+      {<NodeTextEditor node={node} />}
+      {node.collapsed || childrenElements}
+    </div>
+  );
 }), styles);

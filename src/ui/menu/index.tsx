@@ -26,9 +26,11 @@ export default CSSModule(observer<MenuProps>(({ children, id }) => {
     uiState.menus.clear();
   };
 
-  const menu = <div styleName='menu' onClick={closeMenu}>
-    {children}
-  </div>;
+  const menu = (
+    <div styleName='menu' onClick={closeMenu}>
+      {children}
+    </div>
+  );
 
   if (uiState.menus.get(id)) {
     return menu;

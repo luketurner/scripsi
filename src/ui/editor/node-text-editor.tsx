@@ -11,34 +11,46 @@ interface NodeTextEditorProps {
   node: SNode;
 }
 
-export default observer<NodeTextEditorProps>(({ node }) =>
-  <TextEditor
-    isFocused={uiState.focusedNode === node.id}
-    content={node.content}
-    onChange={v => node.setContent(v)}
-    onReturn={action(() => {
-      const newChild = new SNode();
-      node.addChildNode(newChild);
-      uiState.focusedNode = newChild.id;
-      return true;
-    })}
-    onTab={action((event: any) => {
-      event.preventDefault();
-      if (event.shiftKey) {
-        node.promote();
-      } else {
-        node.demote();
-      }
-      uiState.focusedNode = node.id; // Should normally be focused anyway?
-      return false;
-    })}
-    onBackspace={action(() => {
-      if (node.id === nodeStore.viewRootNode) return;
-      uiState.focusedNode = node.parent;
-      node.remove();
-    })}
-    onFocus={action(() => {
-      uiState.focusedNode = node.id;
-    })}
-  />
-);
+export default observer<NodeTextEditorProps>(({ node }) => {
+  const onChange = v => node.setContent(v);
+
+  const onReturn = action(() => {
+    const newChild = new SNode();
+    node.addChildNode(newChild);
+    uiState.focusedNode = newChild.id;
+    return true;
+  });
+
+  const onTab = action((event: any) => {
+    event.preventDefault();
+    if (event.shiftKey) {
+      node.promote();
+    } else {
+      node.demote();
+    }
+    uiState.focusedNode = node.id; // Should normally be focused anyway?
+    return false;
+  });
+
+  const onBackspace = action(() => {
+    if (node.id === nodeStore.viewRootNode) return;
+    uiState.focusedNode = node.parent;
+    node.remove();
+  });
+
+  const onFocus = action(() => {
+    uiState.focusedNode = node.id;
+  });
+
+  return (
+    <TextEditor
+      isFocused={uiState.focusedNode === node.id}
+      content={node.content}
+      onChange={onChange}
+      onReturn={onReturn}
+      onTab={onTab}
+      onBackspace={onBackspace}
+      onFocus={onFocus}
+    />
+  );
+});

@@ -32,15 +32,17 @@ export default CSSModule(observer(({ store }) => {
       e.preventDefault();
     }
   };
-  return <div styleName='container' onClick={closeOpenMenus}>
-    <div styleName='navbar'>
-      <Navbar />
+  return (
+    <div styleName='container' onClick={closeOpenMenus}>
+      <div styleName='navbar'>
+        <Navbar />
+      </div>
+      <div styleName='sidebar'>
+        <Sidebar store={store} />
+      </div>
+      <div styleName='content'>
+        <NodeView nodeId={store.nodes.viewRootNode} />
+      </div>
     </div>
-    <div styleName='sidebar'>
-      <Sidebar store={store} />
-    </div>
-    <div styleName='content'>
-      <NodeView nodeId={store.nodes.viewRootNode} />
-    </div>
-  </div>;
+  );
 }), styles);

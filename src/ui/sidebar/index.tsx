@@ -56,22 +56,26 @@ const SidebarButton = CSSModule(({ title, icon, panelType }) => {
   if (uiState.openSidebarPanel === panelType) {
     styleNames += ' selected';
   }
-  return <div styleName='button' key={title} onClick={toggleSidebar}>
-    <Icon type={icon} title={title} />
-  </div>;
+  return (
+    <div styleName='button' key={title} onClick={toggleSidebar}>
+      <Icon type={icon} title={title} />
+    </div>
+  );
 }, styles, { allowMultiple: true });
 
 export default CSSModule(observer<SidebarProps>(({ store }) => {
   const openPanel = sidebarPanels[uiState.openSidebarPanel];
 
-  return <div styleName='container'>
-    <div styleName='buttons'>
-      <SidebarButton panelType={SidebarPanelType.Toolbox} title='Toolbox' icon={IconType.Hammer} />
-      <SidebarButton panelType={SidebarPanelType.Search} title='Node List' icon={IconType.Stack} />
-      <SidebarButton panelType={SidebarPanelType.Settings} title='Settings' icon={IconType.Cog} />
+  return (
+    <div styleName='container'>
+      <div styleName='buttons'>
+        <SidebarButton panelType={SidebarPanelType.Toolbox} title='Toolbox' icon={IconType.Hammer} />
+        <SidebarButton panelType={SidebarPanelType.Search} title='Node List' icon={IconType.Stack} />
+        <SidebarButton panelType={SidebarPanelType.Settings} title='Settings' icon={IconType.Cog} />
+      </div>
+      <div styleName='panel'>
+        <openPanel.component />
+      </div>
     </div>
-    <div styleName='panel'>
-      <openPanel.component />
-    </div>
-  </div>;
+  );
 }), styles);

@@ -14,8 +14,10 @@ export default observer(({ node }: NodeTypeProps) => {
     <NodeView key={child} nodeId={child} />
   );
 
-  return <div>
-    {node.isVisible && <NodeTextEditor node={node} />}
-    {node.collapsed || children}
-  </div>;
+  return (
+    <div>
+      {node.isVisible && <NodeTextEditor node={node} />}
+      {node.collapsed || children}
+    </div>
+  );
 });

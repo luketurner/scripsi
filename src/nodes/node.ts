@@ -14,16 +14,6 @@ export class SNode {
   @observable public parent?: Uuid;
   @observable public children: Uuid[];
 
-  get parentNode(): SNode {
-    return nodeStore.getNode(this.parent);
-  }
-
-  public *getChildNodes(): IterableIterator<SNode> {
-    for (const childId in this.children) {
-      yield nodeStore.getNode(childId);
-    }
-  }
-
   constructor(options: SNodeOptions = {}) {
     this.id = options.id || uuidv4();
     this.type = options.type || NodeType.Text;
@@ -33,6 +23,16 @@ export class SNode {
     this.displayStatus = options.displayStatus || NodeDisplayStatus.Expanded;
     this.children = options.children || [];
     this.collapsed = !!options.collapsed;
+  }
+
+  get parentNode(): SNode {
+    return nodeStore.getNode(this.parent);
+  }
+
+  public *getChildNodes(): IterableIterator<SNode> {
+    for (const childId of this.children) {
+      yield nodeStore.getNode(childId);
+    }
   }
 
   @computed get isVisible() {

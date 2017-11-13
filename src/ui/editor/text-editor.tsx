@@ -46,14 +46,18 @@ class TextEditor extends React.Component<TextEditorProps, TextEditorState> {
   }
 
   public render() {
-    return <Draft.Editor editorState={this.state.editorState}
-                         onChange={this.emitChange}
-                         handleKeyCommand={this.handleKeyCommand}
-                         handleReturn={this.props.onReturn || constantlyFalse}
-                         onTab={this.props.onTab || constantlyFalse}
-                         handleDrop={this.props.onDrop || constantlyTrue}
-                         onFocus={this.props.onFocus || constantlyFalse}
-                         ref='editor' />;
+    return (
+      <Draft.Editor
+        editorState={this.state.editorState}
+        onChange={this.emitChange}
+        handleKeyCommand={this.handleKeyCommand}
+        handleReturn={this.props.onReturn || constantlyFalse}
+        onTab={this.props.onTab || constantlyFalse}
+        handleDrop={this.props.onDrop || constantlyTrue}
+        onFocus={this.props.onFocus || constantlyFalse}
+        ref='editor'
+      />
+    );
   }
 
   public emitChange(editorState: Draft.EditorState) {

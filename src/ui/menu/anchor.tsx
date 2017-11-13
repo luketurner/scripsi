@@ -10,12 +10,17 @@ export interface MenuAnchorProps {
 }
 
 export default observer<MenuAnchorProps>(({ children, id }) => {
-  return <div onContextMenu={action('ui.openNodeMenu', (e: any) => {
+
+  const openNodeMenu = action('ui.openNodeMenu', (e: any) => {
     e.preventDefault();
     const newState = !uiState.menus.get(id);
     uiState.menus.clear();
     uiState.menus.set(id, newState);
-  })}>
-    {children}
-  </div>;
+  });
+
+  return (
+    <div onContextMenu={openNodeMenu}>
+      {children}
+    </div>
+  );
 });
