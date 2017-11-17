@@ -1,4 +1,4 @@
-var webpackConfig = require('../build/webpack.base.conf.js')
+var webpackConfig = require('../build/webpack.base.conf.js');
 
 delete webpackConfig.entry
 
@@ -7,16 +7,16 @@ module.exports = function(config) {
     frameworks: ['mocha', 'sinon-chai'],
     browsers: ['jsdom'],
     
-    files: ['index.ts'],
+    files: ['unit-test-runner.ts'],
     preprocessors: {
-      'index.ts': ['webpack']
+      'unit-test-runner.ts': ['webpack']
     },
     
-    reporters: ['spec'],
+    reporters: ['progress'],
     
     webpack: webpackConfig,
     webpackMiddleware: {
       noInfo: true
-    }
-  })
-}
+    },
+  });
+};
