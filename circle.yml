@@ -10,4 +10,4 @@ deployment:
     branch: master
     commands:
       - npm run build
-      - npm run deploy
+      - npm run deploy -- $DEPLOYMENT_URL
