@@ -12,7 +12,7 @@
     "test": "karma start test/karma.conf.js --single-run",
     "test-dev": "karma start test/karma.conf.js",
     "build": "rm -rf dist && webpack --progress --hide-modules --display-error-details --config build/webpack.prod.conf.js",
-    "deploy": "build/deploy.sh",
+    "deploy": "bash build/deploy.sh",
     "tslint": "node node_modules/tslint/bin/tslint -p . --force",
     "tslint:verbose": "node node_modules/tslint/bin/tslint -p . --force -t verbose",
     "tslint:clean": "node node_modules/tslint/bin/tslint -p . --force --fix"
