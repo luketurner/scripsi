@@ -11,7 +11,7 @@ interface NodeTextEditorProps {
   node: SNode;
 }
 
-export default observer<NodeTextEditorProps>(({ node }) => {
+export default observer(({ node }) => {
   const onChange = v => node.setContent(v);
 
   const onReturn = action(() => {

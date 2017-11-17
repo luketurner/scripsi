@@ -6,7 +6,7 @@ import * as CSSModule from 'react-css-modules';
 const styles = require('./item.css');
 
 // TODO -- don't use `any`
-export default CSSModule(observer<any>(props => {
+export default CSSModule(observer(props => {
 
   if (props.disabled) {
     const stubHandler = e => {

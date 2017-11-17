@@ -69,7 +69,7 @@ const nodeDropTarget = DropTarget<NodeViewProps>('node', {
   };
 });
 
-export default nodeDragSource(nodeDropTarget(CSSModule(observer<NodeViewProps>(props => {
+export default nodeDragSource(nodeDropTarget(CSSModule(observer(props => {
 
   let node;
 

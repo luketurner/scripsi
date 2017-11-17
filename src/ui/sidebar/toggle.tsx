@@ -14,7 +14,7 @@ export interface ToggleProps {
   prop: string;
 }
 
-export default CSSModule(observer<ToggleProps>(({ model, prop }) => {
+export default CSSModule(observer(({ model, prop }) => {
 
   const isOn = !!model[prop];
 

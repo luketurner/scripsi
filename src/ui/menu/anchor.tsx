@@ -9,7 +9,7 @@ export interface MenuAnchorProps {
   id: Uuid;
 }
 
-export default observer<MenuAnchorProps>(({ children, id }) => {
+export default observer(({ children, id }) => {
 
   const openNodeMenu = action('ui.openNodeMenu', (e: any) => {
     e.preventDefault();

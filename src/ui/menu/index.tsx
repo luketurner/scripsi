@@ -20,7 +20,7 @@ export interface MenuProps {
   id: Uuid;
 }
 
-export default CSSModule(observer<MenuProps>(({ children, id }) => {
+export default CSSModule(observer(({ children, id }) => {
   const closeMenu = e => {
     e.preventDefault();
     uiState.menus.clear();

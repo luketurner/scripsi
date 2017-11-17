@@ -10,6 +10,6 @@ export interface UIProps {
   store: GlobalStore;
 }
 
-export default DragDropContext(HTML5Backend)(observer<UIProps>(({ store }) =>
+export default DragDropContext(HTML5Backend)(observer(({ store }) =>
   <Layout store={store} />
 ));

@@ -63,7 +63,7 @@ const SidebarButton = CSSModule(({ title, icon, panelType }) => {
   );
 }, styles, { allowMultiple: true });
 
-export default CSSModule(observer<SidebarProps>(({ store }) => {
+export default CSSModule(observer(({ store }) => {
   const openPanel = sidebarPanels[uiState.openSidebarPanel];
 
   return (
