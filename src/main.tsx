@@ -1,5 +1,5 @@
 import * as _ from 'lodash';
-import { runInAction } from 'mobx';
+import { runInAction, useStrict } from 'mobx';
 import DevTools from 'mobx-react-devtools';
 import * as React from 'react';
 import { render } from 'react-dom';
@@ -16,6 +16,9 @@ require('file-loader?name=[name].[ext]!./index.html');
 require('../node_modules/draft-js/dist/Draft.css');
 
 export async function main() {
+
+  // useStrict(true); // mobx -- don't allow state modifications outside actions
+  
   try {
     console.debug('Attempting to load persistent data...');
 

@@ -9,6 +9,16 @@ export default class LocalBackend extends Backend {
 
   public name = 'local';
 
+  private client: LocalForage;
+
+  constructor() {
+    super();
+    this.client = LocalForage.createInstance({
+      driver: LocalForage.INDEXEDDB,
+      name: 'scripsi',
+    });
+  }
+
   public async _load(key) {
     return new Promise((resolve, reject) => {
       LocalForage.getItem(getKey(key), (err, val) => {

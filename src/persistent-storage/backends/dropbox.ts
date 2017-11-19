@@ -13,7 +13,7 @@ export default class DropboxBackend extends Backend {
     super();
     this.dropboxClient = new Dropbox();
     autorun(() => {
-      const accessToken = settings.dropboxConfig.accessToken;
+      const accessToken = settings.settings.dropbox.accessToken;
       console.debug('Updating Dropbox access token', accessToken);
       this.dropboxClient.setAccessToken(accessToken);
     });

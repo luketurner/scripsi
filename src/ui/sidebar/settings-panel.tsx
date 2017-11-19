@@ -11,8 +11,8 @@ const styles = require('./settings-panel.css');
 
 export default CSSModule(observer(props => {
   const dropboxBackend = persistenceStore.backends.get('dropbox');
-  const onDatabaseNameChanged = action((e: any) => settingsStore.databaseName = e.target.value);
-  const onAccessTokenChanged = action((e: any) => settingsStore.dropboxConfig.accessToken = e.target.value);
+  const onDatabaseNameChanged = action((e: any) => settingsStore.settings.databaseName = e.target.value);
+  const onAccessTokenChanged = action((e: any) => settingsStore.settings.dropbox.accessToken = e.target.value);
 
   return (
     <div styleName='container'>
@@ -21,7 +21,7 @@ export default CSSModule(observer(props => {
 
       <div styleName='input-row'>
         <label>Database Name</label>
-        <input value={settingsStore.databaseName} onChange={onDatabaseNameChanged} />
+        <input value={settingsStore.settings.databaseName} onChange={onDatabaseNameChanged} />
       </div>
 
       <header>
@@ -33,7 +33,7 @@ export default CSSModule(observer(props => {
 
       <div styleName='input-row'>
         <label>Access Token</label>
-        <input value={settingsStore.dropboxConfig.accessToken} onChange={onAccessTokenChanged} />
+        <input value={settingsStore.settings.dropbox.accessToken} onChange={onAccessTokenChanged} />
       </div>
     </div>
   );
