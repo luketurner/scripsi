@@ -14,6 +14,7 @@ require('file-loader?name=[name].[ext]!./index.html');
 
 // Include Draft.js CSS declarations
 require('../node_modules/draft-js/dist/Draft.css');
+require('../node_modules/prism-themes/themes/prism-vs.css');
 
 export async function main() {
 

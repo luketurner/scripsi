@@ -31,6 +31,7 @@ export default CSSModule(observer(props => {
       <h2>Node Types</h2>
       <NodeTypeButton node={focusedNode} title='Text' nodeType={NodeType.Text} icon={IconType.IncreaseIndent} />
       <NodeTypeButton node={focusedNode} title='UL' nodeType={NodeType.ListItem} icon={IconType.UnorderedList} />
+      <NodeTypeButton node={focusedNode} title='Code' nodeType={NodeType.CodeBlock} icon={IconType.UnorderedList} />
     </div>
   );
 

@@ -199,7 +199,8 @@ export enum NodeType {
   ListItem,
   OrderedListItem,
   DictionaryListItem,
-  TodoListItem
+  TodoListItem,
+  CodeBlock
 }
 
 export enum NodeDisplayStatus {

@@ -31,16 +31,16 @@ export default CSSModule(observer(({ node }) => {
         styleName='handle'
         onMouseEnter={hoverNode}
         onMouseLeave={unhoverNode}
-        onClick={node.toggleCollapsed}
+        onClick={() => node.toggleCollapsed()}
       />
 
       <Menu id={node.id}>
 
-        <MenuItem onClick={node.promote}>
+        <MenuItem onClick={() => node.promote()}>
           Promote
         </MenuItem>
 
-        <MenuItem onClick={node.demote}>
+        <MenuItem onClick={() => node.demote()}>
           Demote
         </MenuItem>
 
