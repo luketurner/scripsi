@@ -1,11 +1,11 @@
 import * as React from 'react';
-// import { connect } from 'react-redux'
 import * as CSSModule from 'react-css-modules';
 
 import { observer } from 'mobx-react';
 
 import Navbar from '../navbar';
 import NodeView from '../node-view';
+import Notifier from '../notifier';
 import Sidebar from '../sidebar';
 import uiState from '../state';
 
@@ -34,6 +34,7 @@ export default CSSModule(observer(({ store }) => {
   };
   return (
     <div styleName='container' onClick={closeOpenMenus}>
+      <Notifier />
       <div styleName='navbar'>
         <Navbar />
       </div>

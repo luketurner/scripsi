@@ -3,6 +3,7 @@ import * as LocalForage from 'localforage';
 import * as _ from 'lodash';
 import { observable, action, autorunAsync, runInAction } from 'mobx';
 import { Settings } from './index';
+import { parse } from 'query-string';
 
 export class SettingStore {
   @observable public settings: Settings;   // currently applied settings
@@ -19,6 +20,17 @@ export class SettingStore {
     } else {
       console.debug('No existing settings. Using defaults.');
       this.settings = new Settings();
+    }
+
+    // Handle OAuth redirect workflows here -- if we're redirected to a certain URL,
+    // then some auth settings (like access tokens) should be provided in the URL as
+    // part of the OAuth permission granting process.
+    // TODO -- maybe a better place to put this logic?
+    if (window.location.pathname === '/dropbox_auth') {
+      const accessToken = parse(window.location.hash)['access_token'];
+      if (accessToken) {
+        this.settings.dropbox.accessToken = accessToken;
+      }
     }
 
     autorunAsync(() => {

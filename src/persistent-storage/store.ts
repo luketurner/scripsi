@@ -134,7 +134,7 @@ export class PersistenceStore {
         await backend.save(key, state);
         backend.lastUpdate = lastUpdate;
       } catch (err) {
-        console.error(`Unable to save to backend: ${backend.name}. ${err}. (${backend.lastUpdate} -> ${this.lastUpdate})`);
+        console.error(`Unable to save to backend: ${backend.name}. (${backend.lastUpdate} -> ${this.lastUpdate})`, err);
       }
     }
   }
