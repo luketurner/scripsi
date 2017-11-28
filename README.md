@@ -78,18 +78,19 @@ The Dropbox backend requires a Dropbox access key to be configured in order to b
 - [ ] Publish to HTML
   - [ ] Auto-post to blog
 
-# Build Setup
+# Developer Tools
 
 ``` bash
-# install dependencies
-npm install
+npm install       # Install all dependencies
 
-# serve with hot reload at localhost:8080
-npm run dev
+npm test          # run unit tests
+npm run test-dev  # Run unit tests with file watching
 
-# build for production with minification
-npm run build
+npm run dev       # serve local dev server with live-reload at localhost:8080
+npm run storybook # Run Storybook server (UI component visual testing)
 
-# run unit tests
-npm test
+npm run tslint    # run tslint
+npm run build     # output minified production build to /build
+npm run deploy    # push /build folder to gh-pages branch
+
 ```

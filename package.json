@@ -13,6 +13,7 @@
     "test-dev": "karma start test/karma.conf.js",
     "build": "rm -rf dist && webpack --progress --hide-modules --display-error-details --config build/webpack.prod.conf.js",
     "deploy": "bash build/deploy.sh",
+    "storybook": "start-storybook -p 8081 -c .storybook",
     "tslint": "node node_modules/tslint/bin/tslint -p . --force",
     "tslint:verbose": "node node_modules/tslint/bin/tslint -p . --force -t verbose",
     "tslint:clean": "node node_modules/tslint/bin/tslint -p . --force --fix"
@@ -44,6 +45,8 @@
     "react-dom": "^15.0.1"
   },
   "devDependencies": {
+    "@storybook/addon-actions": "^3.2.16",
+    "@storybook/react": "^3.2.16",
     "@types/chai": "^4.0.5",
     "@types/draft-js": "^0.10.17",
     "@types/mocha": "^2.2.44",
