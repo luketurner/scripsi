@@ -45,7 +45,9 @@ const paths = { // Unless otherwise noted, taken from IcoMoon.io
 };
 
 export default CSSModule(({ title, type }) => (
-  <svg styleName='icon' viewBox='0 0 32 32' role='img'>
-      <path d={paths[type]} />
-  </svg>
+  <div styleName='icon' title={title}>
+    <svg viewBox='0 0 32 32' role='img'>
+        <path d={paths[type]} />
+    </svg>
+  </div>
 ), styles);

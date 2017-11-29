@@ -4,13 +4,6 @@ var path = require('path')
 // var lost = ;
 // var cssnext = ;
 
-var postcssPlugins = [
-  require('postcss-comment')(),
-  require('precss')(),
-  require('lost')(),
-  require('postcss-cssnext')()
-];
-
 module.exports = {
   cache: true,
   entry: [
@@ -30,7 +23,16 @@ module.exports = {
       { test: /\.css$/,  use: [
         'style-loader',
         { loader: 'css-loader', options: { modules: true, importLoaders: 1 } },
-        { loader: 'postcss-loader', options: { parser: 'postcss-safe-parser', plugins: postcssPlugins } }
+        { loader: 'postcss-loader',
+          options: { 
+            parser: require('postcss-scss'), 
+            plugins: [
+              require('precss')(),
+              require('lost')(),
+              require('postcss-cssnext')()
+            ]
+          }
+        }
       ]},
       { test: /\.tsx?$/, loader: 'awesome-typescript-loader', exclude: /node_modules/ },
       { enforce: "pre", test: /\.js$/, loader: 'source-map-loader' },

@@ -4,7 +4,7 @@ import * as CSSModule from 'react-css-modules';
 
 import { NodeType } from '../../nodes';
 import nodeStore from '../../nodes/store';
-import Icon, { IconType } from '../icon';
+import Icon, { IconType } from '../shared/icon';
 import uiState from '../state';
 
 const styles = require('./toolbox-panel.css');

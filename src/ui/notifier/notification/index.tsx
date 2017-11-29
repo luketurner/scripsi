@@ -18,7 +18,7 @@ import * as CSSModule from 'react-css-modules';
  */
 export default CSSModule(({ children }) => {
   return (
-    <div>
+    <div styleName='notification'>
       {children}
     </div>
   );

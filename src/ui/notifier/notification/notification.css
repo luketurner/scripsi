@@ -1,0 +1,15 @@
+@import '../../shared/styles/colors.scss';
+
+.notification {
+  border: 1px solid $primary-border;
+  padding: 0.25em;
+  margin: 0.25em;
+  color: $primary-fg;
+  fill: $primary-fg;
+  border-radius: 0.125em;
+  background-color: $highlight-bg;
+}
+
+a {
+  color: inherit;
+}
