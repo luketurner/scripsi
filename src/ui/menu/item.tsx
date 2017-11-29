@@ -3,7 +3,7 @@ import { observer } from 'mobx-react';
 import * as React from 'react';
 import * as CSSModule from 'react-css-modules';
 
-const styles = require('./item.css');
+const styles = require('./item.scss');
 
 // TODO -- don't use `any`
 export default CSSModule(observer(props => {

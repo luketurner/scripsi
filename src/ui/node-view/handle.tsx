@@ -9,7 +9,7 @@ import Icon, { IconType } from '../shared/icon';
 import Menu, { MenuAnchor, MenuItem, SubMenu } from '../menu';
 import uiState from '../state';
 
-const styles = require('./handle.css');
+const styles = require('./handle.scss');
 
 export default CSSModule(observer(({ node }) => {
 

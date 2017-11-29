@@ -5,7 +5,7 @@ import nodeStore from '../../nodes/store';
 import persistenceStore from '../../persistent-storage/store';
 import Icon, { IconType } from '../shared/icon';
 
-const styles = require('./navbar.css');
+const styles = require('./navbar.scss');
 
 export default CSSModule(observer(() => {
 

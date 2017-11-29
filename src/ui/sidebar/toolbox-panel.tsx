@@ -7,7 +7,7 @@ import nodeStore from '../../nodes/store';
 import Icon, { IconType } from '../shared/icon';
 import uiState from '../state';
 
-const styles = require('./toolbox-panel.css');
+const styles = require('./toolbox-panel.scss');
 
 const NodeTypeButton = CSSModule(({ node, nodeType, icon, title }) => {
   const setNodeType = () => node.setType(nodeType);

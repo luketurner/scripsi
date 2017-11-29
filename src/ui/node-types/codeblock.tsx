@@ -17,7 +17,7 @@ const prismPlugin = createPrismPlugin({
   prism: Prism
 });
 // const codeEditorPlugin = createCodeEditorPlugin();
-const styles = require('./codeblock.css');
+const styles = require('./codeblock.scss');
 
 export default CSSModule(observer(({ node }: NodeTypeProps) => {
   const childrenElements = map(node.children, child =>

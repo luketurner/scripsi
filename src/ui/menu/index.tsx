@@ -8,7 +8,7 @@ import MenuAnchor from './anchor';
 import MenuItem from './item';
 import SubMenu from './sub-menu';
 
-const styles = require('./menu.css');
+const styles = require('./menu.scss');
 
 export { MenuItem, MenuAnchor, SubMenu };
 

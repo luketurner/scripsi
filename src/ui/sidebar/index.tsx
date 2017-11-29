@@ -18,7 +18,7 @@ import NodeListPanel from './node-list-panel';
 import SettingsPanel from './settings-panel';
 import ToolboxPanel from './toolbox-panel';
 
-const styles = require('./index.css');
+const styles = require('./index.scss');
 
 import uiState from '../state';
 

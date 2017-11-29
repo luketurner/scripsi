@@ -22,4 +22,4 @@ export default CSSModule(({ children }) => {
       {children}
     </div>
   );
-}, require('./notification.css'));
+}, require('./notification.scss'));

@@ -10,7 +10,7 @@ import Menu, { MenuAnchor, MenuItem } from '../menu';
 import uiState from '../state';
 import Handle from './handle';
 
-const styles = require('./node-view.css');
+const styles = require('./node-view.scss');
 
 export interface NodeViewProps {
   nodeId: string;

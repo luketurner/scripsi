@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as CSSModule from 'react-css-modules';
 import Icon, { IconType } from '../icon';
 
-const styles = require('./tile.css');
+const styles = require('./tile.scss');
 
 export default CSSModule(({ children, iconType, title }) => {
 

@@ -14,4 +14,4 @@ export default CSSModule(observer(props => {
       {uiState.notifications}
     </div>
   );
-}), require('./notifier.css'));
+}), require('./notifier.scss'));

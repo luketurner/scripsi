@@ -8,7 +8,7 @@ import uiState from '../state';
 import Menu from './index';
 import MenuItem from './item';
 
-const styles = require('./item.css');
+const styles = require('./item.scss');
 
 export default CSSModule(observer(({ children, label }) => {
   const menuId = uuidv4();

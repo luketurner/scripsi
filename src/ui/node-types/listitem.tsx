@@ -8,7 +8,7 @@ import { NodeTextEditor } from '../../ui/editor';
 import NodeView from '../node-view';
 import { NodeTypeProps } from './types';
 
-const styles = require('./listitem.css');
+const styles = require('./listitem.scss');
 
 export default CSSModule(observer(({ node }: NodeTypeProps) => {
   const childrenElements = map(node.children, child =>

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as CSSModule from 'react-css-modules';
 
-const styles = require('./icon.css');
+const styles = require('./icon.scss');
 
 export enum IconType {
   Plus,

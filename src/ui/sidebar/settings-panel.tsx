@@ -7,9 +7,9 @@ import persistenceStore from '../../persistent-storage/store';
 import settingsStore from '../../settings/store';
 import uiState from '../state';
 import ToggleBackend from './toggle';
-import Notification from '../notifier/notification';
+import { Notification } from '../notifier';
 
-const styles = require('./settings-panel.css');
+const styles = require('./settings-panel.scss');
 
 export default CSSModule(observer(props => {
   const dropboxBackend = persistenceStore.backends.get('dropbox');

@@ -9,7 +9,7 @@ import Notifier from '../notifier';
 import Sidebar from '../sidebar';
 import uiState from '../state';
 
-const styles = require('./layout.css');
+const styles = require('./layout.scss');
 
 type PanelComponent = React.Component<any, any>;
 
