@@ -19,8 +19,6 @@ export enum BackendOperation {
 export abstract class Backend {
   @observable public name: string;           // Backend name -- should be globally unique
   @observable public lastUpdate: number = 0; // Timestamp of the last update to the backend (used for determining whether it is up-to-date)
-  @observable public isEnabled: boolean;     // Whether the backend is enabled at all
-  @observable public isPrimary: boolean;     // whether the backend is "primary" (i.e. used for loads)
   @observable public wip: Promise<any>; // set when there is work in progress for the backend
 
   constructor() {
@@ -28,17 +26,17 @@ export abstract class Backend {
   }
 
   // Abstract private methods to be implemented by each subclass. TODO -- can I do abstract private methods?
-  public abstract _load(key: string): Promise<any>;
-  public abstract _save(key: string, value: object): Promise<any>;
+  public abstract _load(key: string): Promise<string>;
+  public abstract _save(key: string, value: string): Promise<any>;
   public abstract _reset(key: string): Promise<any>;
 
   // TODO -- do we need to reassign `this.wip = this.wip.then()`, or just do `this.wip.then()`?
-  public async load(key: string): Promise<void> {
+  public async load(key: string): Promise<string> {
     this.wip = this.wip.then(async () => this._load(key));
     return this.wip;
   }
 
-  public async save(key: string, value: object): Promise<void> {
+  public async save(key: string, value: string): Promise<void> {
     this.wip = this.wip.then(async () => this._save(key, value));
     return this.wip;
   }
@@ -47,6 +45,7 @@ export abstract class Backend {
     this.wip = this.wip.then(async () => this._reset(key));
     return this.wip;
   }
+
 }
 
 export { default as LocalBackend } from './local';

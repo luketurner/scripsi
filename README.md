@@ -2,17 +2,30 @@
 
 Build Status: [![Circle CI](https://circleci.com/gh/luketurner/scripsi.svg?style=svg)](https://circleci.com/gh/luketurner/scripsi)
 
-Scripsi is an open-source note-taking/writing/PIM system, inspired by [Workflowy](https://workflowy.com/) and [Notion](https://www.notion.so/). A running implementation is available at [luketurner.org/scripsi](http://luketurner.org/scripsi). (Important: This domain does not support HTTPS. Until that's fixed, I do not recommend that you use this for anything sensitive or personal. If you want to store personal or sensitive data, you should run a copy of `scripsi` using an HTTP server you control.)
+Scripsi is an open-source note-taking/writing/PIM system, inspired by [Workflowy](https://workflowy.com/) and [Notion](https://www.notion.so/). A running implementation is available at [luketurner.org/scripsi](http://luketurner.org/scripsi). 
 
-# About
+**Important**: The demo implementation does not support HTTPS. Until that's fixed, I do not recommend that you use this for anything sensitive or personal. If you want to store personal or sensitive data, you should run a copy of `scripsi` using an HTTP(S) server you control.
 
-Scripsi organizes information in *documents*, which are hierarchical trees of *nodes*. Documents can be nested with arbitrary depth, and may contain thousands of nodes. A single document contains and structures all your information: instead of having a Home document and a Work document, you just have a single document with Home and Work subsections.
+# Introduction
 
-So, if a document is a tree of nodes, what's a "node"? A Scripsi node is basically a *block-level element* of the document, like a paragraph, header, or code block. Different types of nodes can be mixed and matched to best suit the needs of the document. Documents can be entirely textual, structured in a Workflowy-esque outline, or they can include rich content and complex formatting.
+Scripsi organizes information in *documents*, which are hierarchical trees of *nodes*. Documents can be nested with arbitrary depth, and may contain thousands of nodes. A single document contains and structures all your information: instead of having a Home document and a Work document, you just have a single document with Home and Work subsections. Users familiar with Workflowy will feel right at home here.
 
-## Writing
+So, if a document is a tree of nodes, what's a "node"? A Scripsi node is basically a *block-level element* of the document, like a paragraph, header, or code block. Different types of nodes can be mixed and matched to best suit the needs of the document. Some node types can be individually configured.
 
-Create nodes with enter, remove old ones with backspace, etc.
+## Usage
+
+A Scripsi document has a similar editing experience to a Workflowy outline. Nodes can be reorganized with drag-and-drop, or using the keyboard shortcuts.
+
+## Keyboard Shortcuts
+
+| Shortcut | Description |
+| --- | --- |
+| `Enter` | Creates a new child node.
+| `Shift+Enter` | Creates a new paragraph in the focused node.
+| `Backspace` | Deletes the focused node (if empty).
+| `Tab` | Indents/"demotes" the focused node.
+| `Shift+Tab` | Un-indents/"promotes" the focused node.
+|
 
 # Nodes
 

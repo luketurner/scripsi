@@ -1,7 +1,8 @@
 import { action, observable } from 'mobx';
 import { SNode, SNodeOptions } from './node';
+import { Persistable } from '../persistent-storage';
 
-export class SNodeStore {
+export class SNodeStore implements Persistable {
   @observable public rootNode: Uuid;
   @observable public viewRootNode: Uuid;
   @observable public searchQuery: string;
@@ -28,6 +29,17 @@ export class SNodeStore {
     const node = this.index.get(id);
     if (!node) throw new Error('Could not find node with id: ' + id);
     return node;
+  }
+
+  public loadState(newState: string) {
+    const state = JSON.parse(newState);
+    this.rootNode = state.rootNode;
+    this.viewRootNode = state.viewRootNode;
+
+    this.index.clear();
+    for (const node of Object.values(state.index)) {
+      this.addNode(new SNode(node));
+    }
   }
 }
 

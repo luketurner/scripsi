@@ -13,7 +13,7 @@ export enum SidebarPanelType {
 }
 
 import { GlobalStore } from '../../store';
-import Icon, { IconType } from '../shared/icon';
+import Icon, { IconType } from '../widgets/icon';
 import NodeListPanel from './node-list-panel';
 import SettingsPanel from './settings-panel';
 import ToolboxPanel from './toolbox-panel';

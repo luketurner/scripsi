@@ -61,3 +61,20 @@ input {
   padding-left: 0.125rem;
   background-color: #f8f8f8;
 }
+
+button {
+  background: none;
+  border: none;
+  font-size: inherit;
+  font-variant: inherit;
+  text-transform: inherit;
+  outline: none;
+}
+
+.on {
+  color: rgb(83, 175, 85)
+}
+
+.off {
+  color: #aaa;
+}

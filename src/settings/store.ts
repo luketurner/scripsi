@@ -3,7 +3,6 @@ import * as LocalForage from 'localforage';
 import * as _ from 'lodash';
 import { observable, action, autorunAsync, runInAction } from 'mobx';
 import { Settings } from './index';
-import { parse } from 'query-string';
 
 export class SettingStore {
   @observable public settings: Settings;   // currently applied settings
@@ -22,17 +21,6 @@ export class SettingStore {
       this.settings = new Settings();
     }
 
-    // Handle OAuth redirect workflows here -- if we're redirected to a certain URL,
-    // then some auth settings (like access tokens) should be provided in the URL as
-    // part of the OAuth permission granting process.
-    // TODO -- maybe a better place to put this logic?
-    if (window.location.pathname === '/dropbox_auth') {
-      const accessToken = parse(window.location.hash)['access_token'];
-      if (accessToken) {
-        this.settings.dropbox.accessToken = accessToken;
-      }
-    }
-
     autorunAsync(() => {
       try {
         this.saveToBrowser(JSON.stringify(this.settings));
@@ -44,7 +32,7 @@ export class SettingStore {
   }
 
   public loadFromBrowser(): Settings | void {
-    let browserLastSaved = this.getBrowserLastSaved();
+    const browserLastSaved = this.getBrowserLastSaved();
     if (!browserLastSaved) {
       return null; // no settings to load
     }
@@ -71,10 +59,10 @@ export class SettingStore {
     }
 
     console.debug(`Saving settings to local storage (${this.lastSaved} -> ${currentTimestamp})`);
-    
+
     this.setBrowserSettings(settingsToSave);
     this.setBrowserLastSaved(currentTimestamp);
-    
+
     this.lastSaved = currentTimestamp;
   }
 
@@ -91,7 +79,8 @@ export class SettingStore {
   }
 
   private getBrowserSettings(): Settings {
-    return JSON.parse(this.storageClient.getItem(`${this.storagePrefix}settings`));
+    const savedSettings = JSON.parse(this.storageClient.getItem(`${this.storagePrefix}settings`));
+    return _.merge(new Settings(), savedSettings);
   }
 
   private setBrowserSettings(newValue: string) {

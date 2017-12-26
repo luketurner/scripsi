@@ -9,35 +9,43 @@ export default class DropboxBackend extends Backend {
   public name = 'dropbox';
   public dropboxClient;
 
+  private lastKnownRev;
+
   constructor() {
     super();
     this.dropboxClient = new Dropbox();
+    const backendSettings = settings.settings.backends;
 
     autorun(() => {
-      const clientId = settings.settings.dropbox.appClientId;
+      const clientId = backendSettings.dropbox.appClientId;
       console.debug('Updating Dropbox client ID', clientId);
       this.dropboxClient.setClientId(clientId);
     });
 
     autorun(() => {
-      const accessToken = settings.settings.dropbox.accessToken;
+      const accessToken = backendSettings.dropbox.accessToken;
       console.debug('Updating Dropbox access token', accessToken);
       this.dropboxClient.setAccessToken(accessToken);
     });
   }
 
-  public async _load(key) {
-    const fileData = await this.dropboxClient.filesDownload({
+  public async _load(key: string): Promise<string> {
+    const { rev, fileBlob } = await this.dropboxClient.filesDownload({
       path: this.getFilename(key)
     });
-    console.log('got fileData', fileData);
-
+    this.lastKnownRev = rev;
+    return fileBlob; // TODO -- stringify me
   }
 
   public async _save(key, value) {
     return this.dropboxClient.filesUpload({
       path: this.getFilename(key),
-      contents: value
+      contents: JSON.stringify(value),
+      mode: 'overwrite' // TODO -- change to using 'update' mode
+      // mode: {
+      //   '.tag': 'update',
+      //   update: this.lastKnownRev
+      // }
     });
   }
 
@@ -60,6 +68,6 @@ export default class DropboxBackend extends Backend {
   }
 
   private getFilename(key) {
-    return `/${key}.scripsidb`;
+    return `/${key.replace('|', '-')}.scripsidb`;
   }
 }

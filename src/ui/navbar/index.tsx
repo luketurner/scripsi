@@ -2,15 +2,15 @@ import { observer } from 'mobx-react';
 import * as React from 'react';
 import * as CSSModule from 'react-css-modules';
 import nodeStore from '../../nodes/store';
-import persistenceStore from '../../persistent-storage/store';
-import Icon, { IconType } from '../shared/icon';
+import { nodeStorage } from '../../persistent-storage';
+import Icon, { IconType } from '../widgets/icon';
 
 const styles = require('./navbar.scss');
 
 export default CSSModule(observer(() => {
 
-  const isPrimaryUnsaved = persistenceStore.isPrimaryUnsaved();
-  const areSecondariesUnsaved = persistenceStore.areSecondaryBackendsUnsaved();
+  const isPrimaryUnsaved = nodeStorage.isPrimaryUnsaved();
+  const areSecondariesUnsaved = nodeStorage.areSecondaryBackendsUnsaved();
 
   const onSearchInput = e => nodeStore.setSearchQuery(e.target.value);
 

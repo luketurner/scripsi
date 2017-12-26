@@ -3,18 +3,21 @@ import * as CSSModule from 'react-css-modules';
 
 import { action } from 'mobx';
 import { observer } from 'mobx-react';
-import persistenceStore from '../../persistent-storage/store';
-import settingsStore from '../../settings/store';
+import store from '../../store';
 import uiState from '../state';
 import ToggleBackend from './toggle';
 import { Notification } from '../notifier';
+import { nodeStorage } from '../../persistent-storage';
 
 const styles = require('./settings-panel.scss');
 
 export default CSSModule(observer(props => {
-  const dropboxBackend = persistenceStore.backends.get('dropbox');
-  const onDatabaseNameChanged = action((e: any) => settingsStore.settings.databaseName = e.target.value);
-  const onAccessTokenChanged = action((e: any) => settingsStore.settings.dropbox.accessToken = e.target.value);
+
+  const settings = store.settings.settings;
+  const dropboxBackend = nodeStorage.getBackend('dropbox');
+  
+  const onDatabaseNameChanged = action((e: any) => settings.backends.databaseName = e.target.value);
+  const onAccessTokenChanged = action((e: any) => settings.backends.dropbox.accessToken = e.target.value);
 
   const startDropboxAuth = () => {
     const notification = (
@@ -35,19 +38,19 @@ export default CSSModule(observer(props => {
 
       <div styleName='input-row'>
         <label>Database Name</label>
-        <input value={settingsStore.settings.databaseName} onChange={onDatabaseNameChanged} />
+        <input value={settings.backends.databaseName} onChange={onDatabaseNameChanged} />
       </div>
 
       <header>
         <h2>Dropbox</h2>
         <div styleName='section-toggle'>
-          <ToggleBackend model={dropboxBackend} prop='isEnabled'/>
+          <button onClick={() => settings.backends.primary = (settings.backends.primary === 'local' ? 'dropbox' : 'local')}>Toggle</button>
         </div>
       </header>
 
       <div styleName='input-row'>
         <label>Access Token</label>
-        <input value={settingsStore.settings.dropbox.accessToken} onChange={onAccessTokenChanged} />
+        <input value={settings.backends.dropbox.accessToken} onChange={onAccessTokenChanged} />
       </div>
 
       <div styleName='input-row'>

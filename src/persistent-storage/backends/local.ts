@@ -19,9 +19,9 @@ export default class LocalBackend extends Backend {
     });
   }
 
-  public async _load(key) {
-    return new Promise((resolve, reject) => {
-      LocalForage.getItem(getKey(key), (err, val) => {
+  public async _load(key: string) {
+    return new Promise<string>((resolve, reject) => {
+      LocalForage.getItem<string>(getKey(key), (err, val) => {
         return err ? reject(err) : resolve(val);
       });
     });

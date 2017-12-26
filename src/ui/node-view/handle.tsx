@@ -5,7 +5,7 @@ import * as CSSModule from 'react-css-modules';
 
 import { NodeType, SNode } from '../../nodes';
 import nodeStore from '../../nodes/store';
-import Icon, { IconType } from '../shared/icon';
+import Icon, { IconType } from '../widgets/icon';
 import Menu, { MenuAnchor, MenuItem, SubMenu } from '../menu';
 import uiState from '../state';
 

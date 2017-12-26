@@ -3,7 +3,7 @@ import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import { storiesOf } from '@storybook/react';
 
-import Icon, { IconType } from '../../shared/icon';
+import Icon, { IconType } from '../../widgets/icon';
 import Notification from './index';
 
 storiesOf('Notification', module)

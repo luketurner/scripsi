@@ -1,13 +1,11 @@
 import { observable } from 'mobx';
 
-import { DropboxSettings } from './dropbox';
+import { BackendSettings } from './backends';
 
 export class Settings {
-  @observable public databaseName: string;
-  @observable public dropbox: DropboxSettings;
+  @observable public backends: BackendSettings;
 
   constructor() {
-    this.databaseName = 'scripsi';
-    this.dropbox = new DropboxSettings();
+    this.backends = new BackendSettings();
   }
 }

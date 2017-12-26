@@ -1,3 +1,5 @@
+@import "../styles/typography.scss";
+
 @font-face {
   font-family: "Open Sans";
   font-style: normal;
@@ -8,14 +10,13 @@
 :global * { box-sizing: border-box; }
 
 .container {
-  font: 14px "Open Sans", sans-serif;
-  lost-center: 80rem 1rem flex;
+  @mixin default-typography();
   lost-flex-container: row;
   @lost flexbox flex;
 }
 
 .content {
-  max-width: 40rem;
+  max-width: 60rem;
 }
 
 .navbar {
@@ -34,11 +35,4 @@
 
 .disabled {
   display: none;
-}
-
-.collapser {
-  cursor: pointer;
-  display: flex;
-  align-self: flex-end;
-  width: 2rem;
 }

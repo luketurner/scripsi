@@ -5,7 +5,6 @@ import * as React from 'react';
 import * as CSSModule from 'react-css-modules';
 
 import { Backend } from '../../persistent-storage/backends';
-import persistenceStore from '../../persistent-storage/store';
 
 const styles = require('./toggle.scss');
 
