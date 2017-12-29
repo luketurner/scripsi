@@ -1,13 +1,5 @@
 import { observable } from 'mobx';
 
-import { WIPException } from '../errors';
-
-export enum BackendOperation {
-  Load,
-  Save,
-  Reset
-}
-
 /**
  * Abstract class defining shared behavior for persistence backends.
  * Individual backends should extend this class and implement the abstract _methods.
