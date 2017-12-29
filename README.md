@@ -38,7 +38,7 @@ The following types of nodes are currently supported:
 - [x] Lists
 - [ ] Numbered lists
 - [ ] Todo lists
-- [ ] Code
+- [x] Code
   - [ ] Syntax highlighting
   - [ ] Literate programming
 - [ ] Quotations
@@ -76,7 +76,7 @@ By default, Scripsi stores your document in your browser's offline storage. This
 Instead, it's recommended you use one of the other backends available to store your notes. The backends currently supported are:
 
 - [x] IndexedDB (Browser Storage API)
-- [ ] Dropbox
+- [x] Dropbox
 - [ ] Amazon S3
 - [ ] Firebase/GCS
 - [ ] Custom Web API
