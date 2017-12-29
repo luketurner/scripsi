@@ -6,7 +6,7 @@ import { render } from 'react-dom';
 
 import { SNode } from './nodes';
 import { MissingStateError } from './persistent-storage/errors';
-import store from './store';
+import nodeStore from './nodes/store';
 import { nodeStorage } from './persistent-storage';
 import UI from './ui/index';
 
@@ -38,18 +38,18 @@ export async function main() {
     }
 
     runInAction('persistence.setDefaultData', () => {
-      const rootNode = store.nodes.addNode(new SNode({
+      const rootNode = nodeStore.addNode(new SNode({
         content: '{"entityMap":{},"blocks":[{"key":"50fo4","text":"Welcome to Scripsi. Press Enter to create a new node and start typing!","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[]}]}'
       }));
 
-      store.nodes.rootNode = rootNode.id;
-      store.nodes.viewRootNode = rootNode.id;
+      nodeStore.rootNode = rootNode.id;
+      nodeStore.viewRootNode = rootNode.id;
     });
   }
 
   render(
     <div>
-      <UI store={store} />
+      <UI />
       <DevTools />
     </div>,
     document.getElementById('app')

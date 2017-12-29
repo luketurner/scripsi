@@ -4,6 +4,7 @@ import * as CSSModule from 'react-css-modules';
 import { observer } from 'mobx-react';
 
 import Navbar from '../navbar';
+import nodeStore from '../../nodes/store';
 import NodeView from '../node-view';
 import uiState from '../state';
 
@@ -28,7 +29,7 @@ export default CSSModule(observer(({ store }) => {
     <div styleName='container'>
       <Navbar />
       <div styleName='content'>
-        <NodeView nodeId={store.nodes.viewRootNode} />
+        <NodeView nodeId={nodeStore.viewRootNode} />
       </div>
       {uiState.openDialog}
     </div>

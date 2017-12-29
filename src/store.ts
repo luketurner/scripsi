@@ -2,7 +2,6 @@ import * as _ from 'lodash';
 import { observable, runInAction, spy } from 'mobx';
 
 import nodeStore, { SNodeStore } from './nodes/store';
-import { PersistentStorage } from './persistent-storage';
 import settingStore, { SettingStore } from './settings/store';
 
 export class GlobalStore {
