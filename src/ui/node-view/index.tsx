@@ -6,7 +6,6 @@ import { DragSource, DropTarget } from 'react-dnd';
 
 import { NodeType, SNode } from '../../nodes';
 import nodeStore from '../../nodes/store';
-import Menu, { MenuAnchor, MenuItem } from '../menu';
 import uiState from '../state';
 import Handle from './handle';
 

@@ -1,38 +1,25 @@
-@import "../styles/typography.scss";
-
-@font-face {
-  font-family: "Open Sans";
-  font-style: normal;
-  font-weight: 400;
-  src: local("Open Sans"), url("./open-sans/OpenSans-Regular.ttf") format("truetype")
-}
+@import "../../../node_modules/@blueprintjs/core/dist/variables.scss";
 
 :global * { box-sizing: border-box; }
 
 .container {
-  @mixin default-typography();
-  lost-flex-container: row;
   @lost flexbox flex;
+  lost-flex-container: column;
+  background-color: $pt-app-background-color;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  position: absolute;
 }
 
 .content {
   max-width: 60rem;
+  margin: 0.75rem 1.5rem;
 }
 
 .navbar {
   width: 100%;
   margin-bottom: 0.5rem;
   flex-grow: 0;
-}
-
-.sidebarCollapsed {
-  lost-flex-container: column;
-}
-
-.sidebar {
-  lost-flex-container: column;
-}
-
-.disabled {
-  display: none;
 }

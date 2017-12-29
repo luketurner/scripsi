@@ -14,8 +14,9 @@ import UI from './ui/index';
 require('file-loader?name=[name].[ext]!./index.html');
 
 // Include Draft.js CSS declarations
-require('../node_modules/draft-js/dist/Draft.css');
-require('../node_modules/prism-themes/themes/prism-vs.css');
+require('draft-js/dist/Draft.css');
+require('prism-themes/themes/prism-vs.css');
+require('!style-loader!css-loader!@blueprintjs/core/dist/blueprint.css');
 
 export async function main() {
 

@@ -19,6 +19,8 @@
     "tslint:clean": "node node_modules/tslint/bin/tslint -p . --force --fix"
   },
   "dependencies": {
+    "@blueprintjs/core": "^1.35.0",
+    "@blueprintjs/labs": "^0.14.2",
     "draft-js": "^0.10.4",
     "draft-js-code-editor-plugin": "^0.2.1",
     "draft-js-hashtag-plugin": "^2.0.1",

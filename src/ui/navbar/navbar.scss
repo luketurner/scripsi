@@ -1,34 +1,50 @@
-$text-color: #aaa;
+@import "../../../node_modules/@blueprintjs/core/dist/variables.scss";
 
-.navbar {
-  height: 1.5rem;
-  lost-flex-container: row;
-  color: $text-color;  
-  a {
-    text-decoration: none;
-    color: $text-color;
-    &:hover {
-      color: #777;
-    }
-  }
+// $text-color: #aaa;
+
+// .navbar {
+//   height: 1.5rem;
+//   lost-flex-container: row;
+//   color: $text-color;  
+//   a {
+//     text-decoration: none;
+//     color: $text-color;
+//     &:hover {
+//       color: #777;
+//     }
+//   }
+// }
+
+// .brand-section {
+//   width: 3rem;
+//   margin-right: 2rem;
+// }
+
+// .saving {
+//   color: $text-color;
+// }
+
+// .search-bar-section {
+//   lost-column: 1/2 0;
+// }
+
+// .search-bar {
+//   border: none;
+//   border-bottom: 1px solid #ccc;
+//   outline: 0;
+//   color: #777;
+// }
+
+.branding {
+  width: 3em;
 }
 
-.brand-section {
-  width: 3rem;
-  margin-right: 2rem;
+.search-input {
+  width: 20rem;
+  max-width: 20rem;
 }
 
-.saving {
-  color: $text-color;
-}
-
-.search-bar-section {
-  lost-column: 1/2 0;
-}
-
-.search-bar {
-  border: none;
-  border-bottom: 1px solid #ccc;
-  outline: 0;
-  color: #777;
+.properties {
+  background-color: $pt-app-background-color;
+  padding: $pt-grid-size;
 }
