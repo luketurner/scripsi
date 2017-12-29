@@ -16,11 +16,9 @@ const styles = require('./navbar.scss');
 
 export default CSSModule(observer(() => {
 
-
   const isPrimaryUnsaved = nodeStorage.isPrimaryUnsaved();
   const areSecondariesUnsaved = nodeStorage.areSecondaryBackendsUnsaved();
 
-  console.log('undsaved', isPrimaryUnsaved, areSecondariesUnsaved);
   const onSearchInput = e => nodeStore.setSearchQuery(e.target.value);
 
   return (
