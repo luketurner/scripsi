@@ -11,9 +11,6 @@ config.output.chunkFilename = '[id].[chunkhash].js';
 config.devtool = 'source-map';
 
 config.plugins = (config.plugins || []).concat([
-  new webpack.DefinePlugin({
-    'process.env.NODE_ENV': 'production'
-  }),
   new UglifyJSPlugin({
     uglifyOptions: {
       ecma: 6
