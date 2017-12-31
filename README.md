@@ -4,7 +4,7 @@ Build Status: [![Circle CI](https://circleci.com/gh/luketurner/scripsi.svg?style
 
 Scripsi is an open-source note-taking/writing/PIM system, inspired by [Workflowy](https://workflowy.com/) and [Notion](https://www.notion.so/). A running implementation is available at [luketurner.org/scripsi](http://luketurner.org/scripsi). 
 
-**Important**: The demo implementation does not support HTTPS. Until that's fixed, I do not recommend that you use this for anything sensitive or personal. If you want to store personal or sensitive data, you should run a copy of `scripsi` using an HTTP(S) server you control.
+**Important**: The demo implementation does not support HTTPS with a proper certificate. Until that's fixed, I do not recommend that you use this for anything sensitive or personal. If you want to store personal or sensitive data, you should run a copy of `scripsi` using an HTTP(S) server you control.
 
 # Introduction
 
@@ -91,6 +91,15 @@ The Dropbox backend requires a Dropbox access key to be configured in order to b
 - [ ] Configurable themes/fonts
 - [ ] Publish to HTML
   - [ ] Auto-post to blog
+
+# Compiling and Deploying
+
+Scripsi compiles to a single HTML file with some bundled JS/CSS/font assets by running `npm run build`. As a webpage, it can be deployed anywhere.
+
+Certain things, like OAuth integration, require extra setup between the application (Scripsi) and the backend (e.g. Dropbox).
+In particular, you can only use one of a specific set of URLs for redirection after authentication is complete. As a result,
+these integrations will not work except on the "official" Scripsi page. However, you can change the Dropbox client ID and set
+up your own Dropbox integration for your Scripsi installation.
 
 # Developer Tools
 
