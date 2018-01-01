@@ -1,14 +1,9 @@
-var path = require('path')
-
-// var precss = 
-// var lost = ;
-// var cssnext = ;
+var path = require('path');
 
 module.exports = {
   cache: true,
   entry: [
     './src/main.tsx',
-    'webpack-hot-middleware/client?reload=true'
   ],
   output: {
     path: path.resolve('./dist'),
@@ -35,7 +30,6 @@ module.exports = {
         }
       ]},
       { test: /\.tsx?$/, loader: 'awesome-typescript-loader', exclude: /node_modules/ },
-      { enforce: "pre", test: /\.js$/, loader: 'source-map-loader' },
       // Images, fonts, etc.
       { test: /\.(png|jpe?g|gif|svg)$/,  
         loader: 'url-loader',

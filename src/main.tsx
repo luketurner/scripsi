@@ -50,7 +50,7 @@ export async function main() {
   render(
     <div>
       <UI />
-      <DevTools />
+      {PRODUCTION ? undefined : <DevTools />}
     </div>,
     document.getElementById('app')
   );
