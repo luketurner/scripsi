@@ -1,4 +1,3 @@
-import { Packet } from '_debugger';
 import * as LocalForage from 'localforage';
 import * as _ from 'lodash';
 import { observable, action, autorunAsync, runInAction } from 'mobx';
