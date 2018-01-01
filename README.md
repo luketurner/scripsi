@@ -2,9 +2,7 @@
 
 Build Status: [![Circle CI](https://circleci.com/gh/luketurner/scripsi.svg?style=svg)](https://circleci.com/gh/luketurner/scripsi)
 
-Scripsi is an open-source note-taking/writing/PIM system, inspired by [Workflowy](https://workflowy.com/) and [Notion](https://www.notion.so/). A running implementation is available at [luketurner.org/scripsi](http://luketurner.org/scripsi). 
-
-**Important**: The demo implementation does not support HTTPS with a proper certificate. Until that's fixed, I do not recommend that you use this for anything sensitive or personal. If you want to store personal or sensitive data, you should run a copy of `scripsi` using an HTTP(S) server you control.
+Scripsi is an open-source, in-browser note-taking/writing/PIM system, inspired by [Workflowy](https://workflowy.com/) and [Notion](https://www.notion.so/). A running implementation is available at [scripsi.netlify.com](https://scripsi.netlify.com/). Scripsi is a 100% client-side application written to maximize user's control over their own data.
 
 # Introduction
 
@@ -25,7 +23,6 @@ A Scripsi document has a similar editing experience to a Workflowy outline. Node
 | `Backspace` | Deletes the focused node (if empty).
 | `Tab` | Indents/"demotes" the focused node.
 | `Shift+Tab` | Un-indents/"promotes" the focused node.
-|
 
 # Nodes
 
@@ -94,7 +91,7 @@ The Dropbox backend requires a Dropbox access key to be configured in order to b
 
 # Compiling and Deploying
 
-Scripsi compiles to a single HTML file with some bundled JS/CSS/font assets by running `npm run build`. As a webpage, it can be deployed anywhere.
+Scripsi compiles to a single HTML file with some bundled JS/CSS/font assets by running `npm run build`. Since it's just a webpage, it can be deployed anywhere.
 
 Certain things, like OAuth integration, require extra setup between the application (Scripsi) and the backend (e.g. Dropbox).
 In particular, you can only use one of a specific set of URLs for redirection after authentication is complete. As a result,
