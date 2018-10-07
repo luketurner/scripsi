@@ -19,9 +19,9 @@ const markdownPlugin = createMarkdownShortcutsPlugin();
 
 interface NodeTextEditorProps {
   node: SNode;
-  plugins?: Array<any>;
+  plugins?: any[];
   isMultiline?: boolean;
-  onTab?: EditorKeyHandler<KeyboardEvent>
+  onTab?: EditorKeyHandler<KeyboardEvent>;
 }
 
 export default observer(({ node, plugins = [], isMultiline = false, onTab: onTabProp }: NodeTextEditorProps) => {

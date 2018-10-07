@@ -3,6 +3,7 @@ import { observer } from 'mobx-react';
 import * as React from 'react';
 
 import Editor from 'draft-js-plugins-editor';
+import { bind } from 'bind-decorator';
 
 export type EditorKeyHandler<T> = (e: T) => Draft.DraftHandleValue;
 export type EditorEventHandler<T> = (e: T) => void;
@@ -61,19 +62,14 @@ class TextEditor extends React.Component<TextEditorProps, TextEditorState> {
 
   constructor(props) {
     super(props);
-    this.emitChange = this.emitChange.bind(this);
-    this.handleKeyCommand = this.handleKeyCommand.bind(this);
-    this.handleReturn = this.handleReturn.bind(this);
-    this.onTab = this.onTab.bind(this);
 
     this.state = {
       editorState: props.content.length > 1 ? deserializeState(props.content) : Draft.EditorState.createEmpty()
     };
   }
 
-
   public render() {
-    
+
     // render the internal editorState using the appropriate block type if it's specified to be different.
     const editorState = this.updateBlockType(this.state.editorState, this.props.type);
 
@@ -99,6 +95,7 @@ class TextEditor extends React.Component<TextEditorProps, TextEditorState> {
    * @returns 
    * @memberof TextEditor
    */
+  @bind
   public handleReturn(e) {
     return this.props.onReturn ? this.props.onReturn(e) : 'not-handled';
   }
@@ -111,6 +108,7 @@ class TextEditor extends React.Component<TextEditorProps, TextEditorState> {
    * @param {any} e 
    * @memberof TextEditor
    */
+  @bind
   public onTab(e) {
     const handled = this.props.onTab ? this.props.onTab(e) : 'not-handled';
     if (handled === 'handled') {
@@ -125,6 +123,7 @@ class TextEditor extends React.Component<TextEditorProps, TextEditorState> {
    * @param {Draft.EditorState} editorState 
    * @memberof TextEditor
    */
+  @bind
   public emitChange(editorState: Draft.EditorState) {
     this.setState({ editorState });
     this.props.onChange(serializeState(editorState));
@@ -144,6 +143,7 @@ class TextEditor extends React.Component<TextEditorProps, TextEditorState> {
    * @returns 
    * @memberof TextEditor
    */
+  @bind
   public handleKeyCommand(command) {
     if (command === 'backspace') {
       // Defer to optional onBackspace prop
@@ -153,14 +153,15 @@ class TextEditor extends React.Component<TextEditorProps, TextEditorState> {
   }
 
   /**
-   * Focuses the text editor once the node has been rendered into the DOM,
-   * but only if it's selected.
+   * Focuses the text editor, but only if it's selected.
    * 
    * @memberof TextEditor
    */
-  public componentDidMount() {
-    if (this.props.isFocused) {
-      this.refs.editor['focus']();
+  public componentDidUpdate() {
+    const editorElement = this.refs.editor;
+    if (this.props.isFocused && document.activeElement !== editorElement) {
+      editorElement['focus'](); // focus the element in the DOM
+      // this.setState({ editorState: Draft.EditorState.moveFocusToEnd(this.state.editorState) }) // move selection to the last character
     }
   }
 

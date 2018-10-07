@@ -1,6 +1,7 @@
 import * as _ from 'lodash';
 import { action, autorun, computed, observable, runInAction } from 'mobx';
 import { v4 as uuidv4 } from 'node-uuid';
+import bind from 'bind-decorator';
 
 import nodeStore from './store';
 
@@ -42,12 +43,14 @@ export class SNode {
     return this.content.includes(nodeStore.searchQuery);
   }
 
+  @bind
   @action('node.setType')
   public setType(nodeType: NodeType): SNode {
     this.type = nodeType;
     return this;
   }
 
+  @bind
   @action('node.addChildNode')
   public addChildNode(newNode: SNode, position?: number): SNode {
     if (position) {
@@ -59,6 +62,7 @@ export class SNode {
     return nodeStore.addNode(newNode);
   }
 
+  @bind
   @action('node.addSiblingNode')
   public addSiblingNode(newNode: SNode): SNode {
     const parent = this.parentNode;
@@ -72,6 +76,8 @@ export class SNode {
     return parent.addChildNode(newNode, position);
   }
 
+  @bind
+  @action('node.addNodeBelow')
   public addNodeBelow(newNode: SNode): SNode {
     if (this.children.length === 0) {
       return this.addSiblingNode(newNode);
@@ -79,6 +85,7 @@ export class SNode {
     return this.addChildNode(newNode, 0);
   }
 
+  @bind
   @action('node.removeChild')
   public removeChild(childNode: SNode) {
     const ix = this.findChildIndex(childNode);
@@ -87,6 +94,7 @@ export class SNode {
     return this;
   }
 
+  @bind
   @action('node.setParent')
   public setParent(newParent: SNode, position?: number) {
     const parent = this.parentNode;
@@ -95,6 +103,8 @@ export class SNode {
     return this;
   }
 
+  @bind
+  @action('node.promote')
   public promote() {
     const parent = this.parentNode;
 
@@ -108,6 +118,8 @@ export class SNode {
     return this.setParent(grandparent, position + 1);
   }
 
+  @bind
+  @action('node.demote')
   public demote() {
     const parent = this.parentNode;
     if (!parent) {
@@ -128,19 +140,24 @@ export class SNode {
     return this.setParent(nodeStore.getNode(priorSiblingId));
   }
 
+  @bind
   public findChildIndex(childNode: SNode): number {
     return this.children.findIndex(node => node === childNode.id);
   }
 
+  @bind
+  @action('node.remove')
   public remove() {
     this.parentNode.removeChild(this);
   }
 
+  @bind
   @action('node.toggleCollapsed')
   public toggleCollapsed() {
     this.collapsed = !this.collapsed;
   }
 
+  @bind
   @action('node.setContent')
   public setContent(content = '') {
     this.content = content;
@@ -156,6 +173,7 @@ export class SNode {
    * @returns {boolean}
    * @memberof SNode
    */
+  @bind
   public hasDescendant(otherNodeId: string): boolean {
     for (const child of this.getChildNodes()) {
       if (child.id === otherNodeId) return true;
