@@ -1,6 +1,6 @@
 import * as LocalForage from 'localforage';
 import * as _ from 'lodash';
-import { observable, action, autorunAsync, runInAction } from 'mobx';
+import { action, autorunAsync, observable, runInAction } from 'mobx';
 import { Settings } from './index';
 
 export class SettingStore {
@@ -51,9 +51,10 @@ export class SettingStore {
     const browserLastSaved = this.getBrowserLastSaved();
 
     const currentTimestamp = Date.now();
-    
+
     if (this.lastSaved < browserLastSaved) {
       // TODO -- prompt user and ask them if they want to load the newer settings or overwrite them
+      // tslint:disable-next-line:max-line-length
       throw new Error(`Saving would overwrite newer updates from another tab (${this.lastSaved} -> ${browserLastSaved} -> ${currentTimestamp}`);
     }
 

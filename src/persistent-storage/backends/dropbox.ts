@@ -36,7 +36,7 @@ export default class DropboxBackend extends Backend {
 
   /**
    * Downloads the file from Dropbox and returns the contents as a string.
-   * 
+   *
    * @param {string} key Dropbox filename
    * @returns {Promise<string>} Promise of file contents
    * @memberof DropboxBackend
@@ -89,7 +89,7 @@ export default class DropboxBackend extends Backend {
 
   /**
    * Begins the Dropbox OAuth flow. Navigates away from the page.
-   * 
+   *
    * @memberof DropboxBackend
    */
   public async authenticate() {

@@ -2,15 +2,15 @@ import { action } from 'mobx';
 import { observer } from 'mobx-react';
 import * as React from 'react';
 
-import { SNode, NodeType } from '../../nodes';
+import createHashtagPlugin from 'draft-js-hashtag-plugin';
+import createKaTeXPlugin from 'draft-js-katex-plugin';
+import createLinkifyPlugin from 'draft-js-linkify-plugin';
+import createMarkdownShortcutsPlugin from 'draft-js-markdown-shortcuts-plugin';
+import * as katex from 'katex';
+import { NodeType, SNode } from '../../nodes';
 import nodeStore from '../../nodes/store';
 import uiState from '../state';
 import TextEditor, { EditorKeyHandler } from './text-editor';
-import createHashtagPlugin from 'draft-js-hashtag-plugin';
-import createLinkifyPlugin from 'draft-js-linkify-plugin';
-import createMarkdownShortcutsPlugin from 'draft-js-markdown-shortcuts-plugin';
-import createKaTeXPlugin from 'draft-js-katex-plugin';
-import * as katex from 'katex';
 
 const hashtagPlugin = createHashtagPlugin();
 const linkifyPlugin = createLinkifyPlugin();

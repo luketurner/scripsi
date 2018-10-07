@@ -1,11 +1,11 @@
-import settingsStore from '../settings/store';
-import nodeStore, { SNodeStore } from '../nodes/store';
 import * as _ from 'lodash';
+import nodeStore, { SNodeStore } from '../nodes/store';
 import { BackendSettings } from '../settings/backends';
-import { InvalidPersistenceOperation, MissingStateError } from './errors';
+import settingsStore from '../settings/store';
 import * as backends from './backends';
+import { InvalidPersistenceOperation, MissingStateError } from './errors';
 
-import { action, autorun, reaction, observable, runInAction, toJS, spy, computed } from 'mobx';
+import { action, autorun, computed, observable, reaction, runInAction, spy, toJS } from 'mobx';
 
 export interface Persistable {
   loadState(newState: string);
@@ -27,10 +27,10 @@ export class PersistentStorage<StateType extends Persistable> {
   }
 
   /**
-   * Creates a PersistentStorage object. 
-   * 
-   * @param {BackendSettings} settingsToWatch 
-   * @param {StateType} stateToWatch 
+   * Creates a PersistentStorage object.
+   *
+   * @param {BackendSettings} settingsToWatch
+   * @param {StateType} stateToWatch
    * @memberof PersistentStorage
    */
   constructor(settingsToWatch: BackendSettings, stateToWatch: StateType) {
@@ -73,6 +73,7 @@ export class PersistentStorage<StateType extends Persistable> {
     const key = this.settings.databaseName + '|nodes';
     if (backend.lastUpdate > lastUpdate) {
       // In the future, this may indicate that the backend has changes from another client.
+      // tslint:disable-next-line:max-line-length
       return console.error(`Unable to save to backend: ${backend.name}. May overwrite changes from another client. (${backend.lastUpdate} -> ${this.lastUpdate})`);
     }
     if (backend.lastUpdate < lastUpdate) {

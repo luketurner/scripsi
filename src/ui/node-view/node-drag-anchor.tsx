@@ -1,6 +1,6 @@
-import { DragSource } from "react-dnd";
-import { SNode } from "../../nodes";
 import * as React from 'react';
+import { DragSource } from 'react-dnd';
+import { SNode } from '../../nodes';
 import nodeStore from '../../nodes/store';
 
 @DragSource<{ node: SNode }>('node', {
@@ -41,4 +41,4 @@ export class NodeDragAnchor extends React.Component<{ node: SNode }, {}> {
     );
   }
 
-};
+}

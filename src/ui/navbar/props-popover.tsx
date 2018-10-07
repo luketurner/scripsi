@@ -2,7 +2,7 @@ import { observer } from 'mobx-react';
 import * as React from 'react';
 import * as CSSModule from 'react-css-modules';
 
-import { Button, FormGroup, ButtonGroup, NonIdealState } from '@blueprintjs/core';
+import { Button, ButtonGroup, FormGroup, NonIdealState } from '@blueprintjs/core';
 import { Popover2 } from '@blueprintjs/labs';
 
 import { NodeType } from '../../nodes';
@@ -21,9 +21,9 @@ export default CSSModule(observer(() => {
       <div>
         <FormGroup label='Node Type'>
           <ButtonGroup minimal={true}>
-              <Button iconName='paragraph' onClick={() => focusedNode.setType(NodeType.Text)}>Paragraph</Button>
-              <Button iconName='properties' onClick={() => focusedNode.setType(NodeType.ListItem)}>Unordered List</Button>
-              <Button iconName='code' onClick={() => focusedNode.setType(NodeType.CodeBlock)}>Code Block</Button>
+              <Button iconName='paragraph' onClick={focusedNode.setTypeToText}>Paragraph</Button>
+              <Button iconName='properties' onClick={focusedNode.setTypeToList}>Unordered List</Button>
+              <Button iconName='code' onClick={focusedNode.setTypeToCodeBlock}>Code Block</Button>
           </ButtonGroup>
         </FormGroup>
         <FormGroup label='Properties'>

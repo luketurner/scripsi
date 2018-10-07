@@ -2,7 +2,7 @@ import { observer } from 'mobx-react';
 import * as React from 'react';
 import * as CSSModule from 'react-css-modules';
 
-import { Button, Tabs2, Tab2 } from '@blueprintjs/core';
+import { Button, Tab2, Tabs2 } from '@blueprintjs/core';
 import { Popover2 } from '@blueprintjs/labs';
 
 import { NodeType } from '../../nodes';

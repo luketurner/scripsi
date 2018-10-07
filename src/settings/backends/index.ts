@@ -1,7 +1,7 @@
 import { observable } from 'mobx';
 
-import { DropboxSettings } from './dropbox';
 import { Backend } from '../../persistent-storage/backends';
+import { DropboxSettings } from './dropbox';
 
 export class BackendSettings {
   @observable public databaseName: string;

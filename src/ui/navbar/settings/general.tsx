@@ -3,7 +3,7 @@ import { observer } from 'mobx-react';
 import * as React from 'react';
 import * as CSSModule from 'react-css-modules';
 
-import { Button, FormGroup, ButtonGroup, NonIdealState } from '@blueprintjs/core';
+import { Button, ButtonGroup, FormGroup, NonIdealState } from '@blueprintjs/core';
 import { Popover2 } from '@blueprintjs/labs';
 
 import settings from '../../../settings/store';
@@ -17,7 +17,12 @@ export default CSSModule(observer(() => {
   return (
     <div>
       <FormGroup inline={true} label='Database Name'>
-        <input className='pt-input' type='text' value={settings.settings.backends.databaseName} onChange={onDatabaseNameChanged} />
+        <input
+          className='pt-input'
+          type='text'
+          value={settings.settings.backends.databaseName}
+          onChange={onDatabaseNameChanged}
+        />
       </FormGroup>
     </div>
   );

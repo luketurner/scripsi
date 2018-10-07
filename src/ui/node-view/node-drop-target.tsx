@@ -1,8 +1,8 @@
 import * as React from 'react';
+import * as CSSModule from 'react-css-modules';
 import { DropTarget } from 'react-dnd';
 import { SNode } from '../../nodes';
 import nodeStore from '../../nodes/store';
-import * as CSSModule from 'react-css-modules';
 
 const styles = require('./node-drop-target.scss');
 

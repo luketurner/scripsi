@@ -3,7 +3,7 @@ import { observer } from 'mobx-react';
 import * as React from 'react';
 import * as CSSModule from 'react-css-modules';
 
-import { Button, FormGroup, InputGroup, NonIdealState, Intent, Dialog } from '@blueprintjs/core';
+import { Button, Dialog, FormGroup, InputGroup, Intent, NonIdealState } from '@blueprintjs/core';
 import { Popover2 } from '@blueprintjs/labs';
 
 import { nodeStorage } from '../../../persistent-storage';
@@ -15,20 +15,20 @@ const styles = require('./dropbox.scss');
 export default CSSModule(observer(() => {
   const dropboxBackend = nodeStorage.getBackend('dropbox');
   const refreshAccessToken = action((e: any) => dropboxBackend['authenticate']());
-  const closeRefreshDialog = action(() => uiState.openDialog = null)
+  const closeRefreshDialog = action(() => uiState.openDialog = null);
   const showRefreshDialog = action(() => {
     uiState.openDialog = (
       <Dialog isOpen={true} onClose={closeRefreshDialog} title='Dropbox User Authentication'>
-        <div className="pt-dialog-body">
+        <div className='pt-dialog-body'>
           You will be redirected to Dropbox's website to login and grant Scripsi limited access to your Dropbox account.
           Once you login, you will be redirected back to this page.
         </div>
 
-        <div className="pt-dialog-footer">
+        <div className='pt-dialog-footer'>
           Do you want to continue?
-          <div className="pt-dialog-footer-actions">
-            <Button text="Cancel" onClick={closeRefreshDialog} />
-            <Button text="OK" onClick={refreshAccessToken} intent={Intent.PRIMARY} />
+          <div className='pt-dialog-footer-actions'>
+            <Button text='Cancel' onClick={closeRefreshDialog} />
+            <Button text='OK' onClick={refreshAccessToken} intent={Intent.PRIMARY} />
           </div>
         </div>
       </Dialog>

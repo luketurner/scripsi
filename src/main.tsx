@@ -5,9 +5,9 @@ import * as React from 'react';
 import { render } from 'react-dom';
 
 import { SNode } from './nodes';
-import { MissingStateError } from './persistent-storage/errors';
 import nodeStore from './nodes/store';
 import { nodeStorage } from './persistent-storage';
+import { MissingStateError } from './persistent-storage/errors';
 import UI from './ui/index';
 
 // Copies index.html to the output directory
@@ -39,6 +39,7 @@ export async function main() {
 
     runInAction('persistence.setDefaultData', () => {
       const rootNode = nodeStore.addNode(new SNode({
+        // tslint:disable-next-line:max-line-length
         content: '{"entityMap":{},"blocks":[{"key":"50fo4","text":"Welcome to Scripsi. Press Enter to create a new node and start typing!","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[]}]}'
       }));
 

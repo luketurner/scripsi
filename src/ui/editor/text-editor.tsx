@@ -2,8 +2,8 @@ import * as Draft from 'draft-js';
 import { observer } from 'mobx-react';
 import * as React from 'react';
 
-import Editor from 'draft-js-plugins-editor';
 import { bind } from 'bind-decorator';
+import Editor from 'draft-js-plugins-editor';
 
 export type EditorKeyHandler<T> = (e: T) => Draft.DraftHandleValue;
 export type EditorEventHandler<T> = (e: T) => void;
@@ -43,22 +43,24 @@ const deserializeState = (stateString: string): Draft.EditorState =>
       JSON.parse(stateString)));
 
 /**
- * Component that wraps the Draft.js editor, maintaining editor state internally to 
+ * Component that wraps the Draft.js editor, maintaining editor state internally to
  * minimize editing latency. Also enforces some consistent behavioral rules, and exposes
  * a lot of hooks for handling different types of user input.
- * 
+ *
  * A TextEditor block is deliberately simpler than a full Draft.js editor -- for example,
  * it can only represent a single Draft block type. For more than one block type, you have
  * to use multiple TextEditor components. This seems to correspond best with scripsi's "nodes"
  * paradigm.
- * 
+ *
  * Possibly could refactor the app so that the whole thing is just one Draft editor.
- * 
+ *
  * @class TextEditor
  * @extends {React.Component<TextEditorProps, TextEditorState>}
  */
 @observer
 class TextEditor extends React.Component<TextEditorProps, TextEditorState> {
+
+  private editorRef: any;
 
   constructor(props) {
     super(props);
@@ -66,6 +68,7 @@ class TextEditor extends React.Component<TextEditorProps, TextEditorState> {
     this.state = {
       editorState: props.content.length > 1 ? deserializeState(props.content) : Draft.EditorState.createEmpty()
     };
+    this.editorRef = React.createRef();
   }
 
   public render() {
@@ -82,7 +85,7 @@ class TextEditor extends React.Component<TextEditorProps, TextEditorState> {
         onTab={this.onTab}
         handleDrop={this.props.onDrop || constantlyTrue}
         onFocus={this.props.onFocus || constantlyFalse}
-        ref='editor'
+        ref={this.editorRef}
         plugins={this.props.plugins || []}
       />
     );
@@ -90,9 +93,9 @@ class TextEditor extends React.Component<TextEditorProps, TextEditorState> {
 
   /**
    * Handles a Return command by calling the onReturn handler.
-   * 
-   * @param {any} e 
-   * @returns 
+   *
+   * @param {any} e
+   * @returns
    * @memberof TextEditor
    */
   @bind
@@ -104,8 +107,8 @@ class TextEditor extends React.Component<TextEditorProps, TextEditorState> {
    * Handle tab events by calling the onTab handler. Mimics the behavior of
    * the handleKeyCommand API, such that if the onTab handler returns 'handled',
    * the tab is not inserted.
-   * 
-   * @param {any} e 
+   *
+   * @param {any} e
    * @memberof TextEditor
    */
   @bind
@@ -117,10 +120,10 @@ class TextEditor extends React.Component<TextEditorProps, TextEditorState> {
   }
 
   /**
-   * Hey, we changed! Call our onChange event handler. 
+   * Hey, we changed! Call our onChange event handler.
    * Also set our local state, which re-renders the component.
-   * 
-   * @param {Draft.EditorState} editorState 
+   *
+   * @param {Draft.EditorState} editorState
    * @memberof TextEditor
    */
   @bind
@@ -133,14 +136,14 @@ class TextEditor extends React.Component<TextEditorProps, TextEditorState> {
    * When we receive certain keys, this function calls the corresponding
    * event handler prop on the TextEditor. For example, when we get a 'backspace',
    * we call onBackspace.
-   * 
+   *
    * This allows us to provide a unified and type-checked set of key bindings for the TextEditor
    * component, in a deliberately less flexible way than Draft.js expsoes by default.
-   * 
+   *
    * Annoyingly, we have no event object to pass to the event listeners.
-   * 
-   * @param {any} command 
-   * @returns 
+   *
+   * @param {any} command
+   * @returns
    * @memberof TextEditor
    */
   @bind
@@ -154,25 +157,25 @@ class TextEditor extends React.Component<TextEditorProps, TextEditorState> {
 
   /**
    * Focuses the text editor, but only if it's selected.
-   * 
+   *
    * @memberof TextEditor
    */
   public componentDidUpdate() {
-    const editorElement = this.refs.editor;
+    const editorElement = this.editorRef.current;
     if (this.props.isFocused && document.activeElement !== editorElement) {
       editorElement['focus'](); // focus the element in the DOM
-      // this.setState({ editorState: Draft.EditorState.moveFocusToEnd(this.state.editorState) }) // move selection to the last character
+      // this.setState({ editorState: Draft.EditorState.moveFocusToEnd(this.state.editorState) })
     }
   }
 
   /**
    * Updates the Draft.js editorState such that the first content block is updated
    * to have the requested blockType. Returns the new editor state object.
-   * 
+   *
    * @private
-   * @param {Draft.EditorState} editorState 
-   * @param {Draft.DraftBlockType} blockType 
-   * @returns {Draft.EditorState} 
+   * @param {Draft.EditorState} editorState
+   * @param {Draft.DraftBlockType} blockType
+   * @returns {Draft.EditorState}
    * @memberof TextEditor
    */
   private updateBlockType(editorState: Draft.EditorState, blockType: Draft.DraftBlockType): Draft.EditorState {

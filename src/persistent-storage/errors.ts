@@ -1,3 +1,5 @@
+// tslint:disable:max-classes-per-file
+
 export class MissingStateError extends Error {
 
   constructor(...args) {

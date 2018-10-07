@@ -5,9 +5,7 @@ import nodeStore from '../../nodes/store';
 import { nodeStorage } from '../../persistent-storage';
 // import Icon, { IconType } from '../widgets/icon';
 
-import { Navbar, NavbarGroup, NavbarHeading, NavbarDivider, EditableText, Icon, Button, AnchorButton, Menu, MenuItem, Position, FormGroup, ButtonGroup, Tabs2, Tab2, NonIdealState, Intent } from '@blueprintjs/core';
-import * as Blueprint from '@blueprintjs/core';
-import { Popover2 } from '@blueprintjs/labs';
+import { AnchorButton, Navbar, NavbarDivider, NavbarGroup, NavbarHeading } from '@blueprintjs/core';
 
 import PropsPopover from './props-popover';
 import SettingsPopover from './settings-popover';
@@ -35,11 +33,25 @@ export default CSSModule(observer(() => {
       </NavbarGroup>
       <NavbarGroup align='right'>
         <div className='pt-input-group'>
-          <span className='pt-icon pt-icon-search'></span>
-          <input styleName='search-input' className='pt-input' type='search' placeholder='Search nodes...' dir='auto' onChange={onSearchInput} />
+          <span className='pt-icon pt-icon-search' />
+          <input
+            styleName='search-input'
+            className='pt-input'
+            type='search'
+            placeholder='Search nodes...'
+            dir='auto'
+            onChange={onSearchInput}
+          />
         </div>
         <NavbarDivider />
-        <AnchorButton className='pt-minimal' iconName='pt-icon-git-repo' href='https://github.com/luketurner/scripsi' target='_blank'>Github</AnchorButton>
+        <AnchorButton
+          className='pt-minimal'
+          iconName='pt-icon-git-repo'
+          href='https://github.com/luketurner/scripsi'
+          target='_blank'
+        >
+          Github
+        </AnchorButton>
       </NavbarGroup>
     </Navbar>
   );

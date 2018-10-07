@@ -3,8 +3,8 @@ import * as React from 'react';
 import * as CSSModule from 'react-css-modules';
 
 import { NodeType } from '../../nodes';
-import uiState from '../state';
 import nodeStore from '../../nodes/store';
+import uiState from '../state';
 import { NodeViewAnchor } from './anchor';
 import { NodeViewDropTarget } from './node-drop-target';
 

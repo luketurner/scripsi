@@ -1,7 +1,7 @@
+import bind from 'bind-decorator';
 import * as _ from 'lodash';
 import { action, autorun, computed, observable, runInAction } from 'mobx';
 import { v4 as uuidv4 } from 'node-uuid';
-import bind from 'bind-decorator';
 
 import nodeStore from './store';
 
@@ -199,6 +199,14 @@ export class SNode {
   //   const node = new SNode(_.omit(rootNode, ['parent', 'children']));
   //   node.parent = rootNode.parent && normalizedNodes[rootNode.parent];
   // }
+
+  // Define zero-argument functions for type conversion to improve performance in react components
+  @bind public setTypeToList() { this.setType(NodeType.ListItem); }
+  @bind public setTypeToText() { this.setType(NodeType.Text); }
+  @bind public setTypeToOrderedList() { this.setType(NodeType.OrderedListItem); }
+  @bind public setTypeToDictionaryList() { this.setType(NodeType.DictionaryListItem); }
+  @bind public setTypeToTodo() { this.setType(NodeType.TodoListItem); }
+  @bind public setTypeToCodeBlock() { this.setType(NodeType.CodeBlock); }
 }
 
 export interface SNodeOptions {

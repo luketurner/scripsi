@@ -3,8 +3,8 @@ import * as CSSModule from 'react-css-modules';
 
 import { observer } from 'mobx-react';
 
-import Navbar from '../navbar';
 import nodeStore from '../../nodes/store';
+import Navbar from '../navbar';
 import NodeView from '../node-view';
 import uiState from '../state';
 

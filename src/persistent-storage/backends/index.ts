@@ -10,7 +10,7 @@ import { observable } from 'mobx';
  */
 export abstract class Backend {
   @observable public name: string;           // Backend name -- should be globally unique
-  @observable public lastUpdate: number = 0; // Timestamp of the last update to the backend (used for determining whether it is up-to-date)
+  @observable public lastUpdate: number = 0; // Timestamp of the last update to the backend
   @observable public wip: Promise<any>; // set when there is work in progress for the backend
 
   constructor() {

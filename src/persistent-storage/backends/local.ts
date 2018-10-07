@@ -15,7 +15,7 @@ export default class LocalBackend extends Backend {
     super();
     this.client = LocalForage.createInstance({
       driver: LocalForage.INDEXEDDB,
-      name: 'scripsi',
+      name: 'scripsi'
     });
   }
 

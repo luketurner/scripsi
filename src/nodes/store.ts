@@ -1,6 +1,6 @@
 import { action, observable } from 'mobx';
-import { SNode, SNodeOptions } from './node';
 import { Persistable } from '../persistent-storage';
+import { SNode, SNodeOptions } from './node';
 
 export class SNodeStore implements Persistable {
   @observable public rootNode: Uuid;

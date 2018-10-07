@@ -6,8 +6,8 @@ import * as CSSModule from 'react-css-modules';
 import { SNode } from '../../nodes';
 import uiState from '../state';
 
-import { NodeMenuAnchor } from './node-menu-anchor';
 import { NodeDragAnchor } from './node-drag-anchor';
+import { NodeMenuAnchor } from './node-menu-anchor';
 
 const styles = require('./anchor.scss');
 
