@@ -12,8 +12,5 @@
   ],
   "exclude": [
     "src/**/*.spec.ts"
-  ],
-  "awesomeTypescriptLoaderOptions": {
-    "useBabel": false
-  }
+  ]
 }

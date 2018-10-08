@@ -2,20 +2,10 @@ import { action } from 'mobx';
 import { observer } from 'mobx-react';
 import * as React from 'react';
 
-import createHashtagPlugin from 'draft-js-hashtag-plugin';
-import createKaTeXPlugin from 'draft-js-katex-plugin';
-import createLinkifyPlugin from 'draft-js-linkify-plugin';
-import createMarkdownShortcutsPlugin from 'draft-js-markdown-shortcuts-plugin';
-import * as katex from 'katex';
 import { NodeType, SNode } from '../../nodes';
 import nodeStore from '../../nodes/store';
 import uiState from '../state';
 import TextEditor, { EditorKeyHandler } from './text-editor';
-
-const hashtagPlugin = createHashtagPlugin();
-const linkifyPlugin = createLinkifyPlugin();
-const kaTeXPlugin = createKaTeXPlugin({katex});
-const markdownPlugin = createMarkdownShortcutsPlugin();
 
 interface NodeTextEditorProps {
   node: SNode;
@@ -77,7 +67,6 @@ export default observer(({ node, plugins = [], isMultiline = false, onTab: onTab
       type={editorType}
       content={node.content}
       isFocused={uiState.focusedNode === node.id}
-      plugins={[kaTeXPlugin, markdownPlugin, linkifyPlugin, hashtagPlugin]}
 
       // event handler props
       onChange={onChange}

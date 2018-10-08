@@ -1,6 +1,6 @@
 import * as LocalForage from 'localforage';
 import * as _ from 'lodash';
-import { action, autorunAsync, observable, runInAction } from 'mobx';
+import { action, autorun, observable } from 'mobx';
 import { Settings } from './index';
 
 export class SettingStore {
@@ -20,14 +20,14 @@ export class SettingStore {
       this.settings = new Settings();
     }
 
-    autorunAsync(() => {
+    autorun(() => {
       try {
         this.saveToBrowser(JSON.stringify(this.settings));
       } catch (e) {
         // TODO -- handle errors better?
         console.error('Error saving settings', e);
       }
-    }, 100);
+    }, { delay: 100 });
   }
 
   public loadFromBrowser(): Settings | void {

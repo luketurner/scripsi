@@ -27,11 +27,10 @@ export default CSSModule(observer(props => {
   const NodeTypeComponent = require('../node-types/' + NodeType[node.type].toLowerCase()).default;
 
   const isOutlined = node.id === uiState.hoveredNode;
-  const nodeStyles = ['node', isOutlined ? 'outlined' : ''].join(' ');
 
   return (
     <NodeViewDropTarget node={node}>
-      <div styleName={nodeStyles}>
+      <div styleName={isOutlined ? 'node outlined' : 'node'}>
         <NodeViewAnchor node={node} />
         <NodeTypeComponent node={node} />
       </div>

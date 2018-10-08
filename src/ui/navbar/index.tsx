@@ -22,11 +22,13 @@ export default CSSModule(observer(() => {
   return (
     <Navbar className='pt-focus-disabled'>
       <NavbarGroup>
-        <NavbarHeading styleName='branding'>
-          Scripsi
-          {isPrimaryUnsaved && <span>*</span>}
-          {areSecondariesUnsaved && <span>+</span>}
-        </NavbarHeading>
+        <div styleName='branding'>
+          <NavbarHeading>
+            Scripsi
+            {isPrimaryUnsaved && <span>*</span>}
+            {areSecondariesUnsaved && <span>+</span>}
+          </NavbarHeading>
+        </div>
         <NavbarDivider />
         <PropsPopover />
         <SettingsPopover />
@@ -46,7 +48,7 @@ export default CSSModule(observer(() => {
         <NavbarDivider />
         <AnchorButton
           className='pt-minimal'
-          iconName='pt-icon-git-repo'
+          icon='git-repo'
           href='https://github.com/luketurner/scripsi'
           target='_blank'
         >

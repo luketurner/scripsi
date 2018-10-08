@@ -10,4 +10,4 @@ declare interface Dict<ValType> {
 
 type Uuid = string;
 
-declare const PRODUCTION: boolean;
+// declare const PRODUCTION: boolean;

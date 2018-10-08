@@ -2,13 +2,15 @@ var path = require('path');
 
 module.exports = {
   cache: true,
+  mode: 'none',
   entry: [
     './src/main.tsx',
   ],
   output: {
     path: path.resolve('./dist'),
     publicPath: '',
-    filename: '[name].js'
+    filename: '[name].js',
+    chunkFilename: '[name].js'
   },
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.json']
@@ -17,19 +19,18 @@ module.exports = {
     rules: [
       { test: /\.s?css$/,  use: [
         'style-loader',
-        { loader: 'css-loader', options: { modules: true, importLoaders: 1 } },
+        { loader: 'css-loader', options: { importLoaders: 1 } },
         { loader: 'postcss-loader',
           options: { 
             parser: require('postcss-scss'), 
             plugins: [
               require('precss')(),
               require('lost')(),
-              require('postcss-cssnext')()
             ]
           }
         }
       ]},
-      { test: /\.tsx?$/, loader: 'awesome-typescript-loader', exclude: /node_modules/ },
+      { test: /\.tsx?$/, loader: 'ts-loader', exclude: /node_modules/ },
       // Images, fonts, etc.
       { test: /\.(png|jpe?g|gif|svg)$/,  
         loader: 'url-loader',

@@ -1,8 +1,8 @@
-const Dropbox = require('dropbox');
 
 import { autorun, observable } from 'mobx';
 import settings from '../../settings/store';
 import { Backend } from './index';
+import { Dropbox } from 'dropbox';
 
 export default class DropboxBackend extends Backend {
 
@@ -18,7 +18,7 @@ export default class DropboxBackend extends Backend {
    */
   constructor() {
     super();
-    this.dropboxClient = new Dropbox();
+    this.dropboxClient = new Dropbox({});
     const backendSettings = settings.settings.backends;
 
     autorun(() => {
@@ -49,18 +49,19 @@ export default class DropboxBackend extends Backend {
 
     // Use FileReader to read data from the fileBlob. Since it uses an
     // event-based API, wrap it in a promise to make it work with async/await.
-    const fileData = await new Promise<string>((resolve, reject) => {
-      const blobReader = new FileReader();
-      blobReader.addEventListener('loadend', () => {
-        if (blobReader.error) return reject(blobReader.error);
-        if (!blobReader.result) return reject(new Error('Empty/missing Dropbox file contents'));
-        return resolve(blobReader.result);
-      });
-      blobReader.readAsText(fileBlob, 'utf8');
-    });
+    // const fileData = await new Promise<string>((resolve, reject) => {
+    //   const blobReader = new FileReader();
+    //   blobReader.addEventListener('loadend', () => {
+    //     if (blobReader.error) return reject(blobReader.error);
+    //     if (!blobReader.result) return reject(new Error('Empty/missing Dropbox file contents'));
+    //     return resolve(blobReader.result);
+    //   });
+    //   blobReader.readAsText(fileBlob, 'utf8');
+    // });
 
-    console.log('File date', fileData);
-    return fileData;
+    // console.log('File date', fileData);
+    // return fileData;
+    return '';
   }
 
   /**

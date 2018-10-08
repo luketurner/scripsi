@@ -38,7 +38,7 @@ export default CSSModule(observer(() => {
   if (!settings.settings.backends.dropbox.accessToken) {
     return (
       <NonIdealState
-        visual='warning-sign'
+        icon='warning-sign'
         title='Not enabled'
         description='Dropbox storage is not configured. To enable it, you will need to perform Dropbox OAuth login.'
         action={<Button text='Enable' intent={Intent.PRIMARY} onClick={showRefreshDialog}/>}
@@ -52,7 +52,7 @@ export default CSSModule(observer(() => {
         <InputGroup
           value={settings.settings.backends.dropbox.accessToken}
           readOnly={true}
-          rightElement={<Button className='pt-minimal' iconName='refresh' onClick={showRefreshDialog} />}
+          rightElement={<Button className='pt-minimal' icon='refresh' onClick={showRefreshDialog} />}
         />
       </FormGroup>
     </div>

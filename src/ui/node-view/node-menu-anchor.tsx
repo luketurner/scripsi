@@ -2,7 +2,7 @@ import { ContextMenuTarget, Menu, MenuItem } from '@blueprintjs/core';
 import * as React from 'react';
 import { NodeType, SNode } from '../../nodes';
 
-@ContextMenuTarget
+// @ContextMenuTarget TODO
 export class NodeMenuAnchor extends React.Component<{ node: SNode }, {}> {
 
   public constructor(props) {
@@ -21,19 +21,19 @@ export class NodeMenuAnchor extends React.Component<{ node: SNode }, {}> {
         <MenuItem text='Outdent' onClick={node.promote} />
         <MenuItem text='Node Type'>
           <MenuItem
-            iconName='paragraph'
+            icon='paragraph'
             text='Paragraph'
             disabled={node.type === NodeType.Text}
             onClick={node.setTypeToText}
           />
           <MenuItem
-            iconName='properties'
+            icon='properties'
             text='List Item'
             disabled={node.type === NodeType.ListItem}
             onClick={node.setTypeToList}
           />
           <MenuItem
-            iconName='code'
+            icon='code'
             text='Code'
             disabled={node.type === NodeType.CodeBlock}
             onClick={node.setTypeToCodeBlock}

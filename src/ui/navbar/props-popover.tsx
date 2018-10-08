@@ -2,8 +2,7 @@ import { observer } from 'mobx-react';
 import * as React from 'react';
 import * as CSSModule from 'react-css-modules';
 
-import { Button, ButtonGroup, FormGroup, NonIdealState } from '@blueprintjs/core';
-import { Popover2 } from '@blueprintjs/labs';
+import { Button, ButtonGroup, FormGroup, NonIdealState, Popover } from '@blueprintjs/core';
 
 import { NodeType } from '../../nodes';
 import nodeStore from '../../nodes/store';
@@ -21,9 +20,9 @@ export default CSSModule(observer(() => {
       <div>
         <FormGroup label='Node Type'>
           <ButtonGroup minimal={true}>
-              <Button iconName='paragraph' onClick={focusedNode.setTypeToText}>Paragraph</Button>
-              <Button iconName='properties' onClick={focusedNode.setTypeToList}>Unordered List</Button>
-              <Button iconName='code' onClick={focusedNode.setTypeToCodeBlock}>Code Block</Button>
+              <Button icon='paragraph' onClick={focusedNode.setTypeToText}>Paragraph</Button>
+              <Button icon='properties' onClick={focusedNode.setTypeToList}>Unordered List</Button>
+              <Button icon='code' onClick={focusedNode.setTypeToCodeBlock}>Code Block</Button>
           </ButtonGroup>
         </FormGroup>
         <FormGroup label='Properties'>
@@ -34,7 +33,7 @@ export default CSSModule(observer(() => {
   } else {
     popoverContent = (
       <NonIdealState
-        visual='error'
+        icon='error'
         title='No focused node'
         description='Focus a node to edit its properties.'
       />
@@ -42,11 +41,8 @@ export default CSSModule(observer(() => {
   }
 
   return (
-    <Popover2 placement='bottom-start'>
-      <Button className='pt-minimal' iconName='settings'>Properties</Button>
-      <div styleName='properties' className='pt-focus-disabled'>
-        {popoverContent}
-      </div>
-    </Popover2>
+    <Popover position='bottom-left' minimal={true} content={popoverContent}>
+      <Button className='pt-minimal' icon='settings'>Properties</Button>
+    </Popover>
   );
 }), styles);

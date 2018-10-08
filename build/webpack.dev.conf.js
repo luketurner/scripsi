@@ -16,15 +16,16 @@ config.module.rules.push({
 config.output.publicPath = '/';
 
 // Add hot reloader to client code for development
-config.entry.push('webpack-hot-middleware/client?reload=true');
+// config.entry.push('webpack-hot-middleware/client?reload=true');
 
-config.plugins = (config.plugins || []).concat([
-  // https://github.com/glenjamin/webpack-hot-middleware#installation--usage
-  new webpack.HotModuleReplacementPlugin(),
-  new webpack.NoEmitOnErrorsPlugin(),
-  new webpack.DefinePlugin({
-    PRODUCTION: 'false'
-  })
-]);
+// config.plugins = (config.plugins || []).concat([
+//   // https://github.com/glenjamin/webpack-hot-middleware#installation--usage
+//   new webpack.HotModuleReplacementPlugin(),
+//   new webpack.NoEmitOnErrorsPlugin(),
+//   new webpack.DefinePlugin({
+//     PRODUCTION: 'false'
+//   })
+// ]);
 
+config.mode = 'development';
 module.exports = config;

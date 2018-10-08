@@ -1,5 +1,4 @@
 var webpack = require('webpack');
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
 var config = require('./webpack.base.conf');
 
@@ -8,17 +7,6 @@ var config = require('./webpack.base.conf');
 // config.output.filename = '[name].[chunkhash].js'
 config.output.chunkFilename = '[id].[chunkhash].js';
 
-config.devtool = 'source-map';
-
-config.plugins = (config.plugins || []).concat([
-  new webpack.DefinePlugin({
-    PRODUCTION: 'true'
-  }),
-  new UglifyJSPlugin({
-    uglifyOptions: {
-      ecma: 6
-    }
-  })
-]);
+config.mode = 'production';
 
 module.exports = config;

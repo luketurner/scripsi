@@ -1,5 +1,5 @@
 import * as _ from 'lodash';
-import { runInAction, useStrict } from 'mobx';
+import { runInAction } from 'mobx';
 import DevTools from 'mobx-react-devtools';
 import * as React from 'react';
 import { render } from 'react-dom';
@@ -9,14 +9,16 @@ import nodeStore from './nodes/store';
 import { nodeStorage } from './persistent-storage';
 import { MissingStateError } from './persistent-storage/errors';
 import UI from './ui/index';
+import { isDevelopment } from './util';
 
 // Copies index.html to the output directory
 require('file-loader?name=[name].[ext]!./index.html');
 
 // Include Draft.js CSS declarations
 require('draft-js/dist/Draft.css');
-require('prism-themes/themes/prism-vs.css');
-require('!style-loader!css-loader!@blueprintjs/core/dist/blueprint.css');
+require('!style-loader!css-loader!normalize.css/normalize.css');
+require('!style-loader!css-loader!@blueprintjs/core/lib/css/blueprint.css');
+require('!style-loader!css-loader!@blueprintjs/icons/lib/css/blueprint-icons.css');
 
 export async function main() {
 
@@ -51,7 +53,7 @@ export async function main() {
   render(
     <div>
       <UI />
-      {PRODUCTION ? undefined : <DevTools />}
+      {isDevelopment ? <DevTools /> : undefined}
     </div>,
     document.getElementById('app')
   );

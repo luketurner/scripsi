@@ -1,7 +1,7 @@
 import bind from 'bind-decorator';
 import * as _ from 'lodash';
 import { action, autorun, computed, observable, runInAction } from 'mobx';
-import { v4 as uuidv4 } from 'node-uuid';
+import { v4 as uuidv4 } from 'uuid';
 
 import nodeStore from './store';
 
