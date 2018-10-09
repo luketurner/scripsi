@@ -1,15 +1,14 @@
 import * as React from 'react';
-import * as CSSModule from 'react-css-modules';
 import { DropTarget } from 'react-dnd';
 import { SNode } from '../../nodes';
 import nodeStore from '../../nodes/store';
 
-const styles = require('./node-drop-target.scss');
-
 interface NodeViewDropTargetProps {
   node: SNode;
   connectDropTarget?: (x: any) => any;
-  hasDraggingOver?: boolean;
+  isOver?: boolean;
+  canDrop?: boolean;
+  children?: any;
 }
 
 const nodeDropTarget = DropTarget<NodeViewDropTargetProps>('node', {
@@ -21,6 +20,7 @@ const nodeDropTarget = DropTarget<NodeViewDropTargetProps>('node', {
     }
   },
   canDrop: (props, monitor) => {
+    console.log('canDrop');
     try {
       const sourceNodeId = monitor.getItem()['nodeId'];
       const targetNodeId = props.node.id;
@@ -43,10 +43,15 @@ const nodeDropTarget = DropTarget<NodeViewDropTargetProps>('node', {
   };
 });
 
-export const NodeViewDropTarget = nodeDropTarget(CSSModule(({ children, connectDropTarget, isOver, canDrop }) => {
+export const NodeViewDropTarget = nodeDropTarget(({ 
+  children,
+  connectDropTarget,
+  isOver,
+  canDrop
+}: NodeViewDropTargetProps) => {
   return connectDropTarget(
-    <div styleName={ isOver ? canDrop ? 'droppable' : 'not-droppable' : ''}>
+    <div>
       {children}
     </div>
   );
-}, styles) as React.StatelessComponent<NodeViewDropTargetProps>);
+});

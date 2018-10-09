@@ -5,7 +5,8 @@ import nodeStore from '../../nodes/store';
 
 @DragSource<{ node: SNode }>('node', {
   beginDrag: (props, monitor, component) => ({
-    nodeId: props.node.id
+    nodeId: props.node.id,
+    x: console.log('begin drag', props.node.id)
   }),
   endDrag: (props, monitor, component) => {
     const dropResult = monitor.getDropResult();
@@ -33,6 +34,7 @@ export class NodeDragAnchor extends React.Component<{ node: SNode }, {}> {
   public constructor(props) {
     super(props);
   }
+
   public render() {
     return this.props['connectDragSource'](
       <div>

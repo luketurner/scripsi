@@ -8,7 +8,6 @@ import nodeStore from './store';
 export class SNode {
   @observable public id: string;
   @observable public type: NodeType;
-  @observable public displayStatus: NodeDisplayStatus;
   @observable public content: string;
   @observable public props: Dict<any>;
   @observable public collapsed: boolean;
@@ -21,7 +20,6 @@ export class SNode {
     this.content = options.content || '';
     this.props = options.props || {};
     this.parent = options.parent || null;
-    this.displayStatus = options.displayStatus || NodeDisplayStatus.Expanded;
     this.children = options.children || [];
     this.collapsed = !!options.collapsed;
   }
@@ -204,15 +202,19 @@ export class SNode {
   @bind public setTypeToList() { this.setType(NodeType.ListItem); }
   @bind public setTypeToText() { this.setType(NodeType.Text); }
   @bind public setTypeToOrderedList() { this.setType(NodeType.OrderedListItem); }
-  @bind public setTypeToDictionaryList() { this.setType(NodeType.DictionaryListItem); }
-  @bind public setTypeToTodo() { this.setType(NodeType.TodoListItem); }
-  @bind public setTypeToCodeBlock() { this.setType(NodeType.CodeBlock); }
+  @bind public setTypeToDictionaryList() { this.setType(NodeType.DictionaryItem); }
+  @bind public setTypeToTodo() { this.setType(NodeType.Todo); }
+  @bind public setTypeToCodeBlock() { this.setType(NodeType.Code); }
+
+
+  // public toJSON() {
+  //   return JSON.stringify(this);
+  // }
 }
 
 export interface SNodeOptions {
   id?: string;
   type?: NodeType;
-  displayStatus?: NodeDisplayStatus;
   content?: string;
   children?: Uuid[];
   props?: Dict<any>;
@@ -221,15 +223,15 @@ export interface SNodeOptions {
 }
 
 export enum NodeType {
-  Text = 1,
-  ListItem,
-  OrderedListItem,
-  DictionaryListItem,
-  TodoListItem,
-  CodeBlock
+  Text = 'text',
+  ListItem = 'list-item',
+  OrderedListItem = 'ordered-list-item',
+  DictionaryItem = 'dictionary-item',
+  Todo = 'todo',
+  Code = 'code'
 }
 
 export enum NodeDisplayStatus {
-  Expanded = 1,
-  Collapsed
+  Expanded = 'expanded',
+  Collapsed = 'collapsed'
 }

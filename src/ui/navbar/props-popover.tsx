@@ -1,6 +1,5 @@
 import { observer } from 'mobx-react';
 import * as React from 'react';
-import * as CSSModule from 'react-css-modules';
 
 import { Button, ButtonGroup, FormGroup, NonIdealState, Popover } from '@blueprintjs/core';
 
@@ -8,9 +7,7 @@ import { NodeType } from '../../nodes';
 import nodeStore from '../../nodes/store';
 import uiState from '../state';
 
-const styles = require('./props-popover.scss');
-
-export default CSSModule(observer(() => {
+export default observer(() => {
   const focusedNodeId = uiState.focusedNode;
   let popoverContent;
 
@@ -27,6 +24,9 @@ export default CSSModule(observer(() => {
         </FormGroup>
         <FormGroup label='Properties'>
           {focusedNode.props ? <div>TODO: Property editor</div> : <div>Node has no property fields</div>}
+        </FormGroup>
+        <FormGroup label='raw'>
+          <textarea value={JSON.stringify(focusedNode)} />
         </FormGroup>
       </div>
     );
@@ -45,4 +45,4 @@ export default CSSModule(observer(() => {
       <Button className='pt-minimal' icon='settings'>Properties</Button>
     </Popover>
   );
-}), styles);
+});

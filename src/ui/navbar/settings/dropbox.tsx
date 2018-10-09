@@ -1,18 +1,14 @@
 import { action } from 'mobx';
 import { observer } from 'mobx-react';
 import * as React from 'react';
-import * as CSSModule from 'react-css-modules';
 
 import { Button, Dialog, FormGroup, InputGroup, Intent, NonIdealState } from '@blueprintjs/core';
-import { Popover2 } from '@blueprintjs/labs';
 
 import { nodeStorage } from '../../../persistent-storage';
 import settings from '../../../settings/store';
 import uiState from '../../state';
 
-const styles = require('./dropbox.scss');
-
-export default CSSModule(observer(() => {
+export default observer(() => {
   const dropboxBackend = nodeStorage.getBackend('dropbox');
   const refreshAccessToken = action((e: any) => dropboxBackend['authenticate']());
   const closeRefreshDialog = action(() => uiState.openDialog = null);
@@ -57,4 +53,4 @@ export default CSSModule(observer(() => {
       </FormGroup>
     </div>
   );
-}), styles);
+});

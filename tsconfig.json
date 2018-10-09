@@ -1,10 +1,11 @@
 {
   "compilerOptions": {
-      "target": "es2015",
+      "target": "es5", // es5 needed for blueprintjs?
       "module": "commonjs",
       "jsx": "react",
       "sourceMap": true,
       "experimentalDecorators": true,
+      "downlevelIteration": true,
       "lib": ["dom", "es6", "dom.iterable", "scripthost", "es2017"]
   },
   "include": [

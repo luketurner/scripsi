@@ -1,8 +1,10 @@
 import { ContextMenuTarget, Menu, MenuItem } from '@blueprintjs/core';
 import * as React from 'react';
 import { NodeType, SNode } from '../../nodes';
+import { observer } from 'mobx-react';
 
-// @ContextMenuTarget TODO
+@observer
+@ContextMenuTarget
 export class NodeMenuAnchor extends React.Component<{ node: SNode }, {}> {
 
   public constructor(props) {
@@ -35,7 +37,7 @@ export class NodeMenuAnchor extends React.Component<{ node: SNode }, {}> {
           <MenuItem
             icon='code'
             text='Code'
-            disabled={node.type === NodeType.CodeBlock}
+            disabled={node.type === NodeType.Code}
             onClick={node.setTypeToCodeBlock}
           />
         </MenuItem>

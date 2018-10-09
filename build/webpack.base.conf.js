@@ -1,11 +1,15 @@
-var path = require('path');
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
+const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
+const webpack = require('webpack');
 
 module.exports = {
   cache: true,
   mode: 'none',
-  entry: [
-    './src/main.tsx',
-  ],
+  entry: {
+    main: './src/main.tsx',
+  },
   output: {
     path: path.resolve('./dist'),
     publicPath: '',
@@ -15,20 +19,21 @@ module.exports = {
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.json']
   },
+  // optimization: {
+  //   splitChunks: {
+  //     chunks: 'all'
+  //   }
+  // },
+  devServer: {
+    compress: true,
+    lazy: false,
+  },
   module: {
     rules: [
       { test: /\.s?css$/,  use: [
         'style-loader',
         { loader: 'css-loader', options: { importLoaders: 1 } },
-        { loader: 'postcss-loader',
-          options: { 
-            parser: require('postcss-scss'), 
-            plugins: [
-              require('precss')(),
-              require('lost')(),
-            ]
-          }
-        }
+        { loader: 'postcss-loader' },
       ]},
       { test: /\.tsx?$/, loader: 'ts-loader', exclude: /node_modules/ },
       // Images, fonts, etc.
@@ -41,5 +46,12 @@ module.exports = {
       },
       { test: /\.(ttf|eot|svg|woff|otf)(\?.+)?$/, loader: 'file-loader' }
     ]
-  }
+  },
+  plugins: [
+    // new CleanWebpackPlugin(['../dist']), TODO -- doesn't work. Move webpack config to base directory?
+    new HtmlWebpackPlugin({
+      template: 'src/index.html',
+    }),
+    // new HardSourceWebpackPlugin(),
+  ]
 }

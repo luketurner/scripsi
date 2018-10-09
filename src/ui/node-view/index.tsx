@@ -1,39 +1,39 @@
 import { observer } from 'mobx-react';
 import * as React from 'react';
-import * as CSSModule from 'react-css-modules';
 
-import { NodeType } from '../../nodes';
+import { NodeType, SNode } from '../../nodes';
 import nodeStore from '../../nodes/store';
 import uiState from '../state';
 import { NodeViewAnchor } from './anchor';
 import { NodeViewDropTarget } from './node-drop-target';
-
-const styles = require('./node-view.scss');
+import { getComponent } from '../../node-types';
+import classNames = require('classnames');
 
 export interface NodeViewProps {
   nodeId: string;
 }
 
-export default CSSModule(observer(props => {
+export default observer(props => {
 
-  let node;
+  let node: SNode;
 
   try {
     node = nodeStore.getNode(props.nodeId);
   } catch (e) {
+    console.error('cannot render node', props.nodeId, e);
     return <div />;
   }
 
-  const NodeTypeComponent = require('../node-types/' + NodeType[node.type].toLowerCase()).default;
+  const NodeTypeComponent = getComponent(node.type);
 
   const isOutlined = node.id === uiState.hoveredNode;
 
   return (
     <NodeViewDropTarget node={node}>
-      <div styleName={isOutlined ? 'node outlined' : 'node'}>
+      <div className={classNames('p-1', isOutlined && ['bg-grey-lighter', 'highlight-children'])}>
         <NodeViewAnchor node={node} />
         <NodeTypeComponent node={node} />
       </div>
     </NodeViewDropTarget>
   );
-}), styles, { allowMultiple: true });
+});

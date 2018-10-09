@@ -6,6 +6,8 @@ import HTML5Backend from 'react-dnd-html5-backend';
 import { GlobalStore } from '../store';
 import Layout from './layout';
 
+require('./style.scss');
+
 export interface UIProps {
   store: GlobalStore;
 }

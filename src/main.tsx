@@ -1,3 +1,5 @@
+
+
 import * as _ from 'lodash';
 import { runInAction } from 'mobx';
 import DevTools from 'mobx-react-devtools';
@@ -10,9 +12,6 @@ import { nodeStorage } from './persistent-storage';
 import { MissingStateError } from './persistent-storage/errors';
 import UI from './ui/index';
 import { isDevelopment } from './util';
-
-// Copies index.html to the output directory
-require('file-loader?name=[name].[ext]!./index.html');
 
 // Include Draft.js CSS declarations
 require('draft-js/dist/Draft.css');

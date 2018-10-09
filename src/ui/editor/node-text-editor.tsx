@@ -59,7 +59,7 @@ export default observer(({ node, plugins = [], isMultiline = false, onTab: onTab
   });
 
   const editorType = ({
-    [NodeType.CodeBlock]: 'code-block'
+    [NodeType.Code]: 'code-block'
   }[node.type] || 'paragraph') as Draft.DraftBlockType;
 
   return (

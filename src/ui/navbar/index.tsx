@@ -1,6 +1,5 @@
 import { observer } from 'mobx-react';
 import * as React from 'react';
-import * as CSSModule from 'react-css-modules';
 import nodeStore from '../../nodes/store';
 import { nodeStorage } from '../../persistent-storage';
 // import Icon, { IconType } from '../widgets/icon';
@@ -10,9 +9,7 @@ import { AnchorButton, Navbar, NavbarDivider, NavbarGroup, NavbarHeading } from 
 import PropsPopover from './props-popover';
 import SettingsPopover from './settings-popover';
 
-const styles = require('./navbar.scss');
-
-export default CSSModule(observer(() => {
+export default observer(() => {
 
   const isPrimaryUnsaved = nodeStorage.isPrimaryUnsaved();
   const areSecondariesUnsaved = nodeStorage.areSecondaryBackendsUnsaved();
@@ -22,7 +19,7 @@ export default CSSModule(observer(() => {
   return (
     <Navbar className='pt-focus-disabled'>
       <NavbarGroup>
-        <div styleName='branding'>
+        <div>
           <NavbarHeading>
             Scripsi
             {isPrimaryUnsaved && <span>*</span>}
@@ -37,7 +34,6 @@ export default CSSModule(observer(() => {
         <div className='pt-input-group'>
           <span className='pt-icon pt-icon-search' />
           <input
-            styleName='search-input'
             className='pt-input'
             type='search'
             placeholder='Search nodes...'
@@ -72,4 +68,4 @@ export default CSSModule(observer(() => {
 
   //   </div>
   // );
-}), styles);
+});

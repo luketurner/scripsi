@@ -1,0 +1,13 @@
+@tailwind preflight;
+@tailwind components;
+
+@tailwind utilities;
+
+// @import "../../node_modules/draft-js/dist/Draft.css";
+// @import "../../node_modules/normalize.css/normalize.css";
+// @import "../../node_modules/@blueprintjs/core/lib/css/blueprint.css";
+// @import "../../node_modules/@blueprintjs/icons/lib/css/blueprint-icons.css";
+
+* { box-sizing: border-box; }
+
+.highlight-children .highlightable { @apply .bg-grey }
