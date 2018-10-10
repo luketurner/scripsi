@@ -52,7 +52,7 @@ export async function main() {
   render(
     <div>
       <UI />
-      {isDevelopment ? <DevTools /> : undefined}
+      {isDevelopment ? <DevTools position={{ bottom: 0, right: 20 }}/> : undefined}
     </div>,
     document.getElementById('app')
   );
