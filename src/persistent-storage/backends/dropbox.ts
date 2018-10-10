@@ -6,7 +6,6 @@ import { Dropbox } from 'dropbox';
 
 export default class DropboxBackend extends Backend {
 
-  public name = 'dropbox';
   public dropboxClient;
 
   private lastKnownRev;

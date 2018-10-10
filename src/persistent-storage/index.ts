@@ -1,9 +1,9 @@
 import * as _ from 'lodash';
-import nodeStore, { SNodeStore } from '../nodes/store';
+import nodeStore from '../nodes/store';
 import { BackendSettings } from '../settings/backends';
 import settingsStore from '../settings/store';
 import * as backends from './backends';
-import { InvalidPersistenceOperation, MissingStateError } from './errors';
+import { MissingStateError } from './errors';
 
 import { action, autorun, computed, observable, reaction, runInAction, spy, toJS } from 'mobx';
 
@@ -12,10 +12,11 @@ export interface Persistable {
 }
 
 export class PersistentStorage<StateType extends Persistable> {
-  @observable public lastUpdate: number;
-  @observable public backends: Map<string, backends.Backend>;
-  @observable private settings: BackendSettings;
+  @observable public lastUpdate: number; // TODO -- should be in settings?
+
+  @observable private backends: Map<string, backends.Backend>;
   @observable private currentState: StateType;
+  @observable private currentSettings: BackendSettings;
 
   /**
    * Observable serialized state. Can be watched in reactions, etc.
@@ -24,6 +25,10 @@ export class PersistentStorage<StateType extends Persistable> {
    */
   @computed private get currentStateString() {
     return JSON.stringify(this.currentState);
+  }
+
+  @computed private get primaryBackend(): backends.Backend {
+    return this.getBackend(this.currentSettings.primary);
   }
 
   /**
@@ -36,11 +41,11 @@ export class PersistentStorage<StateType extends Persistable> {
   constructor(settingsToWatch: BackendSettings, stateToWatch: StateType) {
 
     this.backends = new Map();
-    this.addBackend(new backends.LocalBackend());
-    this.addBackend(new backends.DropboxBackend());
+    this.addBackend('local', new backends.LocalBackend());
+    this.addBackend('dropbox', new backends.DropboxBackend());
 
     autorun(() => { // TODO -- will this ever run more than once?
-      this.settings = settingsToWatch;
+      this.currentSettings = settingsToWatch;
       this.currentState = stateToWatch;
     });
 
@@ -49,64 +54,31 @@ export class PersistentStorage<StateType extends Persistable> {
     // TODO -- this means when a new backend is added/removed,
     // all existing backends resave unnecessarily. Use separate subscriptions?
     reaction(() => ({
-      state: this.currentStateString,
-      backends: this.getBackends()
+      backends: this.backends,
+      state: this.currentStateString
     }), _.debounce(data => this.saveAllBackends(data), 250));
   }
 
   @action('persistence.addBackend')
-  public addBackend(backend: backends.Backend) {
-    this.backends.set(backend.name, backend);
-  }
+  public addBackend(name: string, backend: backends.Backend) { this.backends.set(name, backend); }
 
-  @action('persistence.useBackendSettings')
-  public useBackendSettings(settings: BackendSettings) {
-    this.settings = settings;
-  }
+  public getBackend(name: string) { return this.backends.get(name); }
+  public isPrimaryUnsaved(): boolean { return this.primaryBackend.lastUpdate < this.lastUpdate; }
 
-  public getBackend(name: string) {
-    return this.backends.get(name);
-  }
-
-  public async saveToBackend(backendName: string, lastUpdate: number, state: string) {
-    const backend = this.getBackend(backendName);
-    const key = this.settings.databaseName + '|nodes';
-    if (backend.lastUpdate > lastUpdate) {
-      // In the future, this may indicate that the backend has changes from another client.
-      // tslint:disable-next-line:max-line-length
-      return console.error(`Unable to save to backend: ${backend.name}. May overwrite changes from another client. (${backend.lastUpdate} -> ${this.lastUpdate})`);
-    }
-    if (backend.lastUpdate < lastUpdate) {
-      try {
-        console.debug(`Saving state to backend: ${backend.name} (${backend.lastUpdate} -> ${this.lastUpdate})`);
-        await backend.save(key, state);
-        runInAction(() => backend.lastUpdate = lastUpdate);
-      } catch (err) {
-        console.error(`Unable to save to backend: ${backend.name}. (${backend.lastUpdate} -> ${this.lastUpdate})`, err);
+  public areSecondaryBackendsUnsaved(): boolean {
+    for (const name of this.currentSettings.secondary) {
+      const backend = this.getBackend(name);
+      if (backend && backend.lastUpdate < this.lastUpdate) {
+        return true;
       }
     }
-  }
-
-  public *getBackends(): IterableIterator<backends.Backend> {
-    const primary = this.getPrimaryBackend();
-    if (primary) yield primary;
-    yield* this.getSecondaryBackends();
-  }
-
-  public getPrimaryBackend(): backends.Backend {
-    return this.getBackend(this.settings.primary);
-  }
-
-  public *getSecondaryBackends(): IterableIterator<backends.Backend> {
-    for (const backendName of this.settings.secondary) {
-      yield this.getBackend(backendName);
-    }
+    return false;
   }
 
   public async loadFromBackend() {
     throw new MissingStateError(); // TODO
-    const key = this.settings.databaseName + '|nodes';
-    const backend = this.getPrimaryBackend();
+    const key = this.currentSettings.databaseName + '|nodes';
+    const backend = this.primaryBackend;
     const newState = await backend.load(key);
     if (!newState) {
       throw new MissingStateError();
@@ -114,28 +86,31 @@ export class PersistentStorage<StateType extends Persistable> {
     this.currentState.loadState(newState);
   }
 
-  public isPrimaryUnsaved(): boolean {
-    return this.getPrimaryBackend().lastUpdate < this.lastUpdate;
-  }
-
-  public *getUnsavedSecondaryBackends(): IterableIterator<backends.Backend> {
-    for (const backend of this.getSecondaryBackends()) {
-      if (backend.lastUpdate < this.lastUpdate) {
-        yield backend;
-      }
-    }
-  }
-
-  public areSecondaryBackendsUnsaved(): boolean {
-    return !this.getUnsavedSecondaryBackends().next().done;
-  }
-
-  private async saveAllBackends(data) {
+  private async saveAllBackends(data: { backends: Map<string, backends.Backend>, state: string }) {
     const currentStateString = data.state;
     const lastUpdate = Date.now();
     this.lastUpdate = lastUpdate;
-    for (const backend of data.backends) {
-      await this.saveToBackend(backend.name, lastUpdate, currentStateString);
+    for (const name of this.currentSettings.secondary.concat([this.currentSettings.primary])) {
+      const backend = this.getBackend(name);
+      await this.saveToBackend(backend, name, lastUpdate, currentStateString);
+    }
+  }
+
+  private async saveToBackend(backend: backends.Backend, name: string, lastUpdate: number, state: string) {
+    const key = this.currentSettings.databaseName + '|nodes';
+    if (backend.lastUpdate > lastUpdate) {
+      // In the future, this may indicate that the backend has changes from another client.
+      // tslint:disable-next-line:max-line-length
+      return console.error(`Unable to save to backend: ${name}. May overwrite changes from another client. (${backend.lastUpdate} -> ${this.lastUpdate})`);
+    }
+    if (backend.lastUpdate < lastUpdate) {
+      try {
+        console.debug(`Saving state to backend: ${name} (${backend.lastUpdate} -> ${this.lastUpdate})`);
+        await backend.save(key, state);
+        runInAction(() => backend.lastUpdate = lastUpdate);
+      } catch (err) {
+        console.error(`Unable to save to backend: ${name}. (${backend.lastUpdate} -> ${this.lastUpdate})`, err);
+      }
     }
   }
 }

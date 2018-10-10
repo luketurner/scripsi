@@ -11,29 +11,8 @@ export class BackendSettings {
 
   constructor() {
     this.databaseName = 'scripsi';
-    this.primary = 'local';
+    this.primary = 'local'; // TODO -- get from PersistentStore?
     this.secondary = [];
     this.dropbox = new DropboxSettings();
   }
-
-  // public getPrimaryBackend(): Backend {
-  //   if (!this.primary) {
-  //     return null;
-  //   }
-
-  //   return persistenceStore.backends.get(this.primary);
-  // }
-
-  // public *getSecondaryBackends(): IterableIterator<Backend> {
-  //   for (const backend of this.secondary) {
-  //     yield persistenceStore.backends.get(backend);
-  //   }
-  // }
-
-  // public *getAllBackends(): IterableIterator<Backend> {
-  //   const primaryBackend = this.getPrimaryBackend();
-  //   if (primaryBackend) yield primaryBackend;
-
-  //   yield* this.getSecondaryBackends();
-  // }
 }

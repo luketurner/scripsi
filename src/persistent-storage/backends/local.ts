@@ -7,8 +7,6 @@ const getKey = k => 'scripsi|' + k;
 
 export default class LocalBackend extends Backend {
 
-  public name = 'local';
-
   private client: LocalForage;
 
   constructor() {
