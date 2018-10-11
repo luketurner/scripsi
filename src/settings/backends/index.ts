@@ -13,7 +13,7 @@ export class BackendSettings {
   constructor() {
     this.databaseName = 'scripsi';
     this.primary = 'local'; // TODO -- get from PersistentStore?
-    this.secondary = ['dropbox'];
+    this.secondary = [];
     this.dropbox = new DropboxSettings();
   }
 

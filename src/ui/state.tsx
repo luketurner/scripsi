@@ -1,8 +1,8 @@
 import { action, autorun, observable } from 'mobx';
-import * as React from 'react';
 
-import { SNode } from '../nodes';
-import store from '../store';
+export enum ContentView {
+  Settings = 'settings'
+}
 
 /**
  * Class defining ephemeral, UI-specific state.
@@ -19,14 +19,20 @@ export class UIState {
 
   @observable public defaultNotifyDuration: number;
 
-  @observable public openDialog: JSX.Element;
+  @observable public content: ContentView;
+  @observable public modal: JSX.Element;
 
   constructor() {
     this.isSaving = false;
     this.menus = new Map();
     this.focusedNode = null;
     this.hoveredNode = null;
-    this.openDialog = null;
+    this.content = null;
+    this.modal = null;
+  }
+
+  public toggleSettings() {
+    this.content = (this.content === ContentView.Settings ? null : ContentView.Settings);
   }
 
 }
