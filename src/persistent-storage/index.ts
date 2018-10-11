@@ -63,6 +63,7 @@ export class PersistentStorage<StateType extends Persistable> {
   public addBackend(name: string, backend: backends.Backend) { this.backends.set(name, backend); }
 
   public getBackend(name: string) { return this.backends.get(name); }
+  public getAllBackends() { return Array.from(this.backends.entries()); }
   public isPrimaryUnsaved(): boolean { return this.primaryBackend.lastUpdate < this.lastUpdate; }
 
   public areSecondaryBackendsUnsaved(): boolean {
@@ -90,7 +91,7 @@ export class PersistentStorage<StateType extends Persistable> {
     const currentStateString = data.state;
     const lastUpdate = Date.now();
     this.lastUpdate = lastUpdate;
-    for (const name of this.currentSettings.secondary.concat([this.currentSettings.primary])) {
+    for (const name of _.uniq(this.currentSettings.secondary.concat([this.currentSettings.primary]))) {
       const backend = this.getBackend(name);
       await this.saveToBackend(backend, name, lastUpdate, currentStateString);
     }
