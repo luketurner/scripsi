@@ -8,6 +8,9 @@ import { AnchorButton, Navbar, NavbarDivider, NavbarGroup, NavbarHeading } from 
 
 import PropsPopover from './props-popover';
 import SettingsPopover from './settings-popover';
+import { Icon, IconType } from '../icon';
+import { Button } from '../button';
+import uiState from '../state';
 
 export default observer(() => {
 
@@ -16,56 +19,26 @@ export default observer(() => {
 
   const onSearchInput = e => nodeStore.setSearchQuery(e.target.value);
 
+  const openSettings = e => uiState.toggleSettings();
+
   return (
-    <Navbar className='pt-focus-disabled'>
-      <NavbarGroup>
-        <div>
-          <NavbarHeading>
-            Scripsi
-            {isPrimaryUnsaved && <span>*</span>}
-            {areSecondariesUnsaved && <span>+</span>}
-          </NavbarHeading>
-        </div>
-        <NavbarDivider />
-        <PropsPopover />
-        <SettingsPopover />
-      </NavbarGroup>
-      <NavbarGroup align='right'>
-        <div className='pt-input-group'>
-          <span className='pt-icon pt-icon-search' />
-          <input
-            className='pt-input'
-            type='search'
-            placeholder='Search nodes...'
-            dir='auto'
-            onChange={onSearchInput}
-          />
-        </div>
-        <NavbarDivider />
-        <AnchorButton
-          className='pt-minimal'
-          icon='git-repo'
-          href='https://github.com/luketurner/scripsi'
-          target='_blank'
-        >
-          Github
-        </AnchorButton>
-      </NavbarGroup>
-    </Navbar>
+    <div className='flex'>
+      <div className='p-2'>
+        Scripsi
+        {isPrimaryUnsaved && <span>*</span>}
+        {areSecondariesUnsaved && <span>+</span>}
+      </div>
+      <div className='flex-1' />
+      <div className='p-2'>
+        <input
+          className='pt-input'
+          type='search'
+          placeholder='Search nodes...'
+          dir='auto'
+          onChange={onSearchInput}
+        />
+      </div>
+      <div className='h-8 text-grey'><Button onClick={openSettings}><Icon type={IconType.Cog} /></Button></div>
+    </div>
   );
-
-  // return (
-  //   <div styleName='navbar'>
-  //     <div styleName='brand-section'>
-  //       <a href='/'>scripsi</a>
-  //       {isPrimaryUnsaved && <span styleName='saving'>*</span>}
-  //       {areSecondariesUnsaved && <span styleName='saving'>+</span>}
-  //     </div>
-  //     <div styleName='search-bar-section'>
-  //       <Icon type={IconType.Search} title='search' />
-  //       <input styleName='search-bar' placeholder='Search nodes...' onChange={onSearchInput} />
-  //     </div>
-
-  //   </div>
-  // );
 });
