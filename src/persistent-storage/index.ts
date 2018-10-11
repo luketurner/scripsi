@@ -77,7 +77,6 @@ export class PersistentStorage<StateType extends Persistable> {
   }
 
   public async loadFromBackend() {
-    throw new MissingStateError(); // TODO
     const key = this.currentSettings.databaseName + '|nodes';
     const backend = this.primaryBackend;
     const newState = await backend.load(key);
