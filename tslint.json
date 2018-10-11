@@ -17,6 +17,8 @@
     "no-submodule-imports": false, // interferes with webpack require()
     "jsx-curly-spacing": "never",
     "jsx-equals-spacing": "never",
+    "jsx-no-lambda": false, // so annoying! Should re-enable it once I care about performance.
+    "jsx-no-multiline-js": false, // prevents the most concise way to do some things
     "interface-name": false // seems to conflict with how I think of TS interfaces
   }
 }
