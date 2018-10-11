@@ -67,7 +67,7 @@ export class SettingStore {
   }
 
   private getBrowserLastSaved(): number {
-    const lastSaved = Number.parseInt(this.storageClient.getItem(`${this.storagePrefix}last_saved`));
+    const lastSaved = Number.parseInt(this.storageClient.getItem(`${this.storagePrefix}last_saved`), 10);
     if (!lastSaved) {
       return null; // In case .parseInt() returns NaN, coerce it to null
     }
