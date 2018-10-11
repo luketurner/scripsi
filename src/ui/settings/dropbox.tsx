@@ -26,6 +26,9 @@ export const DropboxSettingsView = observer(() => {
           to access files in the Scripsi subfolder.) Once you login, you will be redirected
           back to this page.
         </p>
+        <p>
+          Your access token will only be stored in your Web browser.
+        </p>
         <Button onClick={authenticate}>Activate</Button>
       </div>
     );

@@ -99,7 +99,7 @@ export default class DropboxBackend extends Backend {
 
     // Build redirect URL
     const redirectUri = new URL(window.location.href);
-    redirectUri.pathname = '/dropbox_auth';
+    redirectUri.search = '?dropbox_auth=true';
 
     // Redirect window to Dropbox authentication page.
     const dropboxOAuthUrl = this.dropboxClient.getAuthenticationUrl(redirectUri.href);

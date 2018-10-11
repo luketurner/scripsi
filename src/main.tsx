@@ -12,6 +12,8 @@ import { nodeStorage } from './persistent-storage';
 import { MissingStateError } from './persistent-storage/errors';
 import UI from './ui/index';
 import { isDevelopment } from './util';
+import { parse } from 'query-string';
+import settings from './settings/store';
 
 // Include Draft.js CSS declarations
 require('draft-js/dist/Draft.css');
@@ -47,6 +49,18 @@ export async function main() {
       nodeStore.rootNode = rootNode.id;
       nodeStore.viewRootNode = rootNode.id;
     });
+  }
+
+  // Handle OAuth redirect workflows here -- if we're redirected to a certain URL,
+  // then some auth settings (like access tokens) should be provided in the URL as
+  // part of the OAuth permission granting process.
+  // TODO -- maybe a better place to put this logic?
+  if (window.location.search === '?dropbox_auth=true') {
+    const accessToken = parse(window.location.hash)['access_token'];
+    if (accessToken) {
+      console.debug('Found Dropbox access token from OAuth fragment.');
+      settings.settings.backends.dropbox.accessToken = accessToken;
+    }
   }
 
   render(
