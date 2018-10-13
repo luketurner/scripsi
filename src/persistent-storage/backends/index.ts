@@ -1,5 +1,5 @@
 import { observable } from 'mobx';
-import { BackendSettings, AuthStatus } from '../../settings/backends';
+import { AuthStatus, BackendSettings } from '../../settings/backends';
 
 /**
  * Abstract class defining shared behavior for persistence backends.

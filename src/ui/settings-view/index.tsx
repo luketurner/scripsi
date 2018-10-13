@@ -2,9 +2,9 @@ import * as React from 'react';
 
 import { observer } from 'mobx-react';
 import { settings, storageDriver } from '../../main';
-import { Button } from '../button';
-import { DropboxSettingsView } from './dropbox';
 import { AuthStatus } from '../../settings/backends';
+import { Button } from '../components/button';
+import { DropboxSettingsView } from './dropbox';
 
 export const SettingsView = observer(() => {
 

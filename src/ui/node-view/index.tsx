@@ -2,7 +2,7 @@ import { observer } from 'mobx-react';
 import * as React from 'react';
 
 import classNames = require('classnames');
-import { uiState } from '..';
+import { state } from '..';
 import { nodes } from '../../main';
 import { getComponent } from '../../node-types';
 import { NodeType, SNode } from '../../nodes';
@@ -13,7 +13,7 @@ export interface NodeViewProps {
   nodeId: string;
 }
 
-export default observer(props => {
+export const NodeView = observer(props => {
 
   let node: SNode;
 
@@ -26,7 +26,7 @@ export default observer(props => {
 
   const NodeTypeComponent = getComponent(node.type);
 
-  const isOutlined = node.id === uiState.hoveredNode;
+  const isOutlined = node.id === state.hoveredNode;
 
   return (
     <NodeViewDropTarget node={node}>

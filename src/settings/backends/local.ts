@@ -1,5 +1,5 @@
 import { observable } from 'mobx';
-import { BackendSettings, AuthStatus } from '.';
+import { AuthStatus, BackendSettings } from '.';
 
 export class LocalBackendSettings extends BackendSettings {
 

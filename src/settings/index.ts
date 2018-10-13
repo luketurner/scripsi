@@ -1,4 +1,4 @@
-import { observable, autorun, computed } from 'mobx';
+import { autorun, computed, observable } from 'mobx';
 
 import * as uuid from 'uuid';
 import { Persistable } from '../persistent-storage/driver';

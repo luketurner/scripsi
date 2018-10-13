@@ -5,7 +5,7 @@ import * as React from 'react';
 
 import { INodeType, NodeTypeProps } from '..';
 import { NodeType } from '../../nodes';
-import { NodeTextEditor } from '../../ui/editor';
+import { NodeTextEditor } from '../../ui/node-view/node-text-editor';
 import { ChildNodeList } from '../util/child-node-list';
 
 const definition: INodeType = {

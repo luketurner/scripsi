@@ -9,7 +9,7 @@ import { SNodeStore } from './nodes/store';
 import { PersistentStorageDriver } from './persistent-storage/driver';
 import { MissingStateError } from './persistent-storage/errors';
 import { Settings } from './settings';
-import UI from './ui/index';
+import { UI } from './ui/index';
 import { isDevelopment } from './util';
 
 // Include all 3rd party CSS

@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
+import * as uuid from 'uuid';
 import * as backends from './backends';
 import { MissingStateError } from './errors';
-import * as uuid from 'uuid';
 
 import { action, autorun, computed, observable, reaction, runInAction, spy, toJS } from 'mobx';
 import { Settings } from '../settings';

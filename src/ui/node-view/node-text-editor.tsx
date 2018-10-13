@@ -2,10 +2,10 @@ import { action } from 'mobx';
 import { observer } from 'mobx-react';
 import * as React from 'react';
 
-import { uiState } from '..';
+import { state } from '..';
 import { nodes } from '../../main';
 import { NodeType, SNode } from '../../nodes';
-import TextEditor, { EditorKeyHandler } from './text-editor';
+import TextEditor, { EditorKeyHandler } from '../components/text-editor';
 
 interface NodeTextEditorProps {
   node: SNode;
@@ -14,7 +14,7 @@ interface NodeTextEditorProps {
   onTab?: EditorKeyHandler<KeyboardEvent>;
 }
 
-export default observer(({ node, plugins = [], isMultiline = false, onTab: onTabProp }: NodeTextEditorProps) => {
+export const NodeTextEditor = observer(({ node, plugins = [], isMultiline = false, onTab: onTabProp }: NodeTextEditorProps) => {
   const onChange = v => node.setContent(v);
 
   // When we receive a tab, "indent" the node by demoting it in the hierarchy.
@@ -26,13 +26,13 @@ export default observer(({ node, plugins = [], isMultiline = false, onTab: onTab
     } else {
       node.demote();
     }
-    uiState.focusedNode = node.id; // Should normally be focused anyway?
+    state.focusedNode = node.id; // Should normally be focused anyway?
     return 'handled';
   });
 
   // ensures the UIState focusedNode changes when the user clicks around
   const onFocus = action(() => {
-    uiState.focusedNode = node.id;
+    state.focusedNode = node.id;
   });
 
   // When we recieve a backspace, the TextEditor will only bubble it up
@@ -42,7 +42,7 @@ export default observer(({ node, plugins = [], isMultiline = false, onTab: onTab
     const hasText = editorState.getCurrentContent().hasText();
     if (hasText) return 'not-handled'; // don't delete the node unless it's empty
 
-    uiState.focusedNode = node.parent; // TODO -- focus last sibling instead
+    state.focusedNode = node.parent; // TODO -- focus last sibling instead
     node.remove();
     return 'handled';
   });
@@ -54,7 +54,7 @@ export default observer(({ node, plugins = [], isMultiline = false, onTab: onTab
     if (isMultiline !== e.shiftKey) return 'not-handled';
     const newChild = new SNode();
     node.addChildNode(newChild);
-    uiState.focusedNode = newChild.id;
+    state.focusedNode = newChild.id;
     return 'handled';
   });
 
@@ -66,7 +66,7 @@ export default observer(({ node, plugins = [], isMultiline = false, onTab: onTab
     <TextEditor
       type={editorType}
       content={node.content}
-      isFocused={uiState.focusedNode === node.id}
+      isFocused={state.focusedNode === node.id}
 
       // event handler props
       onChange={onChange}

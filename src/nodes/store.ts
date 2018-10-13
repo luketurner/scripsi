@@ -1,4 +1,4 @@
-import { action, observable, computed } from 'mobx';
+import { action, computed, observable } from 'mobx';
 import { Persistable } from '../persistent-storage/driver';
 import { SNode, SNodeOptions } from './node';
 
@@ -9,7 +9,6 @@ export class SNodeStore implements Persistable {
   @observable public index = new Map<Uuid, SNode>();
 
   @computed public get currentState() {
-    console.log('recomputing state');
     return JSON.stringify(this);
   }
 

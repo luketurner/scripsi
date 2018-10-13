@@ -1,6 +1,4 @@
-// tslint:disable:max-line-length
 import * as React from 'react';
-import { Icon, IconType } from './icon';
 
 export interface ButtonProps {
   onClick: (e: any) => void;

@@ -1,13 +1,8 @@
 import * as React from 'react';
 
-import { observer } from 'mobx-react';
-
-import { uiState } from '..';
-import { nodes } from '../../main';
-import Navbar from '../navbar';
-import NodeView from '../node-view';
-import { SettingsView } from '../settings';
-import { ContentView } from '../state';
+import { Content } from './content';
+import { Footer } from './footer';
+import { Header } from './header';
 
 /**
  * Presentational component that encapsulates the global layout.
@@ -15,19 +10,22 @@ import { ContentView } from '../state';
  * @class Layout
  * @extends {React.Component<{}, {}>}
  */
-export default observer(() => {
+export const Layout = () => {
   return (
     <div className='pin absolute bg-grey-lightest'>
       <div className=' h-full flex flex-col container max-w-lg mx-auto'>
-        <Navbar />
-        <div className='flex-1'>
-          {(uiState.content === ContentView.Settings && <SettingsView />)
-           || <NodeView nodeId={nodes.viewRootNode} />}
+        <div>
+          <Header />
         </div>
-        <div className='h-8 flex justify-center items-center'>
-          Copyright 2018 Luke Turner <span>-</span> <a href='https://github.com/luketurner/scripsi'>github</a>
+
+        <div className='flex-1'>
+          <Content />
+        </div>
+
+        <div>
+          <Footer />
         </div>
       </div>
     </div>
   );
-});
+};

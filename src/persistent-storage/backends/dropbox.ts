@@ -2,9 +2,9 @@
 import { Dropbox } from 'dropbox';
 import { autorun, observable } from 'mobx';
 import { parse } from 'query-string';
+import { AuthStatus } from '../../settings/backends';
 import { DropboxBackendSettings } from '../../settings/backends/dropbox';
 import { BackendClient } from './index';
-import { AuthStatus } from '../../settings/backends';
 
 export class DropboxBackendClient extends BackendClient {
 

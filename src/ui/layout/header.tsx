@@ -1,18 +1,18 @@
 import { observer } from 'mobx-react';
 import * as React from 'react';
-import { uiState } from '..';
+import { state } from '..';
 import { nodes, storageDriver } from '../../main';
-import { Button } from '../button';
-import { Icon, IconType } from '../icon';
+import { Button } from '../components/button';
+import { Icon, IconType } from '../components/icon';
 
-export default observer(() => {
+export const Header = observer(() => {
 
   const isPrimaryUnsaved = storageDriver.hasUnsavedPrimary;
   const areSecondariesUnsaved = storageDriver.hasUnsavedChanges;
 
   const onSearchInput = e => nodes.setSearchQuery(e.target.value);
 
-  const openSettings = e => uiState.toggleSettings();
+  const openSettings = e => state.toggleSettings();
 
   return (
     <div className='flex'>

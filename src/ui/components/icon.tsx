@@ -1,4 +1,3 @@
-// tslint:disable:max-line-length
 import * as React from 'react';
 
 // Icons from IcoMoon
