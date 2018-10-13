@@ -1,33 +1,45 @@
 import * as React from 'react';
 
 import { observer } from 'mobx-react';
-import { settings } from '../../main';
+import { settings, storageDriver } from '../../main';
 import { Button } from '../button';
 import { DropboxSettingsView } from './dropbox';
+import { AuthStatus } from '../../settings/backends';
 
 export const SettingsView = observer(() => {
 
-  const BackendRow = observer(({ id, settings: backendSettings }) => (
-    <tr>
-      <td className='p-2'>
-        {backendSettings.name}
-      </td>
-      <td>
-        { settings.primaryBackendId === id
-          ? <div className='p-2 text-grey'>ON</div>
-          : <Button onClick={() => settings.primaryBackendId = id}>OFF</Button>
-        }
-      </td>
-      <td>
-        { settings.primaryBackendId === id
-          ? <div className='p-2 text-grey'>N/A</div>
-          : settings.backupBackendIds.includes(id)
-          ? <Button onClick={() => settings.backupBackendIds['remove'](id)}>ON</Button>
-          : <Button onClick={() => settings.backupBackendIds.push(id)}>OFF</Button>
-        }
-      </td>
-    </tr>
-  ));
+  const BackendRow = observer(({ id, settings: backendSettings }) => {
+    const isReady = backendSettings.authStatus === AuthStatus.Authenticated;
+    const isPreAuth = backendSettings.authStatus === AuthStatus.PreAuthentication;
+    const isPrimary = settings.primaryBackendId === id;
+    const isSecondary = settings.backupBackendIds.includes(id);
+    return (
+      <tr>
+        <td className='p-2'>
+          {backendSettings.name}
+        </td>
+        <td>
+         <div className='p-2 text-grey'>{ isReady ? 'Ready' : isPreAuth ? 'Working...' : 'Not Ready' }</div>
+        </td>
+        <td>
+          { !isReady
+            ? <Button onClick={() => storageDriver.authenticateBackend(id)}>ENABLE</Button>
+            : isPrimary
+            ? <div className='p-2 text-grey'>ON</div>
+            : <Button onClick={() => settings.primaryBackendId = id}>OFF</Button>
+          }
+        </td>
+        <td>
+          { !isReady || isPrimary
+            ? <div className='p-2 text-grey'>N/A</div>
+            : isSecondary
+            ? <Button onClick={() => settings.backupBackendIds['remove'](id)}>ON</Button>
+            : <Button onClick={() => settings.backupBackendIds.push(id)}>OFF</Button>
+          }
+        </td>
+      </tr>
+    );
+  });
 
   return (
     <div>

@@ -142,4 +142,11 @@ export class PersistentStorageDriver<StateType extends Persistable> {
     }
     this.state.loadState(newState);
   }
+
+  @action('storageDriver.authenticateBackend')
+  public async authenticateBackend(id: string) {
+    const client = this.clients.get(id);
+    if (!client) throw new Error(`Unknown backend ${id}`);
+    await client.authenticate();
+  }
 }

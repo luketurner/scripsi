@@ -3,7 +3,8 @@ import { Dropbox } from 'dropbox';
 import { autorun, observable } from 'mobx';
 import { parse } from 'query-string';
 import { DropboxBackendSettings } from '../../settings/backends/dropbox';
-import { AuthStatus, BackendClient } from './index';
+import { BackendClient } from './index';
+import { AuthStatus } from '../../settings/backends';
 
 export class DropboxBackendClient extends BackendClient {
 
@@ -31,7 +32,7 @@ export class DropboxBackendClient extends BackendClient {
       if (accessToken) {
         console.debug('Found Dropbox access token from OAuth fragment.');
         this.settings.accessToken = accessToken;
-        this.authStatus = AuthStatus.Authenticated;
+        this.settings.authStatus = AuthStatus.Authenticated;
       }
     }
 

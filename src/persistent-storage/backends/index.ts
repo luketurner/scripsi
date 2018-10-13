@@ -1,11 +1,5 @@
 import { observable } from 'mobx';
-import { BackendSettings } from '../../settings/backends';
-
-export enum AuthStatus {
-  Unauthenticated = 'nauthenticated',
-  PreAuthentication = 'pre-authentication',
-  Authenticated = 'authenticated'
-}
+import { BackendSettings, AuthStatus } from '../../settings/backends';
 
 /**
  * Abstract class defining shared behavior for persistence backends.
@@ -18,12 +12,10 @@ export enum AuthStatus {
 export abstract class BackendClient {
   @observable public lastUpdate: number = 0; // Timestamp of the last update to the backend
   @observable public wip: Promise<any>; // set when there is work in progress for the backend
-  @observable public authStatus: AuthStatus;
   @observable public settings: BackendSettings;
 
   constructor(params?: Partial<BackendClient>) {
     this.wip = params.wip || Promise.resolve();
-    this.authStatus = params.authStatus || AuthStatus.Unauthenticated;
     this.settings = params.settings;
     if (!this.settings) throw new Error('BackendClient requires settings property to exist');
   }
@@ -55,7 +47,7 @@ export abstract class BackendClient {
 
   public async authenticate(): Promise<void> {
     this.wip = this.wip.then(async () => {
-      this.authStatus = AuthStatus.PreAuthentication;
+      this.settings.authStatus = AuthStatus.PreAuthentication;
       return this._authenticate();
     });
     return this.wip;

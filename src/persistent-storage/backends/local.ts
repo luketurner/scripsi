@@ -3,7 +3,7 @@ import {debounce} from 'lodash';
 
 import { observable } from 'mobx';
 import { LocalBackendSettings } from '../../settings/backends/local';
-import { AuthStatus, BackendClient } from './index';
+import { BackendClient } from './index';
 
 const getKey = k => 'scripsi|' + k;
 
@@ -19,7 +19,6 @@ export class LocalBackendClient extends BackendClient {
       driver: LocalForage.INDEXEDDB,
       name: 'scripsi'
     });
-    this.authStatus = AuthStatus.Authenticated; // No auth needed for local backend
   }
 
   public async _load(key: string) {
