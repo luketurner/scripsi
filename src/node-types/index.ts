@@ -1,4 +1,4 @@
-import { NodeType, SNode } from "../nodes";
+import { NodeType, SNode } from '../nodes';
 
 type NodeTypeComponent = React.StatelessComponent<any>;
 

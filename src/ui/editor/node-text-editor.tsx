@@ -2,9 +2,9 @@ import { action } from 'mobx';
 import { observer } from 'mobx-react';
 import * as React from 'react';
 
+import { uiState } from '..';
+import { nodes } from '../../main';
 import { NodeType, SNode } from '../../nodes';
-import nodeStore from '../../nodes/store';
-import uiState from '../state';
 import TextEditor, { EditorKeyHandler } from './text-editor';
 
 interface NodeTextEditorProps {
@@ -37,7 +37,7 @@ export default observer(({ node, plugins = [], isMultiline = false, onTab: onTab
 
   // When we recieve a backspace, the TextEditor will only bubble it up
   const onBackspace = action((editorState: Draft.EditorState) => {
-    if (node.id === nodeStore.viewRootNode) return 'not-handled';
+    if (node.id === nodes.viewRootNode) return 'not-handled';
 
     const hasText = editorState.getCurrentContent().hasText();
     if (hasText) return 'not-handled'; // don't delete the node unless it's empty

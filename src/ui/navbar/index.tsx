@@ -1,23 +1,16 @@
 import { observer } from 'mobx-react';
 import * as React from 'react';
-import nodeStore from '../../nodes/store';
-import { nodeStorage } from '../../persistent-storage';
-// import Icon, { IconType } from '../widgets/icon';
-
-import { AnchorButton, Navbar, NavbarDivider, NavbarGroup, NavbarHeading } from '@blueprintjs/core';
-
-import PropsPopover from './props-popover';
-import SettingsPopover from './settings-popover';
-import { Icon, IconType } from '../icon';
+import { uiState } from '..';
+import { nodes, storageDriver } from '../../main';
 import { Button } from '../button';
-import uiState from '../state';
+import { Icon, IconType } from '../icon';
 
 export default observer(() => {
 
-  const isPrimaryUnsaved = nodeStorage.isPrimaryUnsaved();
-  const areSecondariesUnsaved = nodeStorage.areSecondaryBackendsUnsaved();
+  const isPrimaryUnsaved = storageDriver.hasUnsavedPrimary;
+  const areSecondariesUnsaved = storageDriver.hasUnsavedChanges;
 
-  const onSearchInput = e => nodeStore.setSearchQuery(e.target.value);
+  const onSearchInput = e => nodes.setSearchQuery(e.target.value);
 
   const openSettings = e => uiState.toggleSettings();
 

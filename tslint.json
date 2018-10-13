@@ -9,7 +9,7 @@
     "quotemark": [true, "single", "avoid-escape", "avoid-template"],
     "no-trailing-whitespace": true,
     "encoding": true,
-    "trailing-comma": [true, {"multiline": "never", "singleline": "never"}],
+    "trailing-comma": [true, {"singleline": "never"}],
     "no-console": [true, "log"], // forbid console.log only
     "no-var-requires": false, // interferes with usage of require() for non-JS resources
     "no-string-literal": false, // interferes with TS property access conventions

@@ -1,53 +1,28 @@
-import { observable, action } from 'mobx';
+import { observable } from 'mobx';
 
-import { Backend } from '../../persistent-storage/backends';
-import { DropboxSettings } from './dropbox';
-import { bind } from 'bind-decorator';
+export enum AuthStatus {
+  Unauthenticated = 'nauthenticated',
+  PreAuthentication = 'pre-authentication',
+  Authenticated = 'authenticated'
+}
 
-export class BackendSettings {
+/**
+ * Contains the configuration for an individual backend.
+ *
+ * @export
+ * @abstract
+ * @class BackendSettings
+ */
+export abstract class BackendSettings {
+  @observable public name: string;
+  @observable public readonly type: 'local' | 'dropbox'; // TODO
   @observable public databaseName: string;
-  @observable public primary: string;
-  @observable public secondary: string[];
-  @observable public dropbox: DropboxSettings;
+  @observable public authStatus: AuthStatus;
 
-  constructor() {
-    this.databaseName = 'scripsi';
-    this.primary = 'local'; // TODO -- get from PersistentStore?
-    this.secondary = [];
-    this.dropbox = new DropboxSettings();
+  constructor(params?: Partial<BackendSettings>) {
+    params = params || {};
+    this.name = params.name;
+    this.databaseName = params.databaseName;
+    this.authStatus = params.authStatus || AuthStatus.Unauthenticated;
   }
-
-  @bind
-  @action('backendSettings.toggleSecondaryBackend')
-  public toggleSecondaryBackend(backendName: string) {
-    const ix = this.secondary.indexOf(backendName);
-    if (ix === -1) {
-      this.secondary.push(backendName);
-    } else {
-      this.secondary.splice(ix, 1);
-    }
-  }
-
-  @bind
-  @action('backendSettings.setPrimary')
-  public setPrimary(backendName: string) {
-    this.primary = backendName;
-    this.removeSecondaryBackend(backendName);
-  }
-
-  @bind
-  @action('backendSettings.addSecondaryBackend')
-  public addSecondaryBackend(backendName: string) {
-    if (this.primary === backendName) { return; }
-    if (this.secondary.indexOf(backendName) !== -1) { return; }
-    this.secondary.push(backendName);
-  }
-
-  @bind
-  @action('backendSettings.removeSecondaryBackend')
-  public removeSecondaryBackend(backendName: string) {
-    const ix = this.secondary.indexOf(backendName);
-    if (ix !== -1) { this.secondary.splice(ix, 1); }
-  }
-
 }

@@ -2,9 +2,7 @@ import { action } from 'mobx';
 import { observer } from 'mobx-react';
 import * as React from 'react';
 
-import { SNode } from '../../nodes';
-import uiState from '../state';
-
+import { uiState } from '..';
 import { NodeDragAnchor } from './node-drag-anchor';
 import { NodeMenuAnchor } from './node-menu-anchor';
 

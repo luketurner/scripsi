@@ -3,15 +3,13 @@ import * as React from 'react';
 
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
-import { GlobalStore } from '../store';
 import Layout from './layout';
+import { UIState } from './state';
 
 require('./style.scss');
 
-export interface UIProps {
-  store: GlobalStore;
-}
+export const uiState = new UIState();
 
-export default DragDropContext(HTML5Backend)(observer(({ store }) =>
-  <Layout store={store} />
+export default DragDropContext(HTML5Backend)(observer(() =>
+  <Layout />
 ));

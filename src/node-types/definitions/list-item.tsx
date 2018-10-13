@@ -3,9 +3,9 @@ import { action } from 'mobx';
 import { observer } from 'mobx-react';
 import * as React from 'react';
 
-import { NodeTextEditor } from '../../ui/editor';
 import { INodeType, NodeTypeProps } from '..';
 import { NodeType } from '../../nodes';
+import { NodeTextEditor } from '../../ui/editor';
 import { ChildNodeList } from '../util/child-node-list';
 
 const definition: INodeType = {

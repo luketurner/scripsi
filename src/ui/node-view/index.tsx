@@ -1,13 +1,13 @@
 import { observer } from 'mobx-react';
 import * as React from 'react';
 
+import classNames = require('classnames');
+import { uiState } from '..';
+import { nodes } from '../../main';
+import { getComponent } from '../../node-types';
 import { NodeType, SNode } from '../../nodes';
-import nodeStore from '../../nodes/store';
-import uiState from '../state';
 import { NodeViewAnchor } from './anchor';
 import { NodeViewDropTarget } from './node-drop-target';
-import { getComponent } from '../../node-types';
-import classNames = require('classnames');
 
 export interface NodeViewProps {
   nodeId: string;
@@ -18,7 +18,7 @@ export default observer(props => {
   let node: SNode;
 
   try {
-    node = nodeStore.getNode(props.nodeId);
+    node = nodes.getNode(props.nodeId);
   } catch (e) {
     console.error('cannot render node', props.nodeId, e);
     return <div />;

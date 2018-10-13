@@ -36,6 +36,3 @@ export class UIState {
   }
 
 }
-
-const uiState = new UIState();
-export default uiState;

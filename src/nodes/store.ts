@@ -1,5 +1,5 @@
-import { action, observable } from 'mobx';
-import { Persistable } from '../persistent-storage';
+import { action, observable, computed } from 'mobx';
+import { Persistable } from '../persistent-storage/driver';
 import { SNode, SNodeOptions } from './node';
 
 export class SNodeStore implements Persistable {
@@ -7,6 +7,11 @@ export class SNodeStore implements Persistable {
   @observable public viewRootNode: Uuid;
   @observable public searchQuery: string;
   @observable public index = new Map<Uuid, SNode>();
+
+  @computed public get currentState() {
+    console.log('recomputing state');
+    return JSON.stringify(this);
+  }
 
   @action('nodeStore.setSearchQuery')
   public setSearchQuery(query: string) {
@@ -42,6 +47,3 @@ export class SNodeStore implements Persistable {
     }
   }
 }
-
-const store = new SNodeStore();
-export default store;

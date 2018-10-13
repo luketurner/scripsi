@@ -1,7 +1,7 @@
 import { ContextMenuTarget, Menu, MenuItem } from '@blueprintjs/core';
+import { observer } from 'mobx-react';
 import * as React from 'react';
 import { NodeType, SNode } from '../../nodes';
-import { observer } from 'mobx-react';
 
 @observer
 @ContextMenuTarget

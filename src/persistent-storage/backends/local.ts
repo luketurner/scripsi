@@ -1,20 +1,25 @@
 import * as LocalForage from 'localforage';
 import {debounce} from 'lodash';
 
-import { Backend } from './index';
+import { observable } from 'mobx';
+import { LocalBackendSettings } from '../../settings/backends/local';
+import { AuthStatus, BackendClient } from './index';
 
 const getKey = k => 'scripsi|' + k;
 
-export default class LocalBackend extends Backend {
+export class LocalBackendClient extends BackendClient {
+
+  @observable public settings: LocalBackendSettings;
 
   private client: LocalForage;
 
-  constructor() {
-    super();
+  constructor(params?: Partial<LocalBackendClient>) {
+    super(params);
     this.client = LocalForage.createInstance({
       driver: LocalForage.INDEXEDDB,
       name: 'scripsi'
     });
+    this.authStatus = AuthStatus.Authenticated; // No auth needed for local backend
   }
 
   public async _load(key: string) {
@@ -31,5 +36,9 @@ export default class LocalBackend extends Backend {
 
   public async _reset(key) {
     LocalForage.removeItem(key);
+  }
+
+  public async _authenticate() {
+    return;
   }
 }

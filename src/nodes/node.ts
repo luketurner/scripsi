@@ -2,8 +2,7 @@ import bind from 'bind-decorator';
 import * as _ from 'lodash';
 import { action, autorun, computed, observable, runInAction } from 'mobx';
 import { v4 as uuidv4 } from 'uuid';
-
-import nodeStore from './store';
+import { nodes } from '../main';
 
 export class SNode {
   @observable public id: string;
@@ -25,20 +24,20 @@ export class SNode {
   }
 
   get parentNode(): SNode {
-    return nodeStore.getNode(this.parent);
+    return nodes.getNode(this.parent);
   }
 
   public *getChildNodes(): IterableIterator<SNode> {
     for (const childId of this.children) {
-      yield nodeStore.getNode(childId);
+      yield nodes.getNode(childId);
     }
   }
 
   @computed get isVisible() {
-    if (!nodeStore.searchQuery || nodeStore.searchQuery === '') {
+    if (!nodes.searchQuery || nodes.searchQuery === '') {
       return true;
     }
-    return this.content.includes(nodeStore.searchQuery);
+    return this.content.includes(nodes.searchQuery);
   }
 
   @bind
@@ -57,7 +56,7 @@ export class SNode {
       this.children.push(newNode.id);
     }
     newNode.parent = this.id;
-    return nodeStore.addNode(newNode);
+    return nodes.addNode(newNode);
   }
 
   @bind
@@ -88,7 +87,7 @@ export class SNode {
   public removeChild(childNode: SNode) {
     const ix = this.findChildIndex(childNode);
     this.children.splice(ix, 1);
-    nodeStore.removeNode(childNode);
+    nodes.removeNode(childNode);
     return this;
   }
 
@@ -135,7 +134,7 @@ export class SNode {
     }
 
     const priorSiblingId = parent.children[position - 1];
-    return this.setParent(nodeStore.getNode(priorSiblingId));
+    return this.setParent(nodes.getNode(priorSiblingId));
   }
 
   @bind
@@ -205,7 +204,6 @@ export class SNode {
   @bind public setTypeToDictionaryList() { this.setType(NodeType.DictionaryItem); }
   @bind public setTypeToTodo() { this.setType(NodeType.Todo); }
   @bind public setTypeToCodeBlock() { this.setType(NodeType.Code); }
-
 
   // public toJSON() {
   //   return JSON.stringify(this);

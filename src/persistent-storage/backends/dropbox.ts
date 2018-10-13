@@ -1,12 +1,15 @@
 
-import { autorun, observable } from 'mobx';
-import settings from '../../settings/store';
-import { Backend } from './index';
 import { Dropbox } from 'dropbox';
+import { autorun, observable } from 'mobx';
+import { parse } from 'query-string';
+import { DropboxBackendSettings } from '../../settings/backends/dropbox';
+import { AuthStatus, BackendClient } from './index';
 
-export default class DropboxBackend extends Backend {
+export class DropboxBackendClient extends BackendClient {
 
   public dropboxClient;
+
+  @observable public settings: DropboxBackendSettings;
 
   private lastKnownRev;
 
@@ -15,19 +18,31 @@ export default class DropboxBackend extends Backend {
    * properties if the Dropbox settings are changed by the user.
    * @memberof DropboxBackend
    */
-  constructor() {
-    super();
+  constructor(params?: Partial<DropboxBackendClient>) {
+    super(params);
     this.dropboxClient = new Dropbox({});
-    const backendSettings = settings.settings.backends;
+
+    // Handle OAuth redirect workflows here -- if we're redirected to a certain URL,
+    // then some auth settings (like access tokens) should be provided in the URL as
+    // part of the OAuth permission granting process.
+    // TODO -- maybe a better place to put this logic?
+    if (window.location.search === '?dropbox_auth=true') {
+      const accessToken = parse(window.location.hash)['access_token'];
+      if (accessToken) {
+        console.debug('Found Dropbox access token from OAuth fragment.');
+        this.settings.accessToken = accessToken;
+        this.authStatus = AuthStatus.Authenticated;
+      }
+    }
 
     autorun(() => {
-      const clientId = backendSettings.dropbox.appClientId;
+      const clientId = this.settings.appClientId;
       console.debug('Updating Dropbox client ID', clientId);
       this.dropboxClient.setClientId(clientId);
     });
 
     autorun(() => {
-      const accessToken = backendSettings.dropbox.accessToken;
+      const accessToken = this.settings.accessToken;
       console.debug('Updating Dropbox access token', accessToken);
       this.dropboxClient.setAccessToken(accessToken);
     });
@@ -48,29 +63,27 @@ export default class DropboxBackend extends Backend {
 
     // Use FileReader to read data from the fileBlob. Since it uses an
     // event-based API, wrap it in a promise to make it work with async/await.
-    // const fileData = await new Promise<string>((resolve, reject) => {
-    //   const blobReader = new FileReader();
-    //   blobReader.addEventListener('loadend', () => {
-    //     if (blobReader.error) return reject(blobReader.error);
-    //     if (!blobReader.result) return reject(new Error('Empty/missing Dropbox file contents'));
-    //     return resolve(blobReader.result);
-    //   });
-    //   blobReader.readAsText(fileBlob, 'utf8');
-    // });
+    const fileData = await new Promise<string>((resolve, reject) => {
+      const blobReader = new FileReader();
+      blobReader.addEventListener('loadend', () => {
+        if (blobReader.error) return reject(blobReader.error);
+        if (!blobReader.result) return reject(new Error('Empty/missing Dropbox file contents'));
+        return resolve(blobReader.result as string);
+      });
+      blobReader.readAsText(fileBlob, 'utf8');
+    });
 
-    // console.log('File date', fileData);
-    // return fileData;
-    return '';
+    return fileData;
   }
 
   /**
    * Saves a key by writing a new file to the Dropbox. Overwrites existing files with the same name.
    */
   public async _save(key: string, value: string) {
-    return this.dropboxClient.filesUpload({
-      path: this.getFilename(key),
+    await this.dropboxClient.filesUpload({
       contents: value,
-      mode: 'overwrite' // TODO -- change to using 'update' mode
+      mode: 'overwrite', // TODO -- change to using 'update' mode
+      path: this.getFilename(key),
       // mode: {
       //   '.tag': 'update',
       //   update: this.lastKnownRev
@@ -92,7 +105,7 @@ export default class DropboxBackend extends Backend {
    *
    * @memberof DropboxBackend
    */
-  public async authenticate() {
+  public async _authenticate() {
 
     // TODO -- find a useful value for state. Maybe a content hash or something?
     const state = 'asdf';

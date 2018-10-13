@@ -1,5 +1,3 @@
-
-
 import * as _ from 'lodash';
 import { runInAction } from 'mobx';
 import DevTools from 'mobx-react-devtools';
@@ -7,30 +5,40 @@ import * as React from 'react';
 import { render } from 'react-dom';
 
 import { SNode } from './nodes';
-import nodeStore from './nodes/store';
-import { nodeStorage } from './persistent-storage';
+import { SNodeStore } from './nodes/store';
+import { PersistentStorageDriver } from './persistent-storage/driver';
 import { MissingStateError } from './persistent-storage/errors';
+import { Settings } from './settings';
 import UI from './ui/index';
 import { isDevelopment } from './util';
-import { parse } from 'query-string';
-import settings from './settings/store';
 
-// Include Draft.js CSS declarations
+// Include all 3rd party CSS
 require('draft-js/dist/Draft.css');
 require('!style-loader!css-loader!normalize.css/normalize.css');
 require('!style-loader!css-loader!@blueprintjs/core/lib/css/blueprint.css');
 require('!style-loader!css-loader!@blueprintjs/icons/lib/css/blueprint-icons.css');
+
+// Declare and export singleton instances of our state containers
+export const nodes = new SNodeStore();
+export const settings = new Settings();
+export const storageDriver = new PersistentStorageDriver(settings, nodes);
 
 export async function main() {
 
   // useStrict(true); // mobx -- don't allow state modifications outside actions
 
   try {
+    console.debug('Loading settings from browser...');
+    await storageDriver.loadSettingsFromBrowser();
+  } catch (e) {
+    console.error('Encountered an unexpected error loading existing settings', e);
+    console.error('Could not load existing settings; using default settings');
+  }
+  storageDriver.watchSettings();
 
-    console.debug('Attempting to load existing database...');
-    await nodeStorage.loadFromBackend();
-    console.debug('Successfully loaded existing database.');
-
+  try {
+    console.debug('Loading data from backend...');
+    await storageDriver.loadStateFromBackend();
   } catch (e) {
 
     if (e instanceof MissingStateError) {
@@ -41,27 +49,16 @@ export async function main() {
     }
 
     runInAction('persistence.setDefaultData', () => {
-      const rootNode = nodeStore.addNode(new SNode({
+      const rootNode = nodes.addNode(new SNode({
         // tslint:disable-next-line:max-line-length
         content: '{"entityMap":{},"blocks":[{"key":"50fo4","text":"Welcome to Scripsi. Press Enter to create a new node and start typing!","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[]}]}'
       }));
 
-      nodeStore.rootNode = rootNode.id;
-      nodeStore.viewRootNode = rootNode.id;
+      nodes.rootNode = rootNode.id;
+      nodes.viewRootNode = rootNode.id;
     });
   }
-
-  // Handle OAuth redirect workflows here -- if we're redirected to a certain URL,
-  // then some auth settings (like access tokens) should be provided in the URL as
-  // part of the OAuth permission granting process.
-  // TODO -- maybe a better place to put this logic?
-  if (window.location.search === '?dropbox_auth=true') {
-    const accessToken = parse(window.location.hash)['access_token'];
-    if (accessToken) {
-      console.debug('Found Dropbox access token from OAuth fragment.');
-      settings.settings.backends.dropbox.accessToken = accessToken;
-    }
-  }
+  storageDriver.watchState();
 
   render(
     <div>
