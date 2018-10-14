@@ -12,10 +12,11 @@ interface NodeTextEditorProps {
   node: SNode;
   isMultiline?: boolean;
   ancestry: NodeAncestry;
+  newNodeType?: NodeType;
+  newNodePosition?: 'sibling' | 'child';
 }
 
-export const NodeTextEditor = observer(({ node, isMultiline = false, ancestry }: NodeTextEditorProps) => {
-
+export const NodeTextEditor = observer(({ node, newNodeType, isMultiline = false, ancestry, newNodePosition }: NodeTextEditorProps) => {
   // ensures the UIState focusedNode changes when the user clicks around
   const onClick = () => {
     state.focusedNode = node.id;
@@ -23,10 +24,12 @@ export const NodeTextEditor = observer(({ node, isMultiline = false, ancestry }:
   };
 
   const handleReturn = action(() => {
-    const newPosition: NodePosition = ancestry.length === 0
+    const newPosition: NodePosition = ancestry.length === 0 || newNodePosition === 'child'
       ? [node.id, 0]
       : [ancestry[ancestry.length - 1][0], ancestry[ancestry.length - 1][1] + 1];
-    const newNode = nodes.createNode({}, newPosition);
+    const newNode = nodes.createNode({
+      type: newNodeType || node.type
+    }, newPosition);
     state.focusedNode = newNode.id;
     return InputResult.Handled;
   });
