@@ -14,7 +14,7 @@ export enum ContentView {
 export class UIState {
   @observable public isSaving: boolean;
   @observable public focusedNode: Uuid;
-  @observable public hoveredNode: Uuid;
+  @observable public hoveredNodes: Uuid[];
   @observable public menus: Map<string, boolean>;
 
   @observable public defaultNotifyDuration: number;
@@ -26,7 +26,7 @@ export class UIState {
     this.isSaving = false;
     this.menus = new Map();
     this.focusedNode = null;
-    this.hoveredNode = null;
+    this.hoveredNodes = [];
     this.content = null;
     this.modal = null;
   }

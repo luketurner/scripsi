@@ -1,6 +1,11 @@
 @tailwind preflight;
 @tailwind components;
 
+// TODO -- need to fix this so it doesn't trample other utility classes because of specificity.
+// In the meantime, I can just add each class I need as an additional rule here. Shouldn't be too many.
+.highlight-children .highlightable { @apply .bg-blue-lighter }
+.highlight-children .bg-blue-light { @apply .bg-blue-light }
+
 @tailwind utilities;
 
 // @import "../../node_modules/draft-js/dist/Draft.css";
@@ -11,7 +16,6 @@
 * { box-sizing: border-box; }
 th { text-align: left; }
 
-.highlight-children .highlightable { @apply .bg-grey }
 
 // Use CSS selectors to resize headings based on how nested they are
 h1 { @apply .my-1; }

@@ -11,19 +11,16 @@ import { NodeAncestry, SNode } from '../../nodes';
 interface NodeViewAnchorProps {
   node: SNode;
   ancestry: NodeAncestry;
+  isOutlined?: boolean;
 }
 
-export const NodeViewAnchor = observer(({ node, ancestry }: NodeViewAnchorProps) => {
-  const hoverNode = action('ui.hoverNode', () => state.hoveredNode = node.id);
-  const unhoverNode = action('ui.unhoverNode', () => state.hoveredNode = null);
-
+export const NodeViewAnchor = observer(({ node, ancestry, isOutlined }: NodeViewAnchorProps) => {
+  const bgColor = isOutlined || node.collapsed  ? 'bg-blue-light' : '';
   return (
     <NodeMenuAnchor node={node} ancestry={ancestry}>
       <NodeDragAnchor node={node} ancestry={ancestry}>
         <div
-          className={classNames('w-16 h-2 highlightable flex cursor-pointer', { 'bg-grey-lighter': node.collapsed })}
-          onMouseEnter={hoverNode}
-          onMouseLeave={unhoverNode}
+          className={classNames('w-16 h-2 highlightable flex cursor-pointer', bgColor)}
           onClick={node.toggleCollapsed}
         />
       </NodeDragAnchor>
