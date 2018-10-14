@@ -5,8 +5,15 @@ import * as React from 'react';
 import { state } from '..';
 import { NodeDragAnchor } from './node-drag-anchor';
 import { NodeMenuAnchor } from './node-menu-anchor';
+import classNames = require('classnames');
+import { NodeAncestry, SNode } from '../../nodes';
 
-export const NodeViewAnchor = observer(({ node, ancestry }) => {
+interface NodeViewAnchorProps {
+  node: SNode;
+  ancestry: NodeAncestry;
+}
+
+export const NodeViewAnchor = observer(({ node, ancestry }: NodeViewAnchorProps) => {
   const hoverNode = action('ui.hoverNode', () => state.hoveredNode = node.id);
   const unhoverNode = action('ui.unhoverNode', () => state.hoveredNode = null);
 
@@ -14,7 +21,7 @@ export const NodeViewAnchor = observer(({ node, ancestry }) => {
     <NodeMenuAnchor node={node} ancestry={ancestry}>
       <NodeDragAnchor node={node} ancestry={ancestry}>
         <div
-          className='w-16 h-2 highlightable flex cursor-pointer'
+          className={classNames('w-16 h-2 highlightable flex cursor-pointer', { 'bg-grey-lighter': node.collapsed })}
           onMouseEnter={hoverNode}
           onMouseLeave={unhoverNode}
           onClick={node.toggleCollapsed}
