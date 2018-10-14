@@ -14,6 +14,7 @@ th { text-align: left; }
 .highlight-children .highlightable { @apply .bg-grey }
 
 // Use CSS selectors to resize headings based on how nested they are
+h1 { @apply .my-1; }
 section > h1 { @apply .text-2xl; }
 section section > h1 { @apply .text-xl; }
 section section section > h1 { @apply .text-lg; }
