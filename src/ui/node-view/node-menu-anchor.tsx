@@ -1,11 +1,17 @@
 import { ContextMenuTarget, Menu, MenuItem } from '@blueprintjs/core';
 import { observer } from 'mobx-react';
 import * as React from 'react';
-import { NodeType, SNode } from '../../nodes';
+import { nodes } from '../../main';
+import { NodeAncestry, NodeType, SNode } from '../../nodes';
+
+interface NodeMenuAnchorProps {
+  node: SNode;
+  ancestry: NodeAncestry;
+}
 
 @observer
 @ContextMenuTarget
-export class NodeMenuAnchor extends React.Component<{ node: SNode }, {}> {
+export class NodeMenuAnchor extends React.Component<NodeMenuAnchorProps, {}> {
 
   public constructor(props) {
     super(props);
@@ -17,11 +23,18 @@ export class NodeMenuAnchor extends React.Component<{ node: SNode }, {}> {
 
   public renderContextMenu() {
     const node = this.props.node;
+    const ancestry = this.props.ancestry;
     return (
       <Menu>
-        <MenuItem text='Indent' onClick={node.demote} />
-        <MenuItem text='Outdent' onClick={node.promote} />
+        <MenuItem text='Indent' onClick={() => nodes.demoteNode(node.id, ancestry)} />
+        <MenuItem text='Outdent' onClick={() => nodes.promoteNode(node.id, ancestry)} />
         <MenuItem text='Node Type'>
+          <MenuItem
+            icon='paragraph'
+            text='Heading'
+            disabled={node.type === NodeType.Heading}
+            onClick={node.setTypeToHeading}
+          />
           <MenuItem
             icon='paragraph'
             text='Paragraph'

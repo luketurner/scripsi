@@ -1,8 +1,9 @@
 import bind from 'bind-decorator';
 import * as _ from 'lodash';
-import { action, autorun, computed, observable, runInAction } from 'mobx';
-import { v4 as uuidv4 } from 'uuid';
-import { nodes } from '../main';
+import { action, observable } from 'mobx';
+import * as uuid from 'uuid';
+
+export type SNodeSerialized = Partial<SNode>;
 
 export class SNode {
   @observable public id: string;
@@ -10,34 +11,16 @@ export class SNode {
   @observable public content: string;
   @observable public props: Dict<any>;
   @observable public collapsed: boolean;
-  @observable public parent?: Uuid;
   @observable public children: Uuid[];
 
-  constructor(options: SNodeOptions = {}) {
-    this.id = options.id || uuidv4();
-    this.type = options.type || NodeType.Text;
-    this.content = options.content || '';
-    this.props = options.props || {};
-    this.parent = options.parent || null;
-    this.children = options.children || [];
-    this.collapsed = !!options.collapsed;
-  }
-
-  get parentNode(): SNode {
-    return nodes.getNode(this.parent);
-  }
-
-  public *getChildNodes(): IterableIterator<SNode> {
-    for (const childId of this.children) {
-      yield nodes.getNode(childId);
-    }
-  }
-
-  @computed get isVisible() {
-    if (!nodes.searchQuery || nodes.searchQuery === '') {
-      return true;
-    }
-    return this.content.includes(nodes.searchQuery);
+  constructor(params?: SNodeSerialized) {
+    params = params || {};
+    this.id = params.id || uuid.v4();
+    this.type = params.type || NodeType.Text;
+    this.content = params.content || '';
+    this.props = params.props || {};
+    this.children = params.children || [];
+    this.collapsed = !!params.collapsed;
   }
 
   @bind
@@ -45,107 +28,6 @@ export class SNode {
   public setType(nodeType: NodeType): SNode {
     this.type = nodeType;
     return this;
-  }
-
-  @bind
-  @action('node.addChildNode')
-  public addChildNode(newNode: SNode, position?: number): SNode {
-    if (position) {
-      this.children.splice(position, 0, newNode.id);
-    } else {
-      this.children.push(newNode.id);
-    }
-    newNode.parent = this.id;
-    return nodes.addNode(newNode);
-  }
-
-  @bind
-  @action('node.addSiblingNode')
-  public addSiblingNode(newNode: SNode): SNode {
-    const parent = this.parentNode;
-
-    if (!parent) { // TODO
-      throw new Error('Unable to create sibling for node with no parent');
-    }
-
-    const position = parent.findChildIndex(this);
-
-    return parent.addChildNode(newNode, position);
-  }
-
-  @bind
-  @action('node.addNodeBelow')
-  public addNodeBelow(newNode: SNode): SNode {
-    if (this.children.length === 0) {
-      return this.addSiblingNode(newNode);
-    }
-    return this.addChildNode(newNode, 0);
-  }
-
-  @bind
-  @action('node.removeChild')
-  public removeChild(childNode: SNode) {
-    const ix = this.findChildIndex(childNode);
-    this.children.splice(ix, 1);
-    nodes.removeNode(childNode);
-    return this;
-  }
-
-  @bind
-  @action('node.setParent')
-  public setParent(newParent: SNode, position?: number) {
-    const parent = this.parentNode;
-    parent.removeChild(this);
-    newParent.addChildNode(this, position);
-    return this;
-  }
-
-  @bind
-  @action('node.promote')
-  public promote() {
-    const parent = this.parentNode;
-
-    if (!parent || !parent.parent) { // TODO
-      throw new Error('Unable to promote node with no parent/grandparent');
-    }
-
-    const grandparent = parent.parentNode;
-
-    const position = grandparent.findChildIndex(parent);
-    return this.setParent(grandparent, position + 1);
-  }
-
-  @bind
-  @action('node.demote')
-  public demote() {
-    const parent = this.parentNode;
-    if (!parent) {
-      throw new Error('Unable to demote node with no parent');
-    }
-
-    if (parent.children.length === 1) {
-      throw new Error('Unable to demote node with no siblings');
-    }
-
-    const position = parent.findChildIndex(this);
-
-    if (position === 0) {
-      throw new Error('Unable to demote node with no prior siblings');
-    }
-
-    const priorSiblingId = parent.children[position - 1];
-    return this.setParent(nodes.getNode(priorSiblingId));
-  }
-
-  @bind
-  public findChildIndex(childNode: SNode): number {
-    return this.children.findIndex(node => node === childNode.id);
-  }
-
-  @bind
-  @action('node.remove')
-  public remove() {
-    this.parentNode.removeChild(this);
   }
 
   @bind
@@ -160,43 +42,6 @@ export class SNode {
     this.content = content;
   }
 
-  /**
-   * Checks whether otherNodeId is a descendant of the current node.
-   * Recursively walks all child nodes, so this function has annoyingly
-   * slow run-time properties, but it can be useful to detect/avoid cyclical
-   * descendant/ancestor relationships.
-   *
-   * @param {string} otherNodeId
-   * @returns {boolean}
-   * @memberof SNode
-   */
-  @bind
-  public hasDescendant(otherNodeId: string): boolean {
-    for (const child of this.getChildNodes()) {
-      if (child.id === otherNodeId) return true;
-      if (child.hasDescendant(otherNodeId)) return true;
-    }
-    return false;
-  }
-
-  // normalize(): Dict<FlatSNode> {
-  //   const normalizedNodes = {};
-
-  //   return this.children.reduce((memo, child) => {
-  //     return Object.assign(memo, child.normalize());
-  //   }, {
-  //     [this.id]: Object.assign(new FlatSNode(), _.omit(this, ['parent', 'children']), {
-  //       parent: this.parent && this.parent.id,
-  //       children: this.children.map((child) => child.id)
-  //     })
-  //   });
-  // }
-
-  // static denormalize(rootNode: FlatSNode, normalizedNodes: Dict<FlatSNode>): SNode {
-  //   const node = new SNode(_.omit(rootNode, ['parent', 'children']));
-  //   node.parent = rootNode.parent && normalizedNodes[rootNode.parent];
-  // }
-
   // Define zero-argument functions for type conversion to improve performance in react components
   @bind public setTypeToList() { this.setType(NodeType.ListItem); }
   @bind public setTypeToText() { this.setType(NodeType.Text); }
@@ -204,20 +49,7 @@ export class SNode {
   @bind public setTypeToDictionaryList() { this.setType(NodeType.DictionaryItem); }
   @bind public setTypeToTodo() { this.setType(NodeType.Todo); }
   @bind public setTypeToCodeBlock() { this.setType(NodeType.Code); }
-
-  // public toJSON() {
-  //   return JSON.stringify(this);
-  // }
-}
-
-export interface SNodeOptions {
-  id?: string;
-  type?: NodeType;
-  content?: string;
-  children?: Uuid[];
-  props?: Dict<any>;
-  parent?: Uuid;
-  collapsed?: boolean;
+  @bind public setTypeToHeading() { this.setType(NodeType.Heading); }
 }
 
 export enum NodeType {
@@ -226,7 +58,8 @@ export enum NodeType {
   OrderedListItem = 'ordered-list-item',
   DictionaryItem = 'dictionary-item',
   Todo = 'todo',
-  Code = 'code'
+  Code = 'code',
+  Heading = 'heading',
 }
 
 export enum NodeDisplayStatus {

@@ -5,15 +5,15 @@ import * as React from 'react';
 
 import { INodeType, NodeTypeProps } from '..';
 import { NodeType } from '../../nodes';
+import { ChildNodeList } from '../../ui/node-view/child-node-list';
 import { NodeTextEditor } from '../../ui/node-view/node-text-editor';
-import { ChildNodeList } from '../util/child-node-list';
 
 const definition: INodeType = {
-  component: observer(({ node }: NodeTypeProps) => {
+  component: observer(({ node, ancestry, isVisible }: NodeTypeProps) => {
     return (
       <div>
-        {node.isVisible && <NodeTextEditor node={node} />}
-        <ChildNodeList node={node} />
+        {isVisible && <NodeTextEditor node={node} ancestry={ancestry} />}
+        <ChildNodeList node={node} ancestry={ancestry} />
       </div>
     );
   })

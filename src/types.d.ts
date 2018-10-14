@@ -10,4 +10,5 @@ declare interface Dict<ValType> {
 
 type Uuid = string;
 
-// declare const PRODUCTION: boolean;
+ // from https://stackoverflow.com/questions/48215950/exclude-property-from-type/48216010#48216010
+type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>

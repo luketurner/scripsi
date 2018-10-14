@@ -3,9 +3,9 @@ import { runInAction } from 'mobx';
 import DevTools from 'mobx-react-devtools';
 import * as React from 'react';
 import { render } from 'react-dom';
+import * as uuid from 'uuid';
 
-import { SNode } from './nodes';
-import { SNodeStore } from './nodes/store';
+import { SNodeSet } from './nodes';
 import { PersistentStorageDriver } from './persistent-storage/driver';
 import { MissingStateError } from './persistent-storage/errors';
 import { Settings } from './settings';
@@ -19,7 +19,7 @@ require('!style-loader!css-loader!@blueprintjs/core/lib/css/blueprint.css');
 require('!style-loader!css-loader!@blueprintjs/icons/lib/css/blueprint-icons.css');
 
 // Declare and export singleton instances of our state containers
-export const nodes = new SNodeStore();
+export const nodes = new SNodeSet();
 export const settings = new Settings();
 export const storageDriver = new PersistentStorageDriver(settings, nodes);
 
@@ -49,13 +49,16 @@ export async function main() {
     }
 
     runInAction('persistence.setDefaultData', () => {
-      const rootNode = nodes.addNode(new SNode({
-        // tslint:disable-next-line:max-line-length
-        content: '{"entityMap":{},"blocks":[{"key":"50fo4","text":"Welcome to Scripsi. Press Enter to create a new node and start typing!","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[]}]}'
+      const rootNodeId = uuid.v4();
+      nodes.loadState(JSON.stringify({
+        rootNodeId,
+        viewRootNode: rootNodeId,
+        index: {
+          [rootNodeId]: {
+            content: '{"entityMap":{},"blocks":[{"key":"50fo4","text":"Welcome to Scripsi. Press Enter to create a new node and start typing!","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[]}]}'
+          }
+        }
       }));
-
-      nodes.rootNode = rootNode.id;
-      nodes.viewRootNode = rootNode.id;
     });
   }
   storageDriver.watchState();

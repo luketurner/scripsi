@@ -1,6 +1,6 @@
-import { NodeType, SNode } from '../nodes';
+import { NodeAncestry, NodeType, SNode } from '../nodes';
 
-type NodeTypeComponent = React.StatelessComponent<any>;
+type NodeTypeComponent = React.StatelessComponent<NodeTypeProps>;
 
 export interface INodeType {
   component: NodeTypeComponent;
@@ -8,6 +8,8 @@ export interface INodeType {
 
 export interface NodeTypeProps {
   node: SNode;
+  ancestry: NodeAncestry;
+  isVisible: boolean;
 }
 
 const registry = new Map<NodeType, INodeType>();

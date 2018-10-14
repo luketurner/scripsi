@@ -4,17 +4,16 @@ import { observer } from 'mobx-react';
 import * as React from 'react';
 
 import { INodeType, NodeTypeProps } from '..';
-import { NodeType } from '../../nodes';
 import { ChildNodeList } from '../../ui/node-view/child-node-list';
 import { NodeTextEditor } from '../../ui/node-view/node-text-editor';
 
 const definition: INodeType = {
   component: observer(({ node, ancestry, isVisible }: NodeTypeProps) => {
     return (
-      <div>
-        {isVisible && <NodeTextEditor node={node} isMultiline={true} ancestry={ancestry} />}
+      <section>
+        <h1>{isVisible && <NodeTextEditor node={node} ancestry={ancestry} />}</h1>
         <ChildNodeList node={node} ancestry={ancestry} />
-      </div>
+      </section>
     );
   })
 };

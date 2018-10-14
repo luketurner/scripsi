@@ -1,27 +1,27 @@
 import * as React from 'react';
 import { DropTarget } from 'react-dnd';
 import { nodes } from '../../main';
-import { SNode } from '../../nodes';
+import { NodeAncestry, SNode } from '../../nodes';
 
-interface NodeViewDropTargetProps {
+interface NodeDropTargetProps {
   node: SNode;
+  ancestry: NodeAncestry;
   connectDropTarget?: (x: any) => any;
   isOver?: boolean;
   canDrop?: boolean;
   children?: any;
 }
 
-const nodeDropTarget = DropTarget<NodeViewDropTargetProps>('node', {
+const nodeDropTarget = DropTarget<NodeDropTargetProps>('node', {
   canDrop: (props, monitor) => {
     try {
       const sourceNodeId = monitor.getItem()['nodeId'];
+      // const sourceAncestry = monitor.getItem()['ancestry'];
       const targetNodeId = props.node.id;
-      if (sourceNodeId === targetNodeId) {
-        return false;
-      }
-      const sourceNode = nodes.getNode(sourceNodeId);
-
-      return !sourceNode.hasDescendant(targetNodeId);
+      const targetAncestry = props.ancestry;
+      if (targetNodeId === sourceNodeId) return false;
+      for (const [id, ix] of targetAncestry) if (sourceNodeId === id) return false;
+      return true;
     } catch (e) {
       console.error('Error in canDrop:', e);
       return false;
@@ -30,7 +30,7 @@ const nodeDropTarget = DropTarget<NodeViewDropTargetProps>('node', {
   drop: (props, monitor, component) => {
     if (monitor.isOver({ shallow: true })) {
       return {
-        nodeId: props.node.id
+        dropPosition: [props.node.id, Infinity] // TODO -- determine drop index?
       };
     }
   },
@@ -42,12 +42,12 @@ const nodeDropTarget = DropTarget<NodeViewDropTargetProps>('node', {
   };
 });
 
-export const NodeViewDropTarget = nodeDropTarget(({
+export const NodeDropTarget = nodeDropTarget(({
   children,
   connectDropTarget,
   isOver,
   canDrop
-}: NodeViewDropTargetProps) => {
+}: NodeDropTargetProps) => {
   return connectDropTarget(
     <div>
       {children}

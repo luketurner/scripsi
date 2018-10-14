@@ -4,7 +4,7 @@ import * as React from 'react';
 
 import { state } from '..';
 import { nodes } from '../../main';
-import { NodeType, SNode } from '../../nodes';
+import { NodeAncestry, NodePosition, NodeType, SNode } from '../../nodes';
 import TextEditor, { EditorKeyHandler } from '../components/text-editor';
 
 interface NodeTextEditorProps {
@@ -12,9 +12,11 @@ interface NodeTextEditorProps {
   plugins?: any[];
   isMultiline?: boolean;
   onTab?: EditorKeyHandler<KeyboardEvent>;
+  onReturn?: EditorKeyHandler<KeyboardEvent>;
+  ancestry: NodeAncestry;
 }
 
-export const NodeTextEditor = observer(({ node, plugins = [], isMultiline = false, onTab: onTabProp }: NodeTextEditorProps) => {
+export const NodeTextEditor = observer(({ node, plugins = [], isMultiline = false, onTab: onTabProp, onReturn: onReturnProp, ancestry }: NodeTextEditorProps) => {
   const onChange = v => node.setContent(v);
 
   // When we receive a tab, "indent" the node by demoting it in the hierarchy.
@@ -22,9 +24,9 @@ export const NodeTextEditor = observer(({ node, plugins = [], isMultiline = fals
   const onTab = action((event: KeyboardEvent): Draft.DraftHandleValue => {
     if (onTabProp) return onTabProp(event);
     if (event.shiftKey) {
-      node.promote();
+      nodes.promoteNode(node.id, ancestry);
     } else {
-      node.demote();
+      nodes.demoteNode(node.id, ancestry);
     }
     state.focusedNode = node.id; // Should normally be focused anyway?
     return 'handled';
@@ -42,19 +44,24 @@ export const NodeTextEditor = observer(({ node, plugins = [], isMultiline = fals
     const hasText = editorState.getCurrentContent().hasText();
     if (hasText) return 'not-handled'; // don't delete the node unless it's empty
 
-    state.focusedNode = node.parent; // TODO -- focus last sibling instead
-    node.remove();
+    if (ancestry.length === 0) return 'not-handled';
+    const lastPosition = ancestry[ancestry.length - 1];
+    nodes.removeNode(node.id, lastPosition);
+    state.focusedNode = lastPosition[0]; // TODO -- focus last sibling instead
     return 'handled';
   });
 
   // Instead of adding a new Draft block, we usually want to create a new node.
   // Normally, Enter is a new node, and Shift-Enter is a new line in the existing node.
   // if isMultiline is set, the behavior reverses.
-  const onReturn = action((e: KeyboardEvent): Draft.DraftHandleValue => {
-    if (isMultiline !== e.shiftKey) return 'not-handled';
-    const newChild = new SNode();
-    node.addChildNode(newChild);
-    state.focusedNode = newChild.id;
+  const onReturn = action((event: KeyboardEvent): Draft.DraftHandleValue => {
+    if (onReturnProp) return onReturnProp(event);
+    if (isMultiline !== event.shiftKey) return 'not-handled';
+    const newPosition: NodePosition = ancestry.length === 0
+      ? [node.id, 0]
+      : [ancestry[ancestry.length - 1][0], ancestry[ancestry.length - 1][1] + 1];
+    const newNode = nodes.createNode({}, newPosition);
+    state.focusedNode = newNode.id;
     return 'handled';
   });
 
