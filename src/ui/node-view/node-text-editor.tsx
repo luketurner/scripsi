@@ -70,19 +70,21 @@ export const NodeTextEditor = observer(({ node, plugins = [], isMultiline = fals
   }[node.type] || 'paragraph') as Draft.DraftBlockType;
 
   return (
-    <TextEditor
-      type={editorType}
-      content={node.content}
-      isFocused={state.focusedNode === node.id}
+    <div onClick={() => state.focusedNode = node.id}>
+      <TextEditor
+        type={editorType}
+        content={node.content}
+        isFocused={state.focusedNode === node.id}
 
-      // event handler props
-      onChange={onChange}
-      onFocus={onFocus}
+        // event handler props
+        onChange={onChange}
+        onFocus={onFocus}
 
-      // keybinding-related props
-      onReturn={onReturn}
-      onTab={onTab}
-      onBackspace={onBackspace}
-    />
+        // keybinding-related props
+        onReturn={onReturn}
+        onTab={onTab}
+        onBackspace={onBackspace}
+      />
+    </div>
   );
 });
