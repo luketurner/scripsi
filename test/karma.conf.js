@@ -1,4 +1,4 @@
-var webpackConfig = require('../build/webpack.base.conf.js');
+var webpackConfig = require('../build/webpack.test.conf.js');
 
 delete webpackConfig.entry
 
