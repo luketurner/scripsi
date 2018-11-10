@@ -1,5 +1,6 @@
 import * as React from 'react';
 
+import { state } from '..';
 import { Content } from './content';
 import { Footer } from './footer';
 import { Header } from './header';
@@ -12,7 +13,7 @@ import { Header } from './header';
  */
 export const Layout = () => {
   return (
-    <div className='pin absolute bg-grey-lightest'>
+    <div className='pin absolute bg-grey-lightest' onClick={() => state.focusedNode = null}>
       <div className=' h-full flex flex-col container max-w-lg mx-auto'>
         <div>
           <Header />
