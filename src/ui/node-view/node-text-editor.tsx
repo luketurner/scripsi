@@ -4,6 +4,7 @@ import * as React from 'react';
 
 import { state } from '..';
 import { nodes } from '../../main';
+import { htmlToText, textToHtml } from '../../markup';
 import { NodeAncestry, NodePosition, NodeType, SNode } from '../../nodes';
 import { InputResult, KeyCode } from '../components/input-handler';
 import { TextEditor } from '../components/text-editor';
@@ -17,6 +18,8 @@ interface NodeTextEditorProps {
 }
 
 export const NodeTextEditor = observer(({ node, newNodeType, isMultiline = false, ancestry, newNodePosition }: NodeTextEditorProps) => {
+  const focused = state.focusedNode === node.id;
+
   // ensures the UIState focusedNode changes when the user clicks around
   const onClick = () => {
     state.focusedNode = node.id;
@@ -64,13 +67,19 @@ export const NodeTextEditor = observer(({ node, newNodeType, isMultiline = false
     })
   };
 
+  const onChange = (newContent: string) => node.setContent(newContent);
+  const contentToHtml = (text: string) => focused ? text : textToHtml(text);
+  const htmlToContent = (html: string) => focused ? html : htmlToText(html);
+
   return (
     <TextEditor
       onClick={onClick}
       keymap={keymap}
-      onChange={node.setContent}
+      onChange={onChange}
       content={node.content}
-      focused={state.focusedNode === node.id}
+      contentToHtml={contentToHtml}
+      htmlToContent={htmlToContent}
+      focused={focused}
     />
   );
 });
