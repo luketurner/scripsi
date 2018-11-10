@@ -1,17 +1,21 @@
-import * as React from 'react';
-import { InputHandlerCallback, InputHandlerKeymap, InputHandler } from './input-handler';
-import ContentEditable from 'react-contenteditable';
 import { observer } from 'mobx-react';
+import * as React from 'react';
+import ContentEditable from 'react-contenteditable';
+import { InputHandler, InputHandlerCallback, InputHandlerKeymap } from './input-handler';
 
 export type TextEditorChangeHandler = (newContent) => any;
 
-interface TextEditorProps {
+export interface TextEditorProps {
   focused?: boolean;
   onClick?: InputHandlerCallback;
   keymap?: InputHandlerKeymap;
+  contentToHtml?: (content: string, selection: Selection) => string;
+  htmlToContent?: (content: string) => string;
   content: string;
   onChange: TextEditorChangeHandler;
 }
+
+const identity = (x, ...xs) => x;
 
 /**
  * Generic text editor built around ContentEditable, implementing Scripsi conventions.
@@ -34,14 +38,15 @@ export class TextEditor extends React.Component<TextEditorProps, {}> {
   }
 
   public render() {
-    const { onClick, onChange, keymap, content } = this.props;
+    const { onClick, onChange, keymap, content, contentToHtml = identity, htmlToContent = identity } = this.props;
+
     return (
       <InputHandler onClick={onClick} keymap={keymap} context={{ content }}>
         <ContentEditable
           ref='editor'
           className='outline-none'
-          html={content}
-          onChange={e => onChange(e.target.value)}
+          html={contentToHtml(content)}
+          onChange={e => onChange(htmlToContent(e.target.value))}
         />
       </InputHandler>
     );
