@@ -43,6 +43,7 @@ export class TextEditor extends React.Component<TextEditorProps, {}> {
     return (
       <InputHandler onClick={onClick} keymap={keymap} context={{ content }}>
         <ContentEditable
+          // tslint:disable-next-line:jsx-no-string-ref
           ref='editor'
           className='outline-none'
           html={contentToHtml(content)}

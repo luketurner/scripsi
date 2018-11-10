@@ -2,11 +2,11 @@ import { action } from 'mobx';
 import { observer } from 'mobx-react';
 import * as React from 'react';
 
+import classNames = require('classnames');
 import { state } from '..';
+import { NodeAncestry, SNode } from '../../nodes';
 import { NodeDragAnchor } from './node-drag-anchor';
 import { NodeMenuAnchor } from './node-menu-anchor';
-import classNames = require('classnames');
-import { NodeAncestry, SNode } from '../../nodes';
 
 interface NodeViewAnchorProps {
   node: SNode;

@@ -46,8 +46,6 @@ export async function main() {
       const rootNodeId = uuid.v4();
       const childNodeId = uuid.v4();
       nodes.loadState(JSON.stringify({
-        rootNodeId,
-        viewRootNode: rootNodeId,
         index: {
           [rootNodeId]: {
             children: [childNodeId],
@@ -57,7 +55,9 @@ export async function main() {
           [childNodeId]: {
             content: 'Press Enter to create a new node and start typing!'
           }
-        }
+        },
+        rootNodeId,
+        viewRootNode: rootNodeId,
       }));
       state.focusedNode = childNodeId;
     });

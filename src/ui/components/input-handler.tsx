@@ -77,7 +77,7 @@ const handleClick = (event: React.MouseEvent<any>, handler: InputHandlerCallback
 
 /**
  * Utility component for adding interactivity (in the form of click events and keybindings) to its children.
- * 
+ *
  * The most useful prop is `keymap`, which can be an object mapping keys to handler functions. Keys are strings
  * like "C-s", "a", "Tab", "S-Enter", etc.
  *

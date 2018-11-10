@@ -1,8 +1,8 @@
+import bind from 'bind-decorator';
 import { action, computed, observable } from 'mobx';
 import { NodeAncestry, NodePosition } from '.';
 import { Persistable } from '../persistent-storage/driver';
-import bind from 'bind-decorator';
-import { SNodeSerialized, SNode } from './node';
+import { SNode, SNodeSerialized } from './node';
 
 export type NodePosition = [Uuid, number];
 export type NodeAncestry = NodePosition[];

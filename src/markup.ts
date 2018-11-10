@@ -25,7 +25,7 @@ export const htmlToText = (html: string): string => {
   return nodeToText(root.body);
 };
 
-export const textToHtml = (text: string, selection?: Selection): string => {
+export const textToHtml = (text: string): string => {
   return text
   .replace(/(^|\s)_(.*?[^\\])_(?!\S)/g, '$1<em>$2</em>')
   .replace(/(^|\s)\*(.*?[^\\])\*(?!\S)/g, '$1<strong>$2</strong>')

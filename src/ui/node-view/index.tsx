@@ -2,13 +2,13 @@ import { observer } from 'mobx-react';
 import * as React from 'react';
 
 import classNames = require('classnames');
+import { action } from 'mobx';
 import { state } from '..';
 import { nodes } from '../../main';
 import { getComponent } from '../../node-types';
 import { NodeAncestry, NodeType, SNode } from '../../nodes';
 import { NodeViewAnchor } from './anchor';
 import { NodeDropTarget } from './node-drop-target';
-import { action } from 'mobx';
 
 export interface NodeViewProps {
   nodeId: string;

@@ -1,4 +1,4 @@
-import { observable } from "mobx";
+import { observable } from 'mobx';
 
 export const isDevelopment = process.env.NODE_ENV === 'development';
 
