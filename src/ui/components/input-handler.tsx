@@ -62,7 +62,18 @@ const handleKeypress = (event: React.KeyboardEvent<any>, keymap: InputHandlerKey
     event.preventDefault(); // Prevent keypress from being handled by the browser
     event.stopPropagation(); // Prevent keypress from being handled by any parent InputHandlers
   }
-}
+};
+
+const handleClick = (event: React.MouseEvent<any>, handler: InputHandlerCallback, { context }) => {
+  if (!handler) return;
+
+  const result = handler(event, context);
+
+  if (result === InputResult.Handled) {
+    event.preventDefault();
+    event.stopPropagation();
+  }
+};
 
 /**
  * Utility component for adding interactivity (in the form of click events and keybindings) to its children.
@@ -79,9 +90,9 @@ export const InputHandler = ({ onClick, keymap, children, context }: InputHandle
     <div
       onKeyDown={e => handleKeypress(e, keymap, { context })}
       onKeyUp={e => handleKeypress(e, keymap, { skip: true })}
-      onClick={onClick}
+      onClick={e => handleClick(e, onClick, { context })}
     >
       {children}
     </div>
-  )
+  );
 };
