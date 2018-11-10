@@ -1,4 +1,3 @@
-var webpack = require('webpack');
 var config = require('./webpack.base.conf');
 
 // eval-source-map is faster for development
