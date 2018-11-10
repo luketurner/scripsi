@@ -5,11 +5,11 @@ import * as React from 'react';
 import { render } from 'react-dom';
 import * as uuid from 'uuid';
 
-import { SNodeSet, NodeType } from './nodes';
+import { NodeType, SNodeSet } from './nodes';
 import { PersistentStorageDriver } from './persistent-storage/driver';
 import { MissingStateError } from './persistent-storage/errors';
 import { Settings } from './settings';
-import { UI, state } from './ui/index';
+import { state, UI } from './ui/index';
 import { isDevelopment } from './util';
 
 // Declare and export singleton instances of our state containers
@@ -51,11 +51,11 @@ export async function main() {
         index: {
           [rootNodeId]: {
             children: [childNodeId],
-            content: '{"entityMap":{},"blocks":[{"key":"50fo4","text":"Welcome to Scripsi","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[]}]}',
+            content: 'Welcome to Scripsi',
             type: NodeType.Heading,
           },
           [childNodeId]: {
-            content: '{"entityMap":{},"blocks":[{"key":"50fo4","text":"Press Enter to create a new node and start typing!","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[]}]}'
+            content: 'Press Enter to create a new node and start typing!'
           }
         }
       }));
