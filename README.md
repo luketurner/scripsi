@@ -30,7 +30,7 @@ The simplest node is the `Text` node, which represents a single paragraph or lin
 
 The following types of nodes are currently supported:
 
-- [ ] Headings
+- [x] Headings
 - [x] Text
 - [x] Lists
 - [ ] Numbered lists
@@ -50,9 +50,9 @@ The following types of nodes are currently supported:
 Within most textual nodes, you can take advantage of some inline formatting elements:
 
 - [x] Basic rich text
-  - [ ] Markdown syntax
-- [ ] Tags (#tags and @tags)
-- [ ] LaTeX math formatting
+  - [x] Markdown syntax
+- [x] Tags (#tags and @tags)
+- [x] LaTeX math formatting
 
 ## Organization
 
