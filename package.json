@@ -22,6 +22,7 @@
     "bind-decorator": "^1.0.11",
     "classnames": "^2.2.6",
     "dropbox": "^4.0.9",
+    "katex": "^0.10.0",
     "localforage": "^1.7.2",
     "lodash": "^4.17.11",
     "mobx": "^5.5.0",
