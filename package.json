@@ -10,7 +10,8 @@
   "scripts": {
     "dev": "webpack-dev-server --config build/webpack.dev.conf.js",
     "dev:build": "webpack --progress --display-error-details --config build/webpack.dev.conf.js",
-    "test": "karma start test/karma.conf.js",
+    "test": "karma start test/karma.conf.js --single-run",
+    "test-dev": "karma start test/karma.conf.js",
     "build": "webpack --progress --display-error-details --config build/webpack.prod.conf.js",
     "deploy": "bash build/deploy.sh",
     "tslint": "tslint -p . --force",
