@@ -107,7 +107,6 @@ npm test          # run unit tests
 npm run test-dev  # Run unit tests with file watching
 
 npm run dev       # serve local dev server with live-reload at localhost:8080
-npm run storybook # Run Storybook server (UI component visual testing)
 
 npm run tslint    # run tslint
 npm run build     # output minified production build to /build
