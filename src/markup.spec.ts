@@ -49,6 +49,7 @@ describe('markup', () => {
       expect(textToHtml('a *te\\*st*')).to.eql('a <em>te*st</em>');
       expect(textToHtml('a *te_st*')).to.eql('a <em>te_st</em>');
       expect(textToHtml('a *test_')).to.eql('a *test_');
+      expect(textToHtml('\\*test*')).to.eql('*test*');
       // expect(textToHtml('a * test * ')).to.eql('a * test * ');
     });
 
@@ -60,6 +61,7 @@ describe('markup', () => {
       expect(textToHtml('a _test._')).to.eql('a <em>test.</em>');
       expect(textToHtml('a _te\\_st_')).to.eql('a <em>te_st</em>');
       expect(textToHtml('a _te*st_')).to.eql('a <em>te*st</em>');
+      expect(textToHtml('\\_test_')).to.eql('_test_');
       // expect(textToHtml('a _ test _ ')).to.eql('a _ test _ ');
     });
 
@@ -72,6 +74,7 @@ describe('markup', () => {
       expect(textToHtml('a **te\\**st**')).to.eql('a <strong>te**st</strong>');
       expect(textToHtml('a **te__st**')).to.eql('a <strong>te__st</strong>');
       expect(textToHtml('a **test__')).to.eql('a **test__');
+      expect(textToHtml('\\*\\*test**')).to.eql('**test**');
       // expect(textToHtml('a ** test ** ')).to.eql('a ** test ** ');
     });
 
@@ -83,6 +86,7 @@ describe('markup', () => {
       expect(textToHtml('a __test.__')).to.eql('a <strong>test.</strong>');
       expect(textToHtml('a __te\\__st__')).to.eql('a <strong>te__st</strong>');
       expect(textToHtml('a __te**st__')).to.eql('a <strong>te**st</strong>');
+      expect(textToHtml('\\_\\_test__')).to.eql('__test__');
       // expect(textToHtml('a __ test __ ')).to.eql('a __ test __ ');
     });
 
@@ -100,6 +104,33 @@ describe('markup', () => {
       expect(textToHtml('this is a #tag.')).to.eql('this is a <a href="#tag">#tag</a>.');
       expect(textToHtml('this is a #tag')).to.eql('this is a <a href="#tag">#tag</a>');
       expect(textToHtml('this is not a tag, it\'s #3.')).to.eql('this is not a tag, it\'s #3.');
+    });
+
+    it('should support `...`', () => {
+      expect(textToHtml('`test`')).to.eql('<code>test</code>');
+      expect(textToHtml('`test``')).to.eql('<code>test</code>`');
+      expect(textToHtml('test `test` test')).to.eql('test <code>test</code> test');
+      expect(textToHtml('a `test`.')).to.eql('a <code>test</code>.');
+      expect(textToHtml('a `test.`')).to.eql('a <code>test.</code>');
+      expect(textToHtml('a `te\\`st`')).to.eql('a <code>te`st</code>');
+      expect(textToHtml('a `test')).to.eql('a `test');
+      expect(textToHtml('a \\`test`')).to.eql('a `test`');
+      // expect(textToHtml('a ` test ` ')).to.eql('a ` test ` ');
+    });
+
+    it('should support $...$', () => {
+      // TODO -- improve these tests
+      expect(textToHtml('$test$')).to.include('katex');
+      expect(textToHtml('$te\\$st$')).to.include('katex');
+      expect(textToHtml('a $test')).not.to.include('katex');
+      // expect(textToHtml('$test$$')).to.eql('<em>test</em>$');
+      // expect(textToHtml('test $test$ test')).to.eql('test <em>test</em> test');
+      // expect(textToHtml('a $test$.')).to.eql('a <em>test</em>.');
+      // expect(textToHtml('a $test.$')).to.eql('a <em>test.</em>');
+      // expect(textToHtml('a $te\\$st$')).to.eql('a <em>te$st</em>');
+      // expect(textToHtml('a $test_')).to.eql('a $test_');
+      // expect(textToHtml('\\$test$')).to.eql('$test$');
+      // expect(textToHtml('a $ test $ ')).to.eql('a $ test $ ');
     });
   });
 });

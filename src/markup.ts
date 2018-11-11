@@ -4,6 +4,10 @@ Provides functions to convert the Markdown-esque markup used in node content int
 
 */
 
+import { renderToString } from 'katex';
+
+const renderLatex = (x) => renderToString(x);
+
 export const htmlToText = (html: string): string => {
 
   // using DOMParser to avoid JS execution (credit to https://stackoverflow.com/questions/1912501#34064434)
@@ -15,8 +19,11 @@ export const htmlToText = (html: string): string => {
   const nodeToText = (node: HTMLElement): string => {
     if (node.childNodes.length === 0) return escape(node.textContent);
 
+    if (node.className === 'katex') return '$' + node.querySelector('math > semantics > annotation').textContent + '$';
+
     const childContent = Array.from(node.childNodes).map(nodeToText).join('');
 
+    if (node.tagName === 'CODE') return '`' + childContent + '`';
     if (node.tagName === 'STRONG') return '**' + childContent + '**';
     if (node.tagName === 'EM') return '_' + childContent + '_';
     if (node.tagName === 'A' && /^#\w+$/g.test(node.getAttribute('href'))) return childContent;
@@ -29,9 +36,11 @@ export const htmlToText = (html: string): string => {
 
 export const textToHtml = (text: string): string => {
   return text
-  .replace(/(__|\*\*)(.*?[^\\])\1/g, '<strong>$2</strong>')
-  .replace(/(_|\*)(.*?[^\\])\1/g, '<em>$2</em>')
+  .replace(/(^|[^\\])`(.*?[^\\])`/g, '$1<code>$2</code>')
+  .replace(/(^|[^\\])(__|\*\*)(.*?[^\\])\2/g, '$1<strong>$3</strong>')
+  .replace(/(^|[^\\])(_|\*)(.*?[^\\])\2/g, '$1<em>$3</em>')
   .replace(/(^|\s)\[(.*?[^\\])\]\((.*?[^\\])\)/g, '$1<a href="$3">$2</a>')
   .replace(/(^|\s)#([a-zA-Z]\w*)\b/g, '$1<a href="#$2">#$2</a>')
-  .replace(/\\([*_[#\\])/g, '$1');
+  .replace(/(^|[^\\])\$(.*?[^\\])\$/g, (_, p, c) => `${p}${renderLatex(c)}`)
+  .replace(/\\([*_[#\\`$])/g, '$1');
 };
