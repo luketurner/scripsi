@@ -18,8 +18,12 @@ th { text-align: left; }
 
 
 // Use CSS selectors to resize headings based on how nested they are
-h1 { @apply .my-1; }
-section > h1 { @apply .text-2xl; }
-section section > h1 { @apply .text-xl; }
-section section section > h1 { @apply .text-lg; }
-section section section section h1 { @apply .text-base; }
+h1, h2, h3, h4, h5 { @apply .my-4; }
+h2, section > h1 { @apply .text-2xl; }
+h3, section section > h1 { @apply .text-xl; }
+h4, section section section > h1 { @apply .text-lg; }
+h5, section section section section h1 { @apply .text-base; }
+
+p { @apply .leading-normal; @apply .mb-4; }
+
+th, td { @apply .p-2; }
