@@ -1,7 +1,8 @@
 import { action, autorun, observable } from 'mobx';
 
 export enum ContentView {
-  Settings = 'settings'
+  Settings = 'settings',
+  Help = 'help'
 }
 
 /**
@@ -33,6 +34,10 @@ export class UIState {
 
   public toggleSettings() {
     this.content = (this.content === ContentView.Settings ? null : ContentView.Settings);
+  }
+
+  public toggleHelp() {
+    this.content = (this.content === ContentView.Help ? null : ContentView.Help);
   }
 
 }

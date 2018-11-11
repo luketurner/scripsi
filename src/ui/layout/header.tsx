@@ -13,6 +13,7 @@ export const Header = observer(() => {
   const onSearchInput = e => nodes.setSearchQuery(e.target.value);
 
   const openSettings = e => state.toggleSettings();
+  const openHelp = e => state.toggleHelp();
 
   return (
     <div className='flex'>
@@ -32,6 +33,7 @@ export const Header = observer(() => {
         />
       </div>
       <div className='h-8 text-grey'><Button onClick={openSettings}><Icon type={IconType.Cog} /></Button></div>
+      <div className='h-8 text-grey'><Button onClick={openHelp}><Icon type={IconType.Info} /></Button></div>
     </div>
   );
 });
