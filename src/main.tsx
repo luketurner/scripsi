@@ -10,7 +10,7 @@ import { PersistentStorageDriver } from './persistent-storage/driver';
 import { MissingStateError } from './persistent-storage/errors';
 import { Settings } from './settings';
 import { state, UI } from './ui/index';
-import { isDevelopment } from './util';
+import { isDevelopment } from './util/env';
 
 // Declare and export singleton instances of our state containers
 export const nodes = new SNodeSet();

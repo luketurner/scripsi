@@ -1,4 +1,5 @@
-import { action, autorun, observable, computed } from 'mobx';
+import { action, autorun, computed, observable } from 'mobx';
+import { getLocation } from '../util/location';
 
 export enum ContentView {
   Settings = 'settings',
@@ -20,8 +21,11 @@ export class UIState {
 
   @observable public defaultNotifyDuration: number;
 
-  @observable public path: string;
   @observable public modal: JSX.Element;
+
+  @computed public get path(): string {
+    return getLocation().hash.substring(1);
+  }
 
   @computed public get content(): ContentView {
     return { // Do this properly with reverse-enum lookup?
@@ -36,20 +40,14 @@ export class UIState {
     this.focusedNode = null;
     this.hoveredNodes = [];
     this.modal = null;
-    this.path = window.location.hash.substring(1);
-
-    autorun(() => {
-      if (!this.path) return window.location.hash = '';
-      window.location.hash = '#' + this.path;
-    });
   }
 
   public toggleSettings() {
-    this.path = (this.path === 'settings' ? null : 'settings');
+    window.location.hash = (this.path === 'settings' ? '' : '#settings');
   }
 
   public toggleHelp() {
-    this.path = (this.path === 'help' ? null : 'help');
+    window.location.hash = (this.path === 'help' ? '' : '#help');
   }
 
 }
