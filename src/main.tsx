@@ -44,22 +44,26 @@ export async function main() {
 
     runInAction('persistence.setDefaultData', () => {
       const rootNodeId = uuid.v4();
-      const childNodeId = uuid.v4();
+      const helptextNodeId = uuid.v4();
+      const focusedNodeId = uuid.v4();
       nodes.loadState(JSON.stringify({
         index: {
           [rootNodeId]: {
-            children: [childNodeId],
+            children: [helptextNodeId, focusedNodeId],
             content: 'Welcome to Scripsi',
             type: NodeType.Heading,
           },
-          [childNodeId]: {
+          [helptextNodeId]: {
+            content: 'Scripsi is an open-source, in-browser note-taking/writing/PIM system. Visit the [help page](#help) for more information.'
+          },
+          [focusedNodeId]: {
             content: 'Press Enter to create a new node and start typing!'
-          }
+          },
         },
         rootNodeId,
         viewRootNode: rootNodeId,
       }));
-      state.focusedNode = childNodeId;
+      state.focusedNode = focusedNodeId;
     });
   }
   storageDriver.watchState();
