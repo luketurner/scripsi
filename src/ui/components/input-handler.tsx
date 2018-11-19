@@ -70,7 +70,7 @@ const handleClick = (event: React.MouseEvent<any>, handler: InputHandlerCallback
   const result = handler(event, context);
 
   if (result === InputResult.Handled) {
-    event.preventDefault();
+    // event.preventDefault(); Don't prevent default -- interferes with clicking on links
     event.stopPropagation();
   }
 };
