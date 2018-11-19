@@ -62,7 +62,10 @@ export const NodeTextEditor = observer(({ node, newNodeType, isMultiline = false
 
       const lastPosition = ancestry[ancestry.length - 1];
       nodes.removeNode(node.id, lastPosition);
-      state.focusedNode = lastPosition[0]; // TODO -- focus last sibling instead
+
+      const [ parentNodeId, childIndex ] = lastPosition;
+      const siblingId = nodes.getNode(parentNodeId).children[childIndex - 1];
+      state.focusedNode = siblingId || parentNodeId; // If no earlier sibling was found, select the parent.
       return InputResult.Handled;
     })
   };
