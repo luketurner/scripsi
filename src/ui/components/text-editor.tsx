@@ -33,6 +33,10 @@ const identity = (x, ...xs) => x;
 @observer
 export class TextEditor extends React.Component<TextEditorProps, {}> {
 
+  public componentDidMount() {
+    if (this.props.focused) this.refs['editor']['htmlEl']['focus']();
+  }
+
   public componentDidUpdate() {
     if (this.props.focused) this.refs['editor']['htmlEl']['focus']();
   }
