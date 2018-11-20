@@ -17,8 +17,8 @@ export const Header = observer(() => {
 
   return (
     <div className='flex'>
-      <div className='p-2'>
-        Scripsi
+      <div className='p-2 text-grey-darker'>
+        <a className='text-grey-darker hover:text-grey-darker hover:no-underline' href='#'>Scripsi</a>
         {isPrimaryUnsaved && <span>*</span>}
         {areSecondariesUnsaved && <span>+</span>}
       </div>
