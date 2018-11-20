@@ -45,16 +45,20 @@ export async function main() {
     runInAction('persistence.setDefaultData', () => {
       const rootNodeId = uuid.v4();
       const helptextNodeId = uuid.v4();
+      const disclaimerNodeId = uuid.v4();
       const focusedNodeId = uuid.v4();
       nodes.loadState(JSON.stringify({
         index: {
           [rootNodeId]: {
-            children: [helptextNodeId, focusedNodeId],
+            children: [helptextNodeId, disclaimerNodeId, focusedNodeId],
             content: 'Welcome to Scripsi',
             type: NodeType.Heading,
           },
           [helptextNodeId]: {
             content: 'Scripsi is an open-source, in-browser note-taking/writing/PIM system. Visit the [help page](#help) for more information.'
+          },
+          [disclaimerNodeId]: {
+            content: '**Warning**: This is a development build. You may encounter bugs, including data loss! **Use at your own risk!**'
           },
           [focusedNodeId]: {
             content: 'Press Enter to create a new node and start typing!'

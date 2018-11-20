@@ -8,6 +8,9 @@ export const HelpView = observer(() => {
   return (
     <div>
       <h1>About Scripsi</h1>
+      <p className='bg-red-lighter p-2 rounded'>
+        <strong>Warning</strong>: This is a development build. You may encounter bugs, including data loss! Use at your own risk!
+      </p>
       <p>
         Scripsi is an open-source, in-browser note-taking/writing/PIM system,
         inspired by <a href="https://workflowy.com/">Workflowy</a> and <a href="https://www.notion.so/">Notion</a>.
