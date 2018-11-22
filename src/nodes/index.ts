@@ -112,4 +112,13 @@ export class SNodeSet implements Persistable {
       this.index.set(id, new SNode({ id, ...node }));
     }
   }
+
+  @bind
+  @action('nodes.loadState')
+  public resetState() {
+    this.rootNode = null;
+    this.viewRootNode = null;
+    this.searchQuery = null;
+    this.index.clear();
+  }
 }

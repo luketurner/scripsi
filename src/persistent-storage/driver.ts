@@ -13,6 +13,7 @@ import { LocalBackendClient } from './backends/local';
 export interface Persistable {
   currentState: string;
   loadState(newState: string);
+  resetState();
 }
 
 /**
