@@ -1,4 +1,5 @@
 import { observable } from 'mobx';
+import { SettingsObject } from '../settings-object';
 
 export enum AuthStatus {
   Unauthenticated = 'nauthenticated',
@@ -13,16 +14,9 @@ export enum AuthStatus {
  * @abstract
  * @class BackendSettings
  */
-export abstract class BackendSettings {
+export abstract class BackendSettings extends SettingsObject {
   @observable public name: string;
   @observable public readonly type: 'local' | 'dropbox'; // TODO
   @observable public databaseName: string;
-  @observable public authStatus: AuthStatus;
-
-  constructor(params?: Partial<BackendSettings>) {
-    params = params || {};
-    this.name = params.name;
-    this.databaseName = params.databaseName;
-    this.authStatus = params.authStatus || AuthStatus.Unauthenticated;
-  }
+  @observable public authStatus: AuthStatus = AuthStatus.Unauthenticated;
 }
