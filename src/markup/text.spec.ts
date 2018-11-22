@@ -1,4 +1,4 @@
-import { htmlToText, textToHtml } from './text';
+import { textFromHtml, textToHtml } from './text';
 
 import { expect } from 'chai';
 
@@ -6,32 +6,32 @@ import { describe, it } from 'mocha';
 
 describe('text markup', () => {
 
-  describe('.htmlToText', () => {
+  describe('.textFromHtml', () => {
     it('should not change unformatted text', () => {
-      expect(htmlToText('hi there, this is some text. <>!@#$%^&*()_+{}|[]')).to.eql('hi there, this is some text. <>!@#$%^&*()_+{}|[]');
+      expect(textFromHtml('hi there, this is some text. <>!@#$%^&*()_+{}|[]')).to.eql('hi there, this is some text. <>!@#$%^&*()_+{}|[]');
     });
 
     it('should convert <em>...</em> to _..._', () => {
-      expect(htmlToText('<em>emphasis</em>')).to.eql('_emphasis_');
-      expect(htmlToText('this is <em>emphasis</em>...')).to.eql('this is _emphasis_...');
-      expect(htmlToText('<em><>!@#$%^&*()_+{}|[]</em>')).to.eql('_<>!@#$%^&*()_+{}|[]_');
+      expect(textFromHtml('<em>emphasis</em>')).to.eql('_emphasis_');
+      expect(textFromHtml('this is <em>emphasis</em>...')).to.eql('this is _emphasis_...');
+      expect(textFromHtml('<em><>!@#$%^&*()_+{}|[]</em>')).to.eql('_<>!@#$%^&*()_+{}|[]_');
     });
 
     it('should convert <strong>...</strong> to **...**', () => {
-      expect(htmlToText('<strong>strong</strong>')).to.eql('**strong**');
-      expect(htmlToText('this is <strong>strong</strong>...')).to.eql('this is **strong**...');
-      expect(htmlToText('<strong><>!@#$%^&*()_+{}|[]</strong>')).to.eql('**<>!@#$%^&*()_+{}|[]**');
+      expect(textFromHtml('<strong>strong</strong>')).to.eql('**strong**');
+      expect(textFromHtml('this is <strong>strong</strong>...')).to.eql('this is **strong**...');
+      expect(textFromHtml('<strong><>!@#$%^&*()_+{}|[]</strong>')).to.eql('**<>!@#$%^&*()_+{}|[]**');
     });
 
     it('should convert <a href="x">y</a> to [y](x)', () => {
-      expect(htmlToText('<a href="http://luketurner.org">link</a>')).to.eql('[link](http://luketurner.org)');
-      expect(htmlToText('this is a <a href="http://luketurner.org">link</a>.')).to.eql('this is a [link](http://luketurner.org).');
-      expect(htmlToText('<a href="http://luketurner.org"><>!@#$%^&*()_+{}|[]</a>')).to.eql('[<>!@#$%^&*()_+{}|[]](http://luketurner.org)');
+      expect(textFromHtml('<a href="http://luketurner.org">link</a>')).to.eql('[link](http://luketurner.org)');
+      expect(textFromHtml('this is a <a href="http://luketurner.org">link</a>.')).to.eql('this is a [link](http://luketurner.org).');
+      expect(textFromHtml('<a href="http://luketurner.org"><>!@#$%^&*()_+{}|[]</a>')).to.eql('[<>!@#$%^&*()_+{}|[]](http://luketurner.org)');
     });
 
     it('should convert <a href="#tag"> to #tag', () => {
-      expect(htmlToText('<a href="#tag">#tag</a>')).to.eql('#tag');
-      expect(htmlToText('this is a <a href="#tag">#tag</a>...')).to.eql('this is a #tag...');
+      expect(textFromHtml('<a href="#tag">#tag</a>')).to.eql('#tag');
+      expect(textFromHtml('this is a <a href="#tag">#tag</a>...')).to.eql('this is a #tag...');
     });
   });
 

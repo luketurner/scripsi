@@ -4,10 +4,14 @@ import * as React from 'react';
 
 import { state } from '..';
 import { nodes } from '../../main';
-import { htmlToText, textToHtml } from '../../markup';
+import { textFromHtml, textToHtml } from '../../markup/text';
 import { NodeAncestry, NodePosition, NodeType, SNode } from '../../nodes';
-import { InputResult, KeyCode } from '../components/input-handler';
+import { InputHandlerKeymap, InputResult, KeyCode } from '../components/input-handler';
 import { TextEditor } from '../components/text-editor';
+
+interface ContentToHtmlOpts {
+  focused?: boolean;
+}
 
 interface NodeTextEditorProps {
   node: SNode;
@@ -15,9 +19,24 @@ interface NodeTextEditorProps {
   ancestry: NodeAncestry;
   newNodeType?: NodeType;
   newNodePosition?: 'sibling' | 'child';
+  keymap?: InputHandlerKeymap;
+  contentToHtml?: (x: string, opts?: ContentToHtmlOpts) => string;
+  contentFromHtml?: (x: string, opts?: ContentToHtmlOpts) => string;
 }
 
-export const NodeTextEditor = observer(({ node, newNodeType, isMultiline = false, ancestry, newNodePosition }: NodeTextEditorProps) => {
+const defaultContentToHtml = (content, { focused }) => focused ? content : textToHtml(content);
+const defaultContentFromHtml = (content, { focused }) => focused ? content : textFromHtml(content);
+
+export const NodeTextEditor = observer(({
+  ancestry,
+  isMultiline = false,
+  keymap,
+  node,
+  newNodeType,
+  newNodePosition,
+  contentToHtml = defaultContentToHtml,
+  contentFromHtml = defaultContentFromHtml,
+}: NodeTextEditorProps) => {
   const focused = state.focusedNode === node.id;
 
   // ensures the UIState focusedNode changes when the user clicks around
@@ -37,7 +56,7 @@ export const NodeTextEditor = observer(({ node, newNodeType, isMultiline = false
     return InputResult.Handled;
   });
 
-  const keymap = {
+  const defaultKeymap = {
     [KeyCode.Enter]: e => isMultiline ? InputResult.NotHandled : handleReturn(),
 
     [`S-${KeyCode.Enter}`]: e => isMultiline ? handleReturn() : InputResult.NotHandled,
@@ -71,17 +90,17 @@ export const NodeTextEditor = observer(({ node, newNodeType, isMultiline = false
   };
 
   const onChange = (newContent: string) => node.setContent(newContent);
-  const contentToHtml = (text: string) => focused ? text : textToHtml(text);
-  const htmlToContent = (html: string) => focused ? html : htmlToText(html);
+  // const contentToHtml = (text: string) => focused ? text : textToHtml(text);
+  // const htmlToContent = (html: string) => focused ? html : htmlToText(html);
 
   return (
     <TextEditor
       onClick={onClick}
-      keymap={keymap}
+      keymap={{ ...defaultKeymap, ...keymap }}
       onChange={onChange}
       content={node.content}
-      contentToHtml={contentToHtml}
-      htmlToContent={htmlToContent}
+      contentToHtml={(x: string) => contentToHtml(x, { focused })}
+      htmlToContent={(x: string) => contentFromHtml(x, { focused })}
       focused={focused}
     />
   );

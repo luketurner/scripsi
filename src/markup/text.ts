@@ -1,4 +1,4 @@
-import { equationToHtml, htmlToEquation } from './equation';
+import { equationToHtml, equationFromHtml } from './equation';
 
 /* Markup module
 
@@ -6,7 +6,7 @@ Provides functions to convert the Markdown-esque markup used in node content int
 
 */
 
-export const htmlToText = (html: string): string => {
+export const textFromHtml = (html: string): string => {
 
   // using DOMParser to avoid JS execution (credit to https://stackoverflow.com/questions/1912501#34064434)
   const root = new DOMParser().parseFromString(html, 'text/html');
@@ -17,7 +17,7 @@ export const htmlToText = (html: string): string => {
   const nodeToText = (node: HTMLElement): string => {
     if (node.childNodes.length === 0) return escape(node.textContent);
 
-    if (node.className === 'katex') return '$' + htmlToEquation(node.outerHTML) + '$';
+    if (node.className === 'katex') return '$' + equationFromHtml(node.outerHTML) + '$';
 
     const childContent = Array.from(node.childNodes).map(nodeToText).join('');
 

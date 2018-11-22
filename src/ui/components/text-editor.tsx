@@ -9,7 +9,7 @@ export interface TextEditorProps {
   focused?: boolean;
   onClick?: InputHandlerCallback;
   keymap?: InputHandlerKeymap;
-  contentToHtml?: (content: string, selection: Selection) => string;
+  contentToHtml?: (content: string) => string;
   htmlToContent?: (content: string) => string;
   content: string;
   onChange: TextEditorChangeHandler;

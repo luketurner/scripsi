@@ -2,7 +2,7 @@ import { renderToString } from 'katex';
 
 export const equationToHtml = (eq: string) => renderToString(eq);
 
-export const htmlToEquation = (html: string) => {
+export const equationFromHtml = (html: string) => {
   const root = new DOMParser().parseFromString(html, 'text/html');
 
   if (!root.body || root.body.className !== 'katex') return '';

@@ -2,15 +2,19 @@ import { observer } from 'mobx-react';
 import * as React from 'react';
 
 import { INodeType, NodeTypeProps } from '..';
-import { codeToHtml, htmlToCode } from '../../markup/code';
+import { codeFromHtml, codeToHtml } from '../../markup/code';
 import { ChildNodeList } from '../../ui/node-view/child-node-list';
 import { NodeTextEditor } from '../../ui/node-view/node-text-editor';
 
 const definition: INodeType = {
   component: observer(({ node, ancestry, isVisible }: NodeTypeProps) => {
+    const contentToHtml = (content: string, { focused }) => focused ? `<code>${content}</code>` : codeToHtml(content);
+    const contentFromHtml = (content: string) => codeFromHtml(content);
     return (
       <div>
-        {isVisible && <NodeTextEditor node={node} isMultiline={true} ancestry={ancestry} textToHtml={codeToHtml} htmlToText={htmlToCode} />}
+        <div spellCheck={false}>
+          {isVisible && <NodeTextEditor node={node} isMultiline={true} ancestry={ancestry} contentToHtml={contentToHtml} contentFromHtml={contentFromHtml} />}
+        </div>
         <ChildNodeList node={node} ancestry={ancestry} />
       </div>
     );
