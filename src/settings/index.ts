@@ -5,26 +5,28 @@ import { Persistable } from '../persistent-storage/driver';
 import { BackendSettings } from './backends';
 import { DropboxBackendSettings } from './backends/dropbox';
 import { LocalBackendSettings } from './backends/local';
+import { CodeSettings } from './code';
+import { SettingsObject } from './settings-object';
 
-export class Settings implements Persistable {
+export class Settings extends SettingsObject implements Persistable {
 
-  @observable public backends: Map<Uuid, BackendSettings>;
+  @observable public backends = new Map<Uuid, BackendSettings>();
   @observable public primaryBackendId: Uuid;
-  @observable public backupBackendIds: Uuid[];
-  @observable public storagePrefix: string; // prefix for saving/loading settings
-
-  constructor() {
-    this.backends = new Map();
-    this.backupBackendIds = [];
-    this.storagePrefix = 'scripsi:settings:';
-  }
+  @observable public backupBackendIds: Uuid[] = [];
+  @observable public storagePrefix = 'scripsi:settings:'; // prefix for saving/loading settings
+  @observable public code = new CodeSettings();
 
   @computed public get currentState() {
     return JSON.stringify(this);
   }
 
   public loadState(newState: string) {
-    this.hydrate(JSON.parse(newState));
+    const newStateObject: Partial<Settings> = JSON.parse(newState);
+
+    // Convert backends array from a POJO back to a Map().
+    newStateObject.backends = new Map(Object.entries(newStateObject.backends || {}));
+
+    this.hydrate(newStateObject);
   }
 
   public resetState() {
@@ -38,12 +40,5 @@ export class Settings implements Persistable {
       name: 'Dropbox',
     }));
     this.primaryBackendId = primaryId;
-  }
-
-  private hydrate(params: Partial<Settings>) {
-    this.backends = new Map(Object.entries(params.backends || {}));
-    this.primaryBackendId = params.primaryBackendId;
-    this.backupBackendIds = params.backupBackendIds || [];
-    this.storagePrefix = params.storagePrefix || this.storagePrefix;
   }
 }
