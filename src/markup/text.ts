@@ -1,4 +1,4 @@
-import { equationToHtml, equationFromHtml } from './equation';
+import { equationFromHtml, equationToHtml } from './equation';
 
 /* Markup module
 
