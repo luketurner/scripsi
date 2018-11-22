@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import { observer } from 'mobx-react';
-import { textToHtml } from '../../markup';
+import { textToHtml } from '../../markup/text';
 import { Markup } from '../components/markup';
 
 export const HelpView = observer(() => {
@@ -13,7 +13,7 @@ export const HelpView = observer(() => {
       </p>
       <p>
         Scripsi is an open-source, in-browser note-taking/writing/PIM system,
-        inspired by <a href="https://workflowy.com/">Workflowy</a> and <a href="https://www.notion.so/">Notion</a>.
+        inspired by <a href='https://workflowy.com/'>Workflowy</a> and <a href='https://www.notion.so/'>Notion</a>.
         Scripsi aims to improve on these projects by offering programmer-friendly utilities and allowing you to keep full
         ownership and control of your data.
       </p>

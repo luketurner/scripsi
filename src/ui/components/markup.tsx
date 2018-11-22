@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { textToHtml } from '../../markup';
+import { textToHtml } from '../../markup/text';
 
 export interface MarkupProps {
   text: string;

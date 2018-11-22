@@ -1,25 +1,23 @@
+import { equationToHtml, htmlToEquation } from './equation';
+
 /* Markup module
 
 Provides functions to convert the Markdown-esque markup used in node content into HTML for rendering, and back.
 
 */
 
-import { renderToString } from 'katex';
-
-const renderLatex = (x) => renderToString(x);
-
 export const htmlToText = (html: string): string => {
 
   // using DOMParser to avoid JS execution (credit to https://stackoverflow.com/questions/1912501#34064434)
   const root = new DOMParser().parseFromString(html, 'text/html');
 
-  const escape = (x) => x; // TODO -- escape *, _, etc.
+  const escape = x => x; // TODO -- escape *, _, etc.
 
   // recursive function for converting each node to its markdowny equivalent
   const nodeToText = (node: HTMLElement): string => {
     if (node.childNodes.length === 0) return escape(node.textContent);
 
-    if (node.className === 'katex') return '$' + node.querySelector('math > semantics > annotation').textContent + '$';
+    if (node.className === 'katex') return '$' + htmlToEquation(node.outerHTML) + '$';
 
     const childContent = Array.from(node.childNodes).map(nodeToText).join('');
 
@@ -41,6 +39,6 @@ export const textToHtml = (text: string): string => {
   .replace(/(^|[^\\])(_|\*)(.*?[^\\])\2/g, '$1<em>$3</em>')
   .replace(/(^|\s)\[(.*?[^\\])\]\((.*?[^\\])\)/g, '$1<a href="$3">$2</a>')
   .replace(/(^|\s)#([a-zA-Z]\w*)\b/g, '$1<a href="#$2">#$2</a>')
-  .replace(/(^|[^\\])\$(.*?[^\\])\$/g, (_, p, c) => `${p}${renderLatex(c)}`)
+  .replace(/(^|[^\\])\$(.*?[^\\])\$/g, (_, p, c) => `${p}${equationToHtml(c)}`)
   .replace(/\\([*_[#\\`$])/g, '$1');
 };

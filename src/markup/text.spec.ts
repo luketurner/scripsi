@@ -1,10 +1,10 @@
-import { htmlToText, textToHtml } from './markup';
+import { htmlToText, textToHtml } from './text';
 
 import { expect } from 'chai';
 
 import { describe, it } from 'mocha';
 
-describe('markup', () => {
+describe('text markup', () => {
 
   describe('.htmlToText', () => {
     it('should not change unformatted text', () => {
