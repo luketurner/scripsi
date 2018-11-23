@@ -12,8 +12,8 @@ export const Header = observer(() => {
 
   const onSearchInput = e => nodes.setSearchQuery(e.target.value);
 
-  const openSettings = e => state.toggleSettings();
-  const openHelp = e => state.toggleHelp();
+  const openSettings = e => state.togglePath('settings');
+  const openHelp = e => state.togglePath('help');
 
   return (
     <div className='flex'>
