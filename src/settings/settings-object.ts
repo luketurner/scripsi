@@ -4,7 +4,7 @@ export abstract class SettingsObject {
     this.hydrate(params);
   }
 
-  public hydrate(params: Partial<SettingsObject>) {
-    Object.assign(this, params);
+  public hydrate(params: any) { // TODO -- somehow fix this type for inheriting this method
+    return Object.assign(this, params);
   }
 }
