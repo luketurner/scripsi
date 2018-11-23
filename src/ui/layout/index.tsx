@@ -13,17 +13,17 @@ import { Header } from './header';
  */
 export const Layout = () => {
   return (
-    <div className='pin absolute bg-grey-lightest' onClick={() => state.focusedNode = null}>
-      <div className=' h-full flex flex-col container max-w-lg mx-auto'>
-        <div>
+    <div className='pin absolute bg-grey-lightest w-full h-full' onClick={() => state.focusedNode = null}>
+      <div className='bg-grey-lightest' onClick={() => state.focusedNode = null}>
+        <div className='max-w-lg mx-auto h-8 fixed pin-t pin-x bg-grey-lightest'>
           <Header />
         </div>
 
-        <div className='flex-1'>
+        <div className='max-w-lg mx-auto py-8'>
           <Content />
         </div>
 
-        <div>
+        <div className='max-w-lg mx-auto h-8 fixed pin-b pin-x bg-grey-lightest'>
           <Footer />
         </div>
       </div>

@@ -26,4 +26,4 @@ h5, section section section section h1 { @apply .text-base; }
 
 p { @apply .leading-normal; @apply .mb-4; }
 
-th, td { @apply .p-2; }
+.fixed-table { table-layout: fixed; }
