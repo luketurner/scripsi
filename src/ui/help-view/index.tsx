@@ -3,7 +3,7 @@ import * as React from 'react';
 import { observer } from 'mobx-react';
 import { textToHtml } from '../../markup/text';
 import { Markup } from '../components/markup';
-import { Table, Row, Cell, Heading } from '../components/table';
+import { Cell, Heading, Row, Table } from '../components/table';
 
 export const HelpView = observer(() => {
   return (

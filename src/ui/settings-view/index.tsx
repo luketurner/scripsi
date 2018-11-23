@@ -6,7 +6,7 @@ import { observer } from 'mobx-react';
 import { settings, storageDriver } from '../../main';
 import { AuthStatus } from '../../settings/backends';
 import { Button } from '../components/button';
-import { Row, Cell, Table, Heading } from '../components/table';
+import { Cell, Heading, Row, Table } from '../components/table';
 
 const getLanguages = () => {
   const languages = listLanguages();

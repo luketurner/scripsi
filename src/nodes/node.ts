@@ -1,7 +1,7 @@
 import bind from 'bind-decorator';
 import * as _ from 'lodash';
 import { action, observable } from 'mobx';
-import * as uuid from 'uuid';
+import { uuid } from '../util/uuid';
 
 export type SNodeSerialized = Partial<SNode>;
 
@@ -15,7 +15,7 @@ export class SNode {
 
   constructor(params?: SNodeSerialized) {
     params = params || {};
-    this.id = params.id || uuid.v4();
+    this.id = params.id || uuid();
     this.type = params.type || NodeType.Text;
     this.content = params.content || '';
     this.props = params.props || {};

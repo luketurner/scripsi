@@ -1,7 +1,7 @@
-import { autorun, computed, observable } from 'mobx';
+import { computed, observable } from 'mobx';
 
-import * as uuid from 'uuid';
 import { Persistable } from '../persistent-storage/driver';
+import { uuid } from '../util/uuid';
 import { BackendSettings } from './backends';
 import { DropboxBackendSettings } from './backends/dropbox';
 import { LocalBackendSettings } from './backends/local';
@@ -30,12 +30,12 @@ export class Settings extends SettingsObject implements Persistable {
   }
 
   public resetState() {
-    const primaryId = uuid.v4();
+    const primaryId = uuid();
     this.backends.set(primaryId, new LocalBackendSettings({
       databaseName: 'scripsi',
       name: 'Local Storage',
     }));
-    this.backends.set(uuid.v4(), new DropboxBackendSettings({
+    this.backends.set(uuid(), new DropboxBackendSettings({
       databaseName: 'scripsi',
       name: 'Dropbox',
     }));

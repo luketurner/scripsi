@@ -3,7 +3,6 @@ import { runInAction } from 'mobx';
 import DevTools from 'mobx-react-devtools';
 import * as React from 'react';
 import { render } from 'react-dom';
-import * as uuid from 'uuid';
 
 import { NodeType, SNodeSet } from './nodes';
 import { PersistentStorageDriver } from './persistent-storage/driver';
@@ -11,6 +10,7 @@ import { MissingStateError } from './persistent-storage/errors';
 import { Settings } from './settings';
 import { state, UI } from './ui/index';
 import { isDevelopment } from './util/env';
+import { uuid } from './util/uuid';
 
 // Declare and export singleton instances of our state containers
 export const nodes = new SNodeSet();
@@ -43,10 +43,10 @@ export async function main() {
     }
 
     runInAction('persistence.setDefaultData', () => {
-      const rootNodeId = uuid.v4();
-      const helptextNodeId = uuid.v4();
-      const disclaimerNodeId = uuid.v4();
-      const focusedNodeId = uuid.v4();
+      const rootNodeId = uuid();
+      const helptextNodeId = uuid();
+      const disclaimerNodeId = uuid();
+      const focusedNodeId = uuid();
       nodes.loadState(JSON.stringify({
         index: {
           [rootNodeId]: {
