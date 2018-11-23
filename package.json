@@ -30,6 +30,7 @@
     "mobx": "^5.5.0",
     "mobx-react": "^5.2.8",
     "mobx-react-devtools": "^6.0.3",
+    "mobx-react-lite": "^0.3.2",
     "normalize.css": "^8.0.0",
     "query-string": "^5.0.1",
     "react": "^16.7.0-alpha.2",
