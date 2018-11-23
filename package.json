@@ -32,7 +32,7 @@
     "mobx-react-devtools": "^6.0.3",
     "normalize.css": "^8.0.0",
     "query-string": "^5.0.1",
-    "react": "^16.5.2",
+    "react": "^16.7.0-alpha",
     "react-contenteditable": "^3.1.1",
     "react-dnd": "^5.0.0",
     "react-dnd-html5-backend": "^5.0.1",
@@ -42,7 +42,7 @@
   "devDependencies": {
     "@types/classnames": "^2.2.6",
     "@types/node": "^8.0.25",
-    "@types/react": "^16.4.16",
+    "@types/react": "^16.7.7",
     "@types/react-dom": "^16.0.8",
     "@types/webpack-env": "^1.13.6",
     "chai": "^4.2.0",
