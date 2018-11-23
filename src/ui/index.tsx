@@ -7,9 +7,9 @@ import { Layout } from './layout';
 import { UIState } from './state';
 
 // Include all 3rd party CSS
-require('!style-loader!css-loader!normalize.css/normalize.css');
-require('!style-loader!css-loader!@blueprintjs/core/lib/css/blueprint.css');
-require('!style-loader!css-loader!@blueprintjs/icons/lib/css/blueprint-icons.css');
+require('normalize.css/normalize.css');
+require('@blueprintjs/core/lib/css/blueprint.css');
+require('@blueprintjs/icons/lib/css/blueprint-icons.css');
 
 require('./style.scss');
 
