@@ -3,6 +3,7 @@ import * as React from 'react';
 import { observer } from 'mobx-react';
 import { textToHtml } from '../../markup/text';
 import { Markup } from '../components/markup';
+import { Table, Row, Cell, Heading } from '../components/table';
 
 export const HelpView = observer(() => {
   return (
@@ -41,7 +42,34 @@ export const HelpView = observer(() => {
         Most Scripsi nodes allow you to include inline elements like <em>italic text</em>, <strong>bold text</strong>, and <a>external links</a>,
         using a Markdown-esque markup:
       </p>
-      <table>
+      <Table
+        headings={[
+          <Heading width='1/3' key={0}>What you type</Heading>,
+          <Heading key={1}>What you see</Heading>,
+        ]}
+      >
+      {[
+            'This is _italic_, so is *this*.',
+            'This is **bold**, so is __this__.',
+            'This is [a link](http://google.com).',
+            'This is a #tag.',
+            'This is ~monospace text~',
+            '`const isCode = true;`',
+            '$x^2+\\frac{1}{2}$'
+          ].map(txt => (
+            <Row>
+              <Cell>
+                <code>{txt}</code>
+              </Cell>
+              <Cell>
+                <Markup text={txt} />
+                <pre className='truncate'><code className='text-grey'>{textToHtml(txt)}</code></pre>
+              </Cell>
+            </Row>
+      ))}
+
+      </Table>
+      {/* <table className='table-fixed'>
         <thead>
           <tr>
             <th>What you type</th>
@@ -58,16 +86,16 @@ export const HelpView = observer(() => {
             '`const isCode = true;`',
             '$x^2+\\frac{1}{2}$'
           ].map(txt => (
-            <tr>
+            <tr className='max-w-full'>
               <td><code>{txt}</code></td>
               <td>
                 <Markup text={txt} />
-                <pre className='truncate max-w-md'><code className='text-grey'>{textToHtml(txt)}</code></pre>
+                <pre className='truncate'><code className='text-grey'>{textToHtml(txt)}</code></pre>
               </td>
             </tr>
           ))}
         </tbody>
-      </table>
+      </table> */}
       <p>
         If you want to prevent a character from being interpreted, prefix it with a <code>\</code>.
         For example, use <code>\*\*</code> to insert a literal <code>**</code>.

@@ -6,6 +6,7 @@ import { observer } from 'mobx-react';
 import { settings, storageDriver } from '../../main';
 import { AuthStatus } from '../../settings/backends';
 import { Button } from '../components/button';
+import { Row, Cell, Table, Heading } from '../components/table';
 
 const getLanguages = () => {
   const languages = listLanguages();
@@ -24,30 +25,30 @@ export const SettingsView = observer(() => {
     const isPrimary = settings.primaryBackendId === id;
     const isSecondary = settings.backupBackendIds.includes(id);
     return (
-      <tr>
-        <td>
+      <Row>
+        <Cell>
           {backendSettings.name}
-        </td>
-        <td>
-         <div className='text-grey'>{ isReady ? 'Ready' : isPreAuth ? 'Working...' : 'Not Ready' }</div>
-        </td>
-        <td>
+        </Cell>
+        <Cell padding='0'>
+         <div className='text-grey p-2'>{ isReady ? 'Ready' : isPreAuth ? 'Working...' : 'Not Ready' }</div>
+        </Cell>
+        <Cell padding='0'>
           { !isReady
             ? <Button onClick={() => storageDriver.authenticateBackend(id)}>ENABLE</Button>
             : isPrimary
-            ? <div className='text-grey'>ON</div>
+            ? <div className='text-grey p-2'>ON</div>
             : <Button onClick={() => settings.primaryBackendId = id}>OFF</Button>
           }
-        </td>
-        <td>
+        </Cell>
+        <Cell padding='0'>
           { !isReady || isPrimary
-            ? <div className='text-grey'>N/A</div>
+            ? <div className='text-grey p-2'>N/A</div>
             : isSecondary
             ? <Button onClick={() => settings.backupBackendIds['remove'](id)}>ON</Button>
             : <Button onClick={() => settings.backupBackendIds.push(id)}>OFF</Button>
           }
-        </td>
-      </tr>
+        </Cell>
+      </Row>
     );
   });
 
@@ -66,19 +67,16 @@ export const SettingsView = observer(() => {
         Use the table below to configure where Scripsi reads and writes data. You must have exactly one read/write
         backend configured, and may optionally specify additional write-only backends for backup purposes.
       </p>
-      <table className='ml-4'>
-        <thead>
-          <tr>
-            <th className='w-32'>Backend</th>
-            <th className='w-16'>Status</th>
-            <th className='w-16'>Read/Write</th>
-            <th className='w-16'>Backup</th>
-          </tr>
-        </thead>
-        <tbody>
-          {Array.from(settings.backends.entries()).map(([id, s]) => <BackendRow id={id} settings={s} key={id} />)}
-        </tbody>
-      </table>
+      <Table
+        headings={[
+          <Heading key={0} width='32'>Backend</Heading>,
+          <Heading key={1} width='16'>Status</Heading>,
+          <Heading key={2} width='16'>Primary?</Heading>,
+          <Heading key={3} width='16'>Backup?</Heading>,
+        ]}
+      >
+        {Array.from(settings.backends.entries()).map(([id, s]) => <BackendRow id={id} settings={s} key={id} />)}
+      </Table>
       <h2>Code Blocks</h2>
       <p>
         By default, all code blocks in Scripsi (including <code>` ... `</code> blocks) are syntax-highlighted using&nbsp;
