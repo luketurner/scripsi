@@ -1,5 +1,4 @@
 import * as _ from 'lodash';
-import * as uuid from 'uuid';
 import * as backends from './backends';
 import { MissingStateError } from './errors';
 
