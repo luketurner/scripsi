@@ -9,16 +9,12 @@ import { getLocation } from '../util/location';
  * @class UIState
  */
 export class UIState {
-  @observable public focusedNode: Uuid;
-  @observable public hoveredNodes: Uuid[];
+  @observable public focusedNode?: Uuid = null;
+  @observable public hoveredNodes: Uuid[] = [];
+  @observable public openContextMenu?: Uuid = null;
 
   @computed public get path(): string {
     return getLocation().hash.substring(1) || '';
-  }
-
-  constructor() {
-    this.focusedNode = null;
-    this.hoveredNodes = [];
   }
 
   public togglePath(path: string) {
