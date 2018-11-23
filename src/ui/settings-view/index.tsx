@@ -1,9 +1,20 @@
+import * as _ from 'lodash';
 import * as React from 'react';
 
+import { listLanguages } from 'highlight.js';
 import { observer } from 'mobx-react';
 import { settings, storageDriver } from '../../main';
 import { AuthStatus } from '../../settings/backends';
 import { Button } from '../components/button';
+
+const getLanguages = () => {
+  const languages = listLanguages();
+  return _.sortBy(languages.map(language => ({
+    isDefault: settings.code.defaultLanguage === language,
+    isDisabled: settings.code.disabledLanguages && settings.code.disabledLanguages.has(language),
+    language,
+  })), ({ isDefault, isDisabled }) => isDefault ? 3 : isDisabled ? 1 : 2);
+};
 
 export const SettingsView = observer(() => {
 
@@ -68,6 +79,33 @@ export const SettingsView = observer(() => {
           {Array.from(settings.backends.entries()).map(([id, s]) => <BackendRow id={id} settings={s} key={id} />)}
         </tbody>
       </table>
+      <h2>Code Blocks</h2>
+      <p>
+        By default, all code blocks in Scripsi (including <code>` ... `</code> blocks) are syntax-highlighted using&nbsp;
+        <a href='https://highlightjs.org/'>highlight.js</a>. Change related settings here. (WIP)
+      </p>
+
+      <div className='ml-4 max-h-32 max-w-lg overflow-y-scroll'>
+        <table>
+          <thead>
+            <tr>
+              <th className='w-32'>Language</th>
+              <th className='w-16'>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            { getLanguages().map(({ language, isDisabled, isDefault }) => {
+              return (
+                <tr key={language}>
+                  <td>{language}</td>
+                  <td><input type='checkbox' checked={!isDisabled} disabled={true}/></td>
+                  <td>{isDefault ? 'Default' : ''}</td>
+                </tr>
+              );
+            }) }
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 });

@@ -1,4 +1,5 @@
 import { equationFromHtml, equationToHtml } from './equation';
+import { codeToHtml, codeFromHtml } from './code';
 
 /* Markup module
 
@@ -21,7 +22,7 @@ export const textFromHtml = (html: string): string => {
 
     const childContent = Array.from(node.childNodes).map(nodeToText).join('');
 
-    if (node.tagName === 'CODE') return '`' + childContent + '`';
+    if (node.tagName === 'CODE') return '`' + codeFromHtml(childContent) + '`';
     if (node.tagName === 'STRONG') return '**' + childContent + '**';
     if (node.tagName === 'EM') return '_' + childContent + '_';
     if (node.tagName === 'A' && /^#\w+$/g.test(node.getAttribute('href'))) return childContent;
@@ -32,13 +33,16 @@ export const textFromHtml = (html: string): string => {
   return nodeToText(root.body);
 };
 
+export const unescapeText = (text: string) => text.replace(/\\([*_[#\\`$~])/g, '$1');
+export const escapeText = (text: string) => text.replace(/([*_[#\\`$~])/g, '\\$1');
+
 export const textToHtml = (text: string): string => {
-  return text
-  .replace(/(^|[^\\])`(.*?[^\\])`/g, '$1<code>$2</code>')
+  return unescapeText(text
+  .replace(/(^|[^\\])~(.*?[^\\])~/g, (_, p, c) => `${p}<code>${escapeText(c)}</code>`)
+  .replace(/(^|[^\\])`(.*?[^\\])`/g, (_, p, c) => `${p}${codeToHtml(escapeText(c))}`)
   .replace(/(^|[^\\])(__|\*\*)(.*?[^\\])\2/g, '$1<strong>$3</strong>')
   .replace(/(^|[^\\])(_|\*)(.*?[^\\])\2/g, '$1<em>$3</em>')
   .replace(/(^|\s)\[(.*?[^\\])\]\((.*?[^\\])\)/g, '$1<a href="$3">$2</a>')
   .replace(/(^|\s)#([a-zA-Z]\w*)\b/g, '$1<a href="#$2">#$2</a>')
-  .replace(/(^|[^\\])\$(.*?[^\\])\$/g, (_, p, c) => `${p}${equationToHtml(c)}`)
-  .replace(/\\([*_[#\\`$])/g, '$1');
+  .replace(/(^|[^\\])\$(.*?[^\\])\$/g, (_, p, c) => `${p}${equationToHtml(c)}`));
 };

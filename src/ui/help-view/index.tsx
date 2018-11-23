@@ -54,8 +54,9 @@ export const HelpView = observer(() => {
             'This is **bold**, so is __this__.',
             'This is [a link](http://google.com).',
             'This is a #tag.',
-            'This is `some code`',
-            'This is math: $x^2+\\frac{1}{2}$'
+            'This is ~monospace text~',
+            '`const isCode = true;`',
+            '$x^2+\\frac{1}{2}$'
           ].map(txt => (
             <tr>
               <td><code>{txt}</code></td>
@@ -68,42 +69,18 @@ export const HelpView = observer(() => {
         </tbody>
       </table>
       <p>
-        If you want to prevent a character from being interpreted by the markup, prefix it with a <code>\</code>.
-        For example, if you use <code>**</code> for exponentiation, you might see something like this:
+        If you want to prevent a character from being interpreted, prefix it with a <code>\</code>.
+        For example, use <code>\*\*</code> to insert a literal <code>**</code>.
       </p>
-      <table className='ml-16'>
-        <tbody>
-          {[
-            'x is 4**5 and y is 7**8',
-          ].map(txt => (
-            <tr>
-              <td><code>{txt}</code></td>
-              <td className='text-red'>
-                <Markup text={txt} />
-                <pre><code className='text-grey'>{textToHtml(txt)}</code></pre>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
       <p>
-        If you use <code>\</code> to escape the asterisks, the rendered HTML is correct:
+        Text within <code>` ... `</code> and <code>~ ... ~</code> blocks are always interpreted literally.
       </p>
-      <table className='ml-16'>
-        <tbody>
-          {[
-            'x is 4\\*\\*5 and y is 7**8'
-          ].map(txt => (
-            <tr>
-              <td><code>{txt}</code></td>
-              <td>
-                <Markup text={txt} />
-                <pre><code className='text-grey'>{textToHtml(txt)}</code></pre>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <p>
+        By default, <code>` ... `</code> blocks are syntax-highlighted using the automatic language detection feature of&nbsp;
+        <a href='https://highlightjs.org/'>highlight.js</a>. To override the language, specify the highlight.js tag for the language
+        at the beginning of the code block: <code>`python: is_python = True`</code>. Syntax highlighting can be configured in the&nbsp;
+        <a href='#settings'>settings</a>.
+      </p>
     </div>
   );
 });

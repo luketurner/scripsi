@@ -1,7 +1,13 @@
-import { highlight, highlightAuto } from 'highlight.js';
+import { highlight, highlightAuto, listLanguages } from 'highlight.js';
 
 export const codeToHtml = (code: string) => {
-  return '<code>' + highlightAuto(code).value + '</code>';
+  const langRegex = /^([\w-.]+):\s/g;
+  const match = langRegex.exec(code);
+  if (match && listLanguages().includes(match[1])) {
+    const restOfCode = code.substring(langRegex.lastIndex);
+    return `<code>${highlight(match[1], restOfCode).value}</code>`;
+  }
+  return `<code>${highlightAuto(code).value}</code>`;
 };
 
 export const codeFromHtml = (html: string) => {

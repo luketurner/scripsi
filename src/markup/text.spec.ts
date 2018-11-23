@@ -107,15 +107,27 @@ describe('text markup', () => {
     });
 
     it('should support `...`', () => {
-      expect(textToHtml('`test`')).to.eql('<code>test</code>');
-      expect(textToHtml('`test``')).to.eql('<code>test</code>`');
-      expect(textToHtml('test `test` test')).to.eql('test <code>test</code> test');
-      expect(textToHtml('a `test`.')).to.eql('a <code>test</code>.');
-      expect(textToHtml('a `test.`')).to.eql('a <code>test.</code>');
-      expect(textToHtml('a `te\\`st`')).to.eql('a <code>te`st</code>');
+      expect(textToHtml('`test`')).to.eql('<code><span class="hljs-built_in">test</span></code>');
+      expect(textToHtml('`test``')).to.eql('<code><span class="hljs-built_in">test</span></code>`');
+      expect(textToHtml('test `test` test')).to.eql('test <code><span class="hljs-built_in">test</span></code> test');
+      expect(textToHtml('a `test`.')).to.eql('a <code><span class="hljs-built_in">test</span></code>.');
+      expect(textToHtml('a `test.`')).to.eql('a <code><span class="hljs-built_in">test</span>.</code>');
+      expect(textToHtml('a `te\\`st`')).to.eql('a <code><span class="hljs-keyword">te</span>\\`<span class="hljs-keyword">st</span></code>');
       expect(textToHtml('a `test')).to.eql('a `test');
       expect(textToHtml('a \\`test`')).to.eql('a `test`');
       // expect(textToHtml('a ` test ` ')).to.eql('a ` test ` ');
+    });
+
+    it('should support ~...~', () => {
+      expect(textToHtml('~test~')).to.eql('<code>test</code>');
+      expect(textToHtml('~test~~')).to.eql('<code>test</code>~');
+      expect(textToHtml('test ~test~ test')).to.eql('test <code>test</code> test');
+      expect(textToHtml('a ~test~.')).to.eql('a <code>test</code>.');
+      expect(textToHtml('a ~test.~')).to.eql('a <code>test.</code>');
+      expect(textToHtml('a ~te\\~st~')).to.eql('a <code>te\\~st</code>');
+      expect(textToHtml('a ~test')).to.eql('a ~test');
+      expect(textToHtml('a \\~test~')).to.eql('a ~test~');
+      // expect(textToHtml('a ~ test ~ ')).to.eql('a ~ test ~ ');
     });
 
     it('should support $...$', () => {
