@@ -1,4 +1,4 @@
-import { observer } from 'mobx-react';
+import { observer } from 'mobx-react-lite';
 import * as React from 'react';
 import ContentEditable from 'react-contenteditable';
 import { focusEnd } from '../../util/selection';
@@ -28,38 +28,28 @@ const identity = (x, ...xs) => x;
  *  that they automatically receive the current editor content in the `content` property
  *  of their context object (second argument for the handlers).
  *
- * @param {TextEditorProps} { onClick, onChange, keymap, content }
+ * @param {TextEditorProps} props
  * @returns
  */
-@observer
-export class TextEditor extends React.Component<TextEditorProps, {}> {
+export const TextEditor = observer((props: TextEditorProps) => {
+  const { onClick, onChange, keymap, content, contentToHtml = identity, htmlToContent = identity, isFocused } = props;
 
-  public componentDidMount() {
-    if (this.props.isFocused) this.focusEndOfText();
-  }
+  const contentEditableRef = React.useRef(null);
 
-  public componentDidUpdate() {
-    if (this.props.isFocused) this.focusEndOfText();
-  }
+  React.useEffect(() => {
+    const el = contentEditableRef.current && contentEditableRef.current.htmlEl;
+    if (el && isFocused) focusEnd(el);
+  });
 
-  public focusEndOfText() {
-    const el = this.refs['editor']['htmlEl'];
-    focusEnd(el);
-  }
-
-  public render() {
-    const { onClick, onChange, keymap, content, contentToHtml = identity, htmlToContent = identity } = this.props;
-
-    return (
-      <InputHandler onClick={onClick} keymap={keymap} context={{ content }}>
-        <ContentEditable
-          // tslint:disable-next-line:jsx-no-string-ref
-          ref='editor'
-          className='outline-none'
-          html={contentToHtml(content)}
-          onChange={e => onChange(htmlToContent(e.target.value))}
-        />
-      </InputHandler>
-    );
-  }
-}
+  return (
+    <InputHandler onClick={onClick} keymap={keymap} context={{ content }}>
+      <ContentEditable
+        // tslint:disable-next-line:jsx-no-string-ref
+        ref={contentEditableRef}
+        className='outline-none'
+        html={contentToHtml(content)}
+        onChange={e => onChange(htmlToContent(e.target.value))}
+      />
+    </InputHandler>
+  );
+});
