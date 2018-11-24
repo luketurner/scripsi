@@ -1,54 +1,42 @@
-import { observer } from 'mobx-react';
+import { observer } from 'mobx-react-lite';
 import * as React from 'react';
 
 import classNames = require('classnames');
-import { action } from 'mobx';
 import { state } from '..';
 import { nodes } from '../../main';
 import { getComponent } from '../../node-types';
-import { NodeAncestry, NodeType, SNode } from '../../nodes';
-import { NodeViewAnchor } from './anchor';
+import { NodeAncestry } from '../../nodes';
 import { NodeDropTarget } from './node-drop-target';
 
 export interface NodeViewProps {
   nodeId: string;
   ancestry?: NodeAncestry;
+  customMenuEntries?: React.ReactNodeArray;
+  customChildNodes?: React.ReactNode;
+  children?: React.ReactNode;
 }
 
-export const NodeView = observer(props => {
-  const ancestry = props.ancestry || [];
+export interface NodeContext {
+  ancestry: NodeAncestry;
+  isOutlined: boolean;
+  isVisible: boolean;
+}
 
-  let node: SNode;
+/**
+ * Component that encapsulates rendering an editor for any node, based on ID.
+ *
+ * Looks up the node and chooses which component to use based on the type.
+ */
+export const NodeView = observer(({ nodeId, ancestry }: NodeViewProps) => {
+  ancestry = ancestry || [];
 
-  try {
-    node = nodes.getNode(props.nodeId);
-  } catch (e) {
-    console.error('cannot render node', props.nodeId, e);
-    return <div />;
-  }
-
+  const node = nodes.getNode(nodeId);
   const NodeTypeComponent = getComponent(node.type);
-
   const isOutlined = node.id === state.hoveredNodes[state.hoveredNodes.length - 1];
-
   const isVisible = true; // TODO
-  const hoverNode = action('ui.hoverNode', (e: React.MouseEvent<any>) => {
-    state.hoveredNodes.push(node.id);
-  });
-  const unhoverNode = action('ui.unhoverNode', (e: React.MouseEvent<any>) => {
-    state.hoveredNodes.splice(-1, 1);
-  });
 
-  return (
-    <NodeDropTarget node={node} ancestry={ancestry}>
-      <div
-        onMouseEnter={hoverNode}
-        onMouseLeave={unhoverNode}
-        className={classNames('p-1', isOutlined && ['bg-blue-lightest', 'highlight-children'])}
-      >
-        <NodeViewAnchor node={node} ancestry={ancestry} isOutlined={isOutlined} />
-        <NodeTypeComponent node={node} ancestry={ancestry} isVisible={isVisible} />
-      </div>
-    </NodeDropTarget>
-  );
+  // Does not need to be observable since context is intended to be write-only.
+  const nodeContext = { ancestry, isOutlined, isVisible };
+
+  return <NodeTypeComponent node={node} context={nodeContext} />;
 });

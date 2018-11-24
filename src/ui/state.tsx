@@ -1,4 +1,4 @@
-import { computed, observable } from 'mobx';
+import { action, computed, observable } from 'mobx';
 import { getLocation } from '../util/location';
 
 /**
@@ -19,6 +19,17 @@ export class UIState {
 
   public togglePath(path: string) {
     window.location.hash = (this.path === path ? '' : `#${path}`);
+  }
+
+  @action('ui.hoverNode')
+  public hoverNode(id) {
+    this.hoveredNodes.push(id);
+  }
+
+  @action('ui.unhoverNode')
+  public unhoverNode(id) {
+    // this.hoveredNodes.splice(this.hoveredNodes.indexOf(id), 1); TODO -- fix this?
+    this.hoveredNodes.splice(-1, 1);
   }
 
 }

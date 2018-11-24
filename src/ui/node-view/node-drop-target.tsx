@@ -1,15 +1,15 @@
 import * as React from 'react';
 import { DropTarget } from 'react-dnd';
-import { nodes } from '../../main';
-import { NodeAncestry, SNode } from '../../nodes';
+import { NodeContext } from '.';
+import { SNode } from '../../nodes';
 
 interface NodeDropTargetProps {
   node: SNode;
-  ancestry: NodeAncestry;
+  context: NodeContext;
   connectDropTarget?: (x: any) => any;
   isOver?: boolean;
   canDrop?: boolean;
-  children?: any;
+  children?: React.ReactNode;
 }
 
 const nodeDropTarget = DropTarget<NodeDropTargetProps>('node', {
@@ -18,7 +18,7 @@ const nodeDropTarget = DropTarget<NodeDropTargetProps>('node', {
       const sourceNodeId = monitor.getItem()['nodeId'];
       // const sourceAncestry = monitor.getItem()['ancestry'];
       const targetNodeId = props.node.id;
-      const targetAncestry = props.ancestry;
+      const targetAncestry = props.context.ancestry;
       if (targetNodeId === sourceNodeId) return false;
       for (const [id, ix] of targetAncestry) if (sourceNodeId === id) return false;
       return true;

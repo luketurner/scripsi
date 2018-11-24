@@ -1,19 +1,18 @@
 import { observer } from 'mobx-react';
 import * as React from 'react';
-import { NodeView } from '.';
-import { NodeTypeProps } from '../../node-types';
-import { NodeAncestry, SNode } from '../../nodes';
+import { NodeContext, NodeView } from '.';
+import { SNode } from '../../nodes';
 
 interface ChildNodeListProps {
   node: SNode;
-  ancestry: NodeAncestry;
+  context: NodeContext;
 }
 
-export const ChildNodeList = observer(({ node, ancestry }: ChildNodeListProps) => (
+export const ChildNodeList = observer(({ node, context }: ChildNodeListProps) => (
   <div>
     {node.collapsed
       ? null
       : (node.children || []).map((child: Uuid, ix: number) =>
-        <NodeView nodeId={child} ancestry={ancestry.concat([[node.id, ix]])} key={child} />)}
+        <NodeView nodeId={child} ancestry={context.ancestry.concat([[node.id, ix]])} key={child} />)}
   </div>
 ));

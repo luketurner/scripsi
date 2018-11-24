@@ -2,6 +2,7 @@ import { action } from 'mobx';
 import { observer } from 'mobx-react';
 import * as React from 'react';
 
+import { NodeContext } from '.';
 import { state } from '..';
 import { nodes } from '../../main';
 import { textFromHtml, textToHtml } from '../../markup/text';
@@ -15,8 +16,8 @@ interface ContentToHtmlOpts {
 
 interface NodeTextEditorProps {
   node: SNode;
+  context: NodeContext;
   isMultiline?: boolean;
-  ancestry: NodeAncestry;
   newNodeType?: NodeType;
   newNodePosition?: 'sibling' | 'child';
   keymap?: InputHandlerKeymap;
@@ -28,7 +29,7 @@ const defaultContentToHtml = (content, { focused }) => focused ? content : textT
 const defaultContentFromHtml = (content, { focused }) => focused ? content : textFromHtml(content);
 
 export const NodeTextEditor = observer(({
-  ancestry,
+  context: nodeContext,
   isMultiline = false,
   keymap,
   node,
@@ -37,6 +38,7 @@ export const NodeTextEditor = observer(({
   contentToHtml = defaultContentToHtml,
   contentFromHtml = defaultContentFromHtml,
 }: NodeTextEditorProps) => {
+  const { ancestry } = nodeContext;
   const focused = state.focusedNode === node.id;
 
   // ensures the UIState focusedNode changes when the user clicks around
@@ -90,8 +92,6 @@ export const NodeTextEditor = observer(({
   };
 
   const onChange = (newContent: string) => node.setContent(newContent);
-  // const contentToHtml = (text: string) => focused ? text : textToHtml(text);
-  // const htmlToContent = (html: string) => focused ? html : htmlToText(html);
 
   return (
     <TextEditor

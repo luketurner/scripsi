@@ -21,12 +21,7 @@ export class Settings extends SettingsObject implements Persistable {
   }
 
   public loadState(newState: string) {
-    const newStateObject: Partial<Settings> = JSON.parse(newState);
-
-    // Convert backends array from a POJO back to a Map().
-    newStateObject.backends = new Map(Object.entries(newStateObject.backends || {}));
-
-    this.hydrate(newStateObject);
+    this.hydrate(JSON.parse(newState));
   }
 
   public resetState() {
@@ -40,5 +35,11 @@ export class Settings extends SettingsObject implements Persistable {
       name: 'Dropbox',
     }));
     this.primaryBackendId = primaryId;
+  }
+
+  public hydrate(params) {
+    const backends = new Map(Object.entries(params.backends || {}));
+    const code = new CodeSettings(params.code);
+    super.hydrate({ ...params, backends, code });
   }
 }

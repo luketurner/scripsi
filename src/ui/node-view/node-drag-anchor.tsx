@@ -1,11 +1,12 @@
 import * as React from 'react';
 import { DragSource } from 'react-dnd';
+import { NodeContext } from '.';
 import { nodes } from '../../main';
-import { NodeAncestry, NodePosition, SNode } from '../../nodes';
+import { NodePosition, SNode } from '../../nodes';
 
 interface NodeDragAnchorProps {
   node: SNode;
-  ancestry: NodeAncestry;
+  context: NodeContext;
 }
 @DragSource<NodeDragAnchorProps>('node', {
   beginDrag: (props, monitor, component) => ({
@@ -13,7 +14,7 @@ interface NodeDragAnchorProps {
     // ancestry: props.ancestry,
   }),
   canDrag: (props, monitor) => {
-    if (props.ancestry.length === 0) return false;
+    if (props.context.ancestry.length === 0) return false;
     return true;
   },
   endDrag: (props, monitor, component) => {
@@ -24,7 +25,7 @@ interface NodeDragAnchorProps {
     }
 
     try {
-      const currentPosition = props.ancestry[props.ancestry.length - 1];
+      const currentPosition = props.context.ancestry[props.context.ancestry.length - 1];
       const newPosition = dropResult['dropPosition'] as NodePosition;
       nodes.moveNode(props.node.id, currentPosition, newPosition); // TODO -- determine ix?
     } catch (e) {

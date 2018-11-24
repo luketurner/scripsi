@@ -12,7 +12,7 @@ const getLanguages = () => {
   const languages = listLanguages();
   return _.sortBy(languages.map(language => ({
     isDefault: settings.code.defaultLanguage === language,
-    isDisabled: settings.code.disabledLanguages && settings.code.disabledLanguages.has(language),
+    isDisabled: settings.code.disabledLanguages.has(language),
     language,
   })), ({ isDefault, isDisabled }) => isDefault ? 3 : isDisabled ? 1 : 2);
 };
@@ -34,7 +34,7 @@ export const SettingsView = observer(() => {
         </Cell>
         <Cell padding='0'>
           { !isReady
-            ? <Button onClick={() => storageDriver.authenticateBackend(id)}>ENABLE</Button>
+            ? <Button onClick={async () => storageDriver.authenticateBackend(id)}>ENABLE</Button>
             : isPrimary
             ? <div className='text-grey p-2'>ON</div>
             : <Button onClick={() => settings.primaryBackendId = id}>OFF</Button>

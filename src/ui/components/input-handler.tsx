@@ -27,9 +27,11 @@ export interface InputHandlerKeymap {
 
 export interface InputHandlerProps {
   onClick?: InputHandlerCallback;
+  onContextMenu?: InputHandlerCallback;
   keymap?: InputHandlerKeymap;
   context?: { [key: string]: any };
   children?: React.ReactNode;
+  stopClickPropagation?: boolean;
 }
 
 const getKeyString = (event: React.KeyboardEvent<any>) => {
@@ -64,13 +66,22 @@ const handleKeypress = (event: React.KeyboardEvent<any>, keymap: InputHandlerKey
   }
 };
 
-const handleClick = (event: React.MouseEvent<any>, handler: InputHandlerCallback, { context }) => {
+const handleClick = (event: React.MouseEvent<any>, handler: InputHandlerCallback, { context, stopPropagation }) => {
   if (!handler) return;
-
   const result = handler(event, context);
 
   if (result === InputResult.Handled) {
     // event.preventDefault(); Don't prevent default -- interferes with clicking on links
+    if (stopPropagation) event.stopPropagation();
+  }
+};
+
+const handleContextMenu = (event: React.MouseEvent<any>, handler: InputHandlerCallback, { context }) => {
+  if (!handler) return;
+  const result = handler(event, context);
+
+  if (result === InputResult.Handled) {
+    event.preventDefault();
     event.stopPropagation();
   }
 };
@@ -84,13 +95,14 @@ const handleClick = (event: React.MouseEvent<any>, handler: InputHandlerCallback
  * @param {InputHandlerProps} { onClick, keymap, children, context }
  * @returns
  */
-export const InputHandler = ({ onClick, keymap, children, context }: InputHandlerProps) => {
+export const InputHandler = ({ onClick, onContextMenu, keymap, children, context, stopClickPropagation = false }: InputHandlerProps) => {
   keymap = keymap || {};
   return (
     <div
       onKeyDown={e => handleKeypress(e, keymap, { context })}
       onKeyUp={e => handleKeypress(e, keymap, { skip: true })}
-      onClick={e => handleClick(e, onClick, { context })}
+      onClick={e => handleClick(e, onClick, { context, stopPropagation: stopClickPropagation })}
+      onContextMenu={e => handleContextMenu(e, onContextMenu, { context })}
     >
       {children}
     </div>

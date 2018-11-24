@@ -7,16 +7,20 @@ import { INodeType, NodeTypeProps } from '..';
 import { NodeType } from '../../nodes';
 import { ChildNodeList } from '../../ui/node-view/child-node-list';
 import { NodeTextEditor } from '../../ui/node-view/node-text-editor';
+import { NodeViewBase } from '../../ui/node-view/view-base';
 
 const definition: INodeType = {
-  component: observer(({ node, ancestry, isVisible }: NodeTypeProps) => {
+  component: ({ node, context }: NodeTypeProps) => {
     return (
-      <div>
-        {isVisible && <NodeTextEditor node={node} ancestry={ancestry} />}
-        <ChildNodeList node={node} ancestry={ancestry} />
-      </div>
+      <NodeViewBase node={node} context={context}>
+        <ul>
+          <li>
+            <NodeTextEditor node={node} context={context} />
+          </li>
+        </ul>
+      </NodeViewBase>
     );
-  })
+  }
 };
 
 export default definition;

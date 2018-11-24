@@ -1,5 +1,5 @@
+import { codeFromHtml, codeToHtml } from './code';
 import { equationFromHtml, equationToHtml } from './equation';
-import { codeToHtml, codeFromHtml } from './code';
 
 /* Markup module
 

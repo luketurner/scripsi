@@ -1,4 +1,5 @@
 import { NodeAncestry, NodeType, SNode } from '../nodes';
+import { NodeContext } from '../ui/node-view';
 
 type NodeTypeComponent = React.StatelessComponent<NodeTypeProps>;
 
@@ -8,8 +9,7 @@ export interface INodeType {
 
 export interface NodeTypeProps {
   node: SNode;
-  ancestry: NodeAncestry;
-  isVisible: boolean;
+  context: NodeContext;
 }
 
 const registry = new Map<NodeType, INodeType>();
