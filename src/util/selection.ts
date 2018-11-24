@@ -7,3 +7,19 @@ document.addEventListener('selectionchange', () => selection.set({ current: wind
 
 // Expose read-only access
 export const getSelection = () => selection.get().current;
+
+/**
+ * Focuses given node and moves selection to the end of it, so typed characters will be appended to the existing content.
+ * Will also unselect anything else selected on the screen.
+ *
+ * @param {Node} el HTML Node (element, text node, etc.)
+ */
+export const focusEnd = (el: Node) => {
+  const sel = getSelection();
+
+  sel.removeAllRanges();      // in case there is other stuff selected, unselect it.
+  sel.selectAllChildren(el);  // Select the full node
+  const range = sel.getRangeAt(0);
+  range.collapse(false);      // Collapse range to the end
+  // Note -- sel.collapseToEnd(); works great, but not supported in as many browsers as range.collapse
+};

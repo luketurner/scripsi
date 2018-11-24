@@ -11,7 +11,7 @@ import { InputHandlerKeymap, InputResult, KeyCode } from '../components/input-ha
 import { TextEditor } from '../components/text-editor';
 
 interface ContentToHtmlOpts {
-  focused?: boolean;
+  isFocused?: boolean;
 }
 
 interface NodeTextEditorProps {
@@ -25,8 +25,8 @@ interface NodeTextEditorProps {
   contentFromHtml?: (x: string, opts?: ContentToHtmlOpts) => string;
 }
 
-const defaultContentToHtml = (content, { focused }) => focused ? content : textToHtml(content);
-const defaultContentFromHtml = (content, { focused }) => focused ? content : textFromHtml(content);
+const defaultContentToHtml = (content, { isFocused }) => isFocused ? content : textToHtml(content);
+const defaultContentFromHtml = (content, { isFocused }) => isFocused ? content : textFromHtml(content);
 
 export const NodeTextEditor = observer(({
   context: nodeContext,
@@ -38,8 +38,7 @@ export const NodeTextEditor = observer(({
   contentToHtml = defaultContentToHtml,
   contentFromHtml = defaultContentFromHtml,
 }: NodeTextEditorProps) => {
-  const { ancestry } = nodeContext;
-  const focused = state.focusedNode === node.id;
+  const { ancestry, isFocused } = nodeContext;
 
   // ensures the UIState focusedNode changes when the user clicks around
   const onClick = () => {
@@ -99,9 +98,9 @@ export const NodeTextEditor = observer(({
       keymap={{ ...defaultKeymap, ...keymap }}
       onChange={onChange}
       content={node.content}
-      contentToHtml={(x: string) => contentToHtml(x, { focused })}
-      htmlToContent={(x: string) => contentFromHtml(x, { focused })}
-      focused={focused}
+      contentToHtml={(x: string) => contentToHtml(x, { isFocused })}
+      htmlToContent={(x: string) => contentFromHtml(x, { isFocused })}
+      isFocused={isFocused}
     />
   );
 });

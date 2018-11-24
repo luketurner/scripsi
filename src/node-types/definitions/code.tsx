@@ -12,7 +12,7 @@ import { NodeViewBase } from '../../ui/node-view/view-base';
 const definition: INodeType = {
   component: observer(({ node, context }: NodeTypeProps) => {
 
-    const contentToHtml = (content: string, { focused }) => focused ? `<code>${content}</code>` : codeToHtml(content, { language: node.props['syntax-language'] });
+    const contentToHtml = (content: string, { isFocused }) => isFocused ? `<code>${content}</code>` : codeToHtml(content, { language: node.props['syntax-language'] });
     const contentFromHtml = (content: string) => codeFromHtml(content);
     const customMenuEntries = (
       <div>

@@ -1,12 +1,13 @@
 import { observer } from 'mobx-react';
 import * as React from 'react';
 import ContentEditable from 'react-contenteditable';
+import { focusEnd } from '../../util/selection';
 import { InputHandler, InputHandlerCallback, InputHandlerKeymap } from './input-handler';
 
 export type TextEditorChangeHandler = (newContent) => any;
 
 export interface TextEditorProps {
-  focused?: boolean;
+  isFocused?: boolean;
   onClick?: InputHandlerCallback;
   keymap?: InputHandlerKeymap;
   contentToHtml?: (content: string) => string;
@@ -34,11 +35,16 @@ const identity = (x, ...xs) => x;
 export class TextEditor extends React.Component<TextEditorProps, {}> {
 
   public componentDidMount() {
-    if (this.props.focused) this.refs['editor']['htmlEl']['focus']();
+    if (this.props.isFocused) this.focusEndOfText();
   }
 
   public componentDidUpdate() {
-    if (this.props.focused) this.refs['editor']['htmlEl']['focus']();
+    if (this.props.isFocused) this.focusEndOfText();
+  }
+
+  public focusEndOfText() {
+    const el = this.refs['editor']['htmlEl'];
+    focusEnd(el);
   }
 
   public render() {
