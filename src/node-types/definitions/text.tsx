@@ -1,10 +1,6 @@
-import { map } from 'lodash';
-import { action } from 'mobx';
-import { observer } from 'mobx-react';
 import * as React from 'react';
 
 import { INodeType, NodeTypeProps } from '..';
-import { ChildNodeList } from '../../ui/node-view/child-node-list';
 import { NodeTextEditor } from '../../ui/node-view/node-text-editor';
 import { NodeViewBase } from '../../ui/node-view/view-base';
 
