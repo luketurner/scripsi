@@ -28,8 +28,7 @@ export class UIState {
 
   @action('ui.unhoverNode')
   public unhoverNode(id) {
-    // this.hoveredNodes.splice(this.hoveredNodes.indexOf(id), 1); TODO -- fix this?
-    this.hoveredNodes.splice(-1, 1);
+    this.hoveredNodes.splice(this.hoveredNodes.indexOf(id), 1);
   }
 
 }
