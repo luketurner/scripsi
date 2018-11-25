@@ -11,6 +11,7 @@ import { Settings } from './settings';
 import { state, UI } from './ui/index';
 import { isDevelopment } from './util/env';
 import { uuid } from './util/uuid';
+import { getSample } from './nodes/samples';
 
 // Declare and export singleton instances of our state containers
 export const nodes = new SNodeSet();
@@ -43,31 +44,8 @@ export async function main() {
     }
 
     runInAction('persistence.setDefaultData', () => {
-      const rootNodeId = uuid();
-      const helptextNodeId = uuid();
-      const disclaimerNodeId = uuid();
-      const focusedNodeId = uuid();
-      nodes.loadState(JSON.stringify({
-        index: {
-          [rootNodeId]: {
-            children: [helptextNodeId, disclaimerNodeId, focusedNodeId],
-            content: 'Welcome to Scripsi',
-            type: NodeType.Heading,
-          },
-          [helptextNodeId]: {
-            content: 'Scripsi is an open-source, in-browser note-taking/writing/PIM system. Visit the [help page](#help) for more information.'
-          },
-          [disclaimerNodeId]: {
-            content: '**Warning**: This is a development build. You may encounter bugs, including data loss! **Use at your own risk!**'
-          },
-          [focusedNodeId]: {
-            content: 'Press Enter to create a new node and start typing!'
-          },
-        },
-        rootNodeId,
-        viewRootNode: rootNodeId,
-      }));
-      state.focusedNode = focusedNodeId;
+      nodes.hydrate(getSample('default'));
+      // state.focusedNode = focusedNodeId; TODO -- re-implement this?
     });
   }
   storageDriver.watchState();

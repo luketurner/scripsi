@@ -102,19 +102,25 @@ export class SNodeSet implements Persistable {
   @bind
   @action('nodes.loadState')
   public loadState(newState: string) {
-    const state: SNodeSetSerialized = JSON.parse(newState);
-    this.rootNode = state.rootNode;
-    this.viewRootNode = state.viewRootNode;
+    return this.hydrate(JSON.parse(newState));
+
+  }
+
+  @bind
+  public hydrate(params: Partial<SNodeSet>) {
+    this.rootNode = params.rootNode;
+    this.viewRootNode = params.viewRootNode;
+    this.searchQuery = params.searchQuery;
 
     this.index.clear();
-    for (const [id, node] of Object.entries(state.index)) {
+    for (const [id, node] of Object.entries(params.index)) {
       if (node.id && node.id !== id) throw new Error('node ID does not match');
       this.index.set(id, new SNode({ id, ...node }));
     }
   }
 
   @bind
-  @action('nodes.loadState')
+  @action('nodes.resetState')
   public resetState() {
     this.rootNode = null;
     this.viewRootNode = null;

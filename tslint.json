@@ -20,6 +20,7 @@
     "jsx-no-lambda": false, // so annoying! Should re-enable it once I care about performance.
     "jsx-no-multiline-js": false, // prevents the most concise way to do some things
     "interface-name": false, // seems to conflict with how I think of TS interfaces
-    "max-line-length": false
+    "max-line-length": false,
+    "object-literal-sort-keys": false, // annoying!
   }
 }

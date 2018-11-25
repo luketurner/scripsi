@@ -7,6 +7,7 @@ import { settings, storageDriver } from '../../main';
 import { AuthStatus } from '../../settings/backends';
 import { Button } from '../components/button';
 import { Cell, Heading, Row, Table } from '../components/table';
+import { DeveloperSettings } from './developer';
 
 const getLanguages = () => {
   const languages = listLanguages();
@@ -104,6 +105,8 @@ export const SettingsView = observer(() => {
           </tbody>
         </table>
       </div>
+
+      <DeveloperSettings />
     </div>
   );
 });
