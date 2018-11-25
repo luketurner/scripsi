@@ -38,7 +38,7 @@ export const TextEditor = observer((props: TextEditorProps) => {
 
   React.useEffect(() => {
     const el = contentEditableRef.current && contentEditableRef.current.htmlEl;
-    if (el && isFocused) focusEnd(el);
+    if (el && isFocused && !el.contains(document.activeElement)) focusEnd(el);
   });
 
   return (
