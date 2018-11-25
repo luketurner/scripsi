@@ -27,5 +27,5 @@ for (const nodeType of Object.values(NodeType)) {
 export const getComponent = (nodeType: NodeType): NodeTypeComponent | undefined => {
   const def = registry.get(nodeType);
   if (!def) { throw new Error(`Could not find definition for node type ${nodeType}.`); }
-  return def ? observer(def.component) : undefined;
+  return def ? def.component : undefined;
 };
