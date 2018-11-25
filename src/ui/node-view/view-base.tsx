@@ -23,11 +23,7 @@ export const NodeViewBase = observer(({ node, context, customMenuEntries, custom
   const { isVisible, isOutlined } = context;
   return (
     <NodeDropTarget node={node} context={context}>
-      <div
-        onMouseEnter={() => state.hoverNode(node.id)}
-        onMouseLeave={() => state.unhoverNode(node.id)}
-        className={classNames('p-1', isOutlined && ['bg-blue-lightest', 'highlight-children'])}
-      >
+      <div className={classNames('p-1', isOutlined && ['bg-blue-lightest', 'highlight-children'])}>
 
         <NodeMenu node={node} context={context} customMenuEntries={customMenuEntries}>
           <NodeDragAnchor node={node} context={context}>

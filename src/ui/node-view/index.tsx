@@ -37,5 +37,9 @@ export const NodeView = observer(({ nodeId, ancestry }: NodeViewProps) => {
   // Does not need to be observable since context is intended to be write-only.
   const nodeContext = { ancestry, isOutlined, isVisible, isFocused };
 
-  return <NodeTypeComponent node={node} context={nodeContext} />;
+  return (
+    <div onMouseEnter={() => state.hoverNode(node.id)} onMouseLeave={() => state.unhoverNode(node.id)}>
+      <NodeTypeComponent node={node} context={nodeContext} />
+    </div>
+  );
 });
