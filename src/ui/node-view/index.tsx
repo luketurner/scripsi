@@ -11,9 +11,6 @@ import { NodeDropTarget } from './node-drop-target';
 export interface NodeViewProps {
   nodeId: string;
   ancestry?: NodeAncestry;
-  customMenuEntries?: React.ReactNodeArray;
-  customChildNodes?: React.ReactNode;
-  children?: React.ReactNode;
 }
 
 export interface NodeContext {
@@ -34,7 +31,7 @@ export const NodeView = observer(({ nodeId, ancestry }: NodeViewProps) => {
   const node = nodes.getNode(nodeId);
   const NodeTypeComponent = getComponent(node.type);
   const isOutlined = node.id === state.hoveredNodes[state.hoveredNodes.length - 1];
-  const isFocused = state.focusedNode === node.id;
+  const isFocused = state.focusedNode === nodeId;
   const isVisible = true; // TODO
 
   // Does not need to be observable since context is intended to be write-only.

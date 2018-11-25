@@ -13,15 +13,8 @@ import { Header } from './header';
  * @extends {React.Component<{}, {}>}
  */
 export const Layout = () => {
-  const clearModalState = () => {
-    if (state.openContextMenu) {
-      state.openContextMenu = null;
-      return InputResult.Handled;
-    }
-    return InputResult.NotHandled;
-  };
   return (
-    <InputHandler onClick={clearModalState}>
+    <InputHandler>
       <div className='pin absolute bg-grey-lightest w-full h-full' onClick={() => state.focusedNode = null}>
         <div className='bg-grey-lightest' onClick={() => state.focusedNode = null}>
           <div className='max-w-lg mx-auto h-8 fixed pin-t pin-x bg-grey-lightest'>

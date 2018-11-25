@@ -1,5 +1,6 @@
 import { NodeAncestry, NodeType, SNode } from '../nodes';
 import { NodeContext } from '../ui/node-view';
+import { observer } from 'mobx-react-lite';
 
 type NodeTypeComponent = React.StatelessComponent<NodeTypeProps>;
 
@@ -26,5 +27,5 @@ for (const nodeType of Object.values(NodeType)) {
 export const getComponent = (nodeType: NodeType): NodeTypeComponent | undefined => {
   const def = registry.get(nodeType);
   if (!def) { throw new Error(`Could not find definition for node type ${nodeType}.`); }
-  return def ? def.component : undefined;
+  return def ? observer(def.component) : undefined;
 };
