@@ -36,7 +36,7 @@ The following types of nodes are currently supported:
 - [ ] Numbered lists
 - [ ] Todo lists
 - [x] Code
-  - [ ] Syntax highlighting
+  - [x] Syntax highlighting
   - [ ] Literate programming
 - [ ] Quotations
 - [ ] Tables
