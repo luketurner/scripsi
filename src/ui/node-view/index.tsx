@@ -11,6 +11,7 @@ import classNames = require('classnames');
 import { NodeMenu } from './node-menu';
 import { NodeDragAnchor } from './node-drag-anchor';
 import { NodeViewAnchor } from './anchor';
+import { NodeSeparator } from './node-separator';
 
 export interface NodeViewProps {
   nodeId: string;
@@ -44,19 +45,23 @@ export const NodeView = observer(({ nodeId, ancestry }: NodeViewProps) => {
   const view = (
     <div className={classNames(isOutlined && ['bg-blue-lightest', 'highlight-children'])}>
 
-      <NodeDropTarget node={node} context={context}>
-        <div className='py-1 pl-1' onMouseEnter={() => state.hoverNode(node.id)} onMouseLeave={() => state.unhoverNode(node.id)}>
+      <div onMouseEnter={() => state.hoverNode(node.id)} onMouseLeave={() => state.unhoverNode(node.id)}>
+        { ancestry[0] && ancestry[0][1] === 0 && <NodeSeparator node={node} context={context} insertBefore={true} /> }
+        <NodeDropTarget node={node} context={context}>
+          <div className='py-1 pl-1' >
 
-            <NodeMenu node={node} context={context} customMenuEntries={definition.menuEntries || undefined}>
-              <NodeDragAnchor node={node} context={context}>
-                <NodeViewAnchor node={node} context={context} />
-              </NodeDragAnchor>
-            </NodeMenu>
+              <NodeMenu node={node} context={context} customMenuEntries={definition.menuEntries || undefined}>
+                <NodeDragAnchor node={node} context={context}>
+                  <NodeViewAnchor node={node} context={context} />
+                </NodeDragAnchor>
+              </NodeMenu>
 
-            {isVisible && <definition.component node={node} context={context} />}
+              {isVisible && <definition.component node={node} context={context} />}
 
-        </div>
-      </NodeDropTarget>
+          </div>
+        </NodeDropTarget>
+        { node.children.length === 0 && <NodeSeparator node={node} context={context} /> }
+      </div>
 
       <div className='pl-1'><ChildNodeList node={node} context={context} /></div>
     </div>

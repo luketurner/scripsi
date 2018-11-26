@@ -7,10 +7,13 @@ import classNames = require('classnames');
 interface NodeDropTargetProps {
   node: SNode;
   context: NodeContext;
+  children?: React.ReactNode;
+}
+
+interface NodeDropTargetDndProps {
   connectDropTarget?: (x: any) => any;
   isOver?: boolean;
   canDrop?: boolean;
-  children?: React.ReactNode;
 }
 
 const nodeDropTarget = DropTarget<NodeDropTargetProps>('node', {
@@ -48,7 +51,7 @@ export const NodeDropTarget = nodeDropTarget(({
   connectDropTarget,
   isOver,
   canDrop
-}: NodeDropTargetProps) => {
+}: NodeDropTargetProps & NodeDropTargetDndProps) => {
   return connectDropTarget(
     <div className={classNames(isOver && canDrop && ['bg-grey-lighter'])}>
       {children}

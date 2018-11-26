@@ -95,8 +95,8 @@ export class SNodeSet implements Persistable {
   @bind
   @action('nodes.moveNode')
   public moveNode(id: Uuid, oldPosition: NodePosition, newPosition: NodePosition) {
-    this.insertNode(id, newPosition);
     this.removeNode(id, oldPosition);
+    this.insertNode(id, newPosition);
   }
 
   @bind
