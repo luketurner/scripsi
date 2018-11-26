@@ -3,6 +3,7 @@ import * as React from 'react';
 import ContentEditable from 'react-contenteditable';
 import { focusEnd } from '../../util/selection';
 import { InputHandler, InputHandlerCallback, InputHandlerKeymap } from './input-handler';
+import { RequestedClick } from '../state';
 
 export type TextEditorChangeHandler = (newContent) => any;
 
@@ -14,6 +15,7 @@ export interface TextEditorProps {
   htmlToContent?: (content: string) => string;
   content: string;
   onChange: TextEditorChangeHandler;
+  requestedClick?: RequestedClick;
 }
 
 const identity = (x, ...xs) => x;
@@ -32,7 +34,7 @@ const identity = (x, ...xs) => x;
  * @returns
  */
 export const TextEditor = observer((props: TextEditorProps) => {
-  const { onClick, onChange, keymap, content, contentToHtml = identity, htmlToContent = identity, isFocused } = props;
+  const { onClick, onChange, keymap, content, contentToHtml = identity, htmlToContent = identity, isFocused, requestedClick } = props;
 
   const contentEditableRef = React.useRef(null);
 
@@ -40,6 +42,21 @@ export const TextEditor = observer((props: TextEditorProps) => {
     const el = contentEditableRef.current && contentEditableRef.current.htmlEl;
     if (el && isFocused && !el.contains(document.activeElement)) focusEnd(el);
   });
+
+  // React.useEffect(() => {
+  //   if (isFocused && requestedClick) {
+  //     const el: HTMLElement | void = contentEditableRef.current && contentEditableRef.current.htmlEl;
+  //     if (!el) return;
+
+  //     console.log('dispatching requested click');
+  //     el.dispatchEvent(new MouseEvent('click', {
+  //       view: window, // TODO what does this do?
+  //       bubbles: true, 
+  //       cancelable: true,
+  //       ...requestedClick
+  //     }));
+  //   }
+  // })
 
   return (
     <InputHandler onClick={onClick} keymap={keymap} context={{ content }}>

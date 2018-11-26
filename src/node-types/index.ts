@@ -3,9 +3,16 @@ import { NodeContext } from '../ui/node-view';
 import { observer } from 'mobx-react-lite';
 
 type NodeTypeComponent = React.StatelessComponent<NodeTypeProps>;
-
+type ContainerComponent = React.StatelessComponent<ContainerProps>
 export interface INodeType {
   component: NodeTypeComponent;
+  container?: ContainerComponent;
+  menuEntries?: NodeTypeComponent;
+  toHTML?: NodeTypeComponent;
+}
+
+export interface ContainerProps {
+  children: React.ReactNode;
 }
 
 export interface NodeTypeProps {
@@ -24,8 +31,8 @@ for (const nodeType of Object.values(NodeType)) {
   }
 }
 
-export const getComponent = (nodeType: NodeType): NodeTypeComponent | undefined => {
+export const getDefinition = (nodeType: NodeType): INodeType => {
   const def = registry.get(nodeType);
   if (!def) { throw new Error(`Could not find definition for node type ${nodeType}.`); }
-  return def ? def.component : undefined;
+  return def;
 };

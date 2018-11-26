@@ -1,6 +1,8 @@
 import { action, computed, observable } from 'mobx';
 import { getLocation } from '../util/location';
 
+export type RequestedClick = Partial<Pick<MouseEvent, 'screenX' | 'screenY' | 'clientX' | 'clientY'>>
+
 /**
  * Class defining ephemeral, UI-specific state.
  * This state is not persisted anywhere.
@@ -10,7 +12,7 @@ import { getLocation } from '../util/location';
  */
 export class UIState {
   @observable public focusedNode?: Uuid = null;
-  @observable public hoveredNodes: Uuid[] = [];
+  @observable public hoveredNode?: Uuid = null;
   @observable public openContextMenu?: Uuid = null;
 
   @computed public get path(): string {
@@ -23,12 +25,12 @@ export class UIState {
 
   @action('ui.hoverNode')
   public hoverNode(id) {
-    this.hoveredNodes.push(id);
+    this.hoveredNode = id;
   }
 
   @action('ui.unhoverNode')
   public unhoverNode(id) {
-    this.hoveredNodes.splice(this.hoveredNodes.indexOf(id), 1);
+    if (this.hoveredNode === id) this.hoveredNode = null;
   }
 
 }
