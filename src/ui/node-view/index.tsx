@@ -42,9 +42,9 @@ export const NodeView = observer(({ nodeId, ancestry }: NodeViewProps) => {
   const context = { ancestry, isOutlined, isVisible, isFocused };
 
   const view = (
-    <div className={classNames('p-1', isOutlined && ['bg-blue-lightest', 'highlight-children'])}>
+    <div className={classNames(isOutlined && ['bg-blue-lightest', 'highlight-children'])}>
 
-      <div onMouseEnter={() => state.hoverNode(node.id)} onMouseLeave={() => state.unhoverNode(node.id)}>
+      <div className='py-1 pl-1' onMouseEnter={() => state.hoverNode(node.id)} onMouseLeave={() => state.unhoverNode(node.id)}>
         <NodeDropTarget node={node} context={context}>
 
           <NodeMenu node={node} context={context} customMenuEntries={definition.menuEntries || undefined}>
@@ -58,7 +58,7 @@ export const NodeView = observer(({ nodeId, ancestry }: NodeViewProps) => {
         </NodeDropTarget>
       </div>
 
-      <ChildNodeList node={node} context={context} />
+      <div className='pl-1'><ChildNodeList node={node} context={context} /></div>
     </div>
   )
 
