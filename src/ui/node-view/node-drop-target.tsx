@@ -2,6 +2,7 @@ import * as React from 'react';
 import { DropTarget } from 'react-dnd';
 import { NodeContext } from '.';
 import { SNode } from '../../nodes';
+import classNames = require('classnames');
 
 interface NodeDropTargetProps {
   node: SNode;
@@ -49,7 +50,7 @@ export const NodeDropTarget = nodeDropTarget(({
   canDrop
 }: NodeDropTargetProps) => {
   return connectDropTarget(
-    <div>
+    <div className={classNames(isOver && canDrop && ['bg-grey-lighter'])}>
       {children}
     </div>
   );
